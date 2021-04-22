@@ -1,0 +1,39 @@
+{
+  "version": "34b924a7",
+  "entry": {
+    "module": "/build/entry.client-24S3SXTT.js",
+    "imports": [
+      "/build/_shared/chunk-3CGYPBMO.js",
+      "/build/_shared/chunk-NSZ47RNU.js",
+      "/build/_shared/chunk-WMTUB2ZO.js"
+    ]
+  },
+  "routes": {
+    "root": {
+      "id": "root",
+      "path": "/",
+      "module": "/build/root-N5K3CDWB.js",
+      "hasAction": false,
+      "hasLoader": true
+    },
+    "routes/404": {
+      "id": "routes/404",
+      "parentId": "root",
+      "path": "*",
+      "caseSensitive": false,
+      "module": "/build/routes/404-D4WGOUPY.js",
+      "hasAction": false,
+      "hasLoader": false
+    },
+    "routes/index": {
+      "id": "routes/index",
+      "parentId": "root",
+      "path": "/",
+      "caseSensitive": false,
+      "module": "/build/routes/index-KV6ZJ3SX.js",
+      "hasAction": false,
+      "hasLoader": true
+    }
+  },
+  "url": "/build/manifest-34B924A7.js"
+}
