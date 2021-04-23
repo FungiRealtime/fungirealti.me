@@ -371,12 +371,12 @@ function getPageLinkDescriptors(descriptor, location, matches, manifest, clientR
     console.warn(`No routes match ${descriptor.page}, ignoring page prefetch.`);
     return [];
   }
-  let links3 = [getPageScripts(descriptor, nextMatches, manifest)];
+  let links2 = [getPageScripts(descriptor, nextMatches, manifest)];
   if (descriptor.data === true) {
     let newMatches = location.search !== search ? nextMatches : nextMatches.filter((match, index) => !matches[index] || matches[index].pathname !== match.pathname || matches[index].params["*"] !== match.params["*"]);
-    links3 = links3.concat(getDataLinks(descriptor, newMatches, manifest));
+    links2 = links2.concat(getDataLinks(descriptor, newMatches, manifest));
   }
-  return links3.flat(1);
+  return links2.flat(1);
 }
 function getDataLinks(descriptor, matches, manifestPatch) {
   let _a = descriptor, {
@@ -499,7 +499,7 @@ function RemixEntry({
     componentDidCatchEmulator
   } = state;
   let clientRoutes = import_react3.default.useMemo(() => createClientRoutes(manifest.routes, RemixRoute), [manifest]);
-  let links3 = import_react3.default.useMemo(() => {
+  let links2 = import_react3.default.useMemo(() => {
     return getLinks(location, matches, routeData, routeModules, manifest, clientRoutes);
   }, [location, matches, routeData, routeModules, manifest, clientRoutes]);
   import_react3.default.useEffect(() => {
@@ -622,7 +622,7 @@ function RemixEntry({
     serverHandoffString,
     pendingLocation: nextLocation !== location ? nextLocation : void 0,
     clientRoutes,
-    links: links3
+    links: links2
   };
   let maybeServerRenderError = componentDidCatchEmulator.error && componentDidCatchEmulator.renderBoundaryRouteId === null && componentDidCatchEmulator.loaderBoundaryRouteId === null ? deserializeError(componentDidCatchEmulator.error) : void 0;
   return /* @__PURE__ */ import_react3.default.createElement(RemixEntryContext.Provider, {
@@ -644,11 +644,6 @@ function deserializeError(data) {
   return error;
 }
 var RemixRouteContext = /* @__PURE__ */ import_react3.default.createContext(void 0);
-function useRemixRouteContext() {
-  let context = import_react3.default.useContext(RemixRouteContext);
-  invariant_default(context, "You must render this element in a remix route element");
-  return context;
-}
 function DefaultRouteComponent({
   id
 }) {
@@ -692,9 +687,9 @@ function RemixRoute({
 }
 function Links() {
   let {
-    links: links3
+    links: links2
   } = useRemixEntryContext();
-  return /* @__PURE__ */ import_react3.default.createElement(import_react3.default.Fragment, null, links3.map((link) => /* @__PURE__ */ import_react3.default.createElement("link", _extends({
+  return /* @__PURE__ */ import_react3.default.createElement(import_react3.default.Fragment, null, links2.map((link) => /* @__PURE__ */ import_react3.default.createElement("link", _extends({
     key: link.rel + link.href
   }, link))));
 }
@@ -782,9 +777,6 @@ function Routes() {
   } = useRemixEntryContext();
   let element = (0, import_react_router_dom2.useRoutes)(clientRoutes);
   return element;
-}
-function useRouteData() {
-  return useRemixRouteContext().data;
 }
 function useLiveReload() {
   import_react3.default.useEffect(() => {
@@ -879,23 +871,18 @@ var root_exports = {};
 __export(root_exports, {
   ErrorBoundary: () => ErrorBoundary,
   default: () => App,
-  links: () => links,
-  loader: () => loader
+  links: () => links
 });
 var import_react_router_dom5 = __toModule(require("react-router-dom"));
 
-// app/styles/global.css
-var global_default = "/build/_assets/global-4GPZCGC5.css";
+// app/styles/app.css
+var app_default = "/build/_assets/app-3YG2MM46.css";
 
 // route-module:/home/gabriel/code/fungirealti.me/app/root.tsx
 var links = () => {
-  return [{rel: "stylesheet", href: global_default}];
-};
-var loader = async () => {
-  return {date: new Date()};
+  return [{rel: "stylesheet", href: app_default}];
 };
 function App() {
-  let data = useRouteData();
   useLiveReload();
   return /* @__PURE__ */ React.createElement("html", {
     lang: "en"
@@ -905,7 +892,7 @@ function App() {
     rel: "icon",
     href: "/favicon.png",
     type: "image/png"
-  }), /* @__PURE__ */ React.createElement(Meta, null), /* @__PURE__ */ React.createElement(Links, null)), /* @__PURE__ */ React.createElement("body", null, /* @__PURE__ */ React.createElement(import_react_router_dom5.Outlet, null), /* @__PURE__ */ React.createElement("footer", null, /* @__PURE__ */ React.createElement("p", null, "This page was rendered at ", data.date.toLocaleString())), /* @__PURE__ */ React.createElement(Scripts, null)));
+  }), /* @__PURE__ */ React.createElement(Meta, null), /* @__PURE__ */ React.createElement(Links, null)), /* @__PURE__ */ React.createElement("body", null, /* @__PURE__ */ React.createElement(import_react_router_dom5.Outlet, null), /* @__PURE__ */ React.createElement(Scripts, null)));
 }
 function ErrorBoundary({error}) {
   return /* @__PURE__ */ React.createElement("html", {
@@ -916,7 +903,7 @@ function ErrorBoundary({error}) {
     rel: "icon",
     href: "/favicon.png",
     type: "image/png"
-  }), /* @__PURE__ */ React.createElement("title", null, "Oops!")), /* @__PURE__ */ React.createElement("body", null, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h1", null, "App Error"), /* @__PURE__ */ React.createElement("pre", null, error.message), /* @__PURE__ */ React.createElement("p", null, "Replace this UI with what you want users to see when your app throws uncaught errors.")), /* @__PURE__ */ React.createElement(Scripts, null)));
+  }), /* @__PURE__ */ React.createElement("title", null, "Oops!")), /* @__PURE__ */ React.createElement("body", null, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h1", null, "App Error"), /* @__PURE__ */ React.createElement("pre", null, error.message)), /* @__PURE__ */ React.createElement(Scripts, null)));
 }
 
 // route-module:/home/gabriel/code/fungirealti.me/app/routes/404.tsx
@@ -936,34 +923,215 @@ function FourOhFour() {
 var routes_exports = {};
 __export(routes_exports, {
   default: () => Index,
-  links: () => links2,
-  loader: () => loader2,
+  loader: () => loader,
   meta: () => meta2
 });
+var import_node2 = __toModule(require("@remix-run/node"));
+var import_react8 = __toModule(require("react"));
+var import_react9 = __toModule(require("@headlessui/react"));
+var import_outline = __toModule(require("@heroicons/react/outline"));
+var import_solid = __toModule(require("@heroicons/react/solid"));
 
-// app/styles/index.css
-var styles_default = "/build/_assets/index-ARBOEKH2.css";
+// app/sessions.ts
+var import_config = __toModule(require("dotenv/config"));
+var import_node = __toModule(require("@remix-run/node"));
+var {getSession, commitSession, destroySession} = (0, import_node.createCookieSessionStorage)({
+  cookie: {
+    name: "__session",
+    secrets: [process.env.SESSION_SECRET_1],
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 1209600
+  }
+});
 
 // route-module:/home/gabriel/code/fungirealti.me/app/routes/index.tsx
 var meta2 = () => {
   return {
-    title: "Remix Starter",
-    description: "Welcome to remix!"
+    title: "Fungi | Powering realtime experiences",
+    description: "Fungi empowers developers to add realtime features to their apps with easy to use and scalable APIs."
   };
 };
-var links2 = () => {
-  return [{rel: "stylesheet", href: styles_default}];
+var loader = async ({request}) => {
+  let session = await getSession(request.headers.get("Cookie"));
+  if (session.has("userId")) {
+    return (0, import_node2.redirect)("/dashboard");
+  }
+  return (0, import_node2.json)(null, {
+    headers: {
+      "Set-Cookie": await commitSession(session)
+    }
+  });
 };
-var loader2 = async () => {
-  return {message: "this is awesome \u{1F60E}"};
-};
+var navigation = [
+  {name: "Product", href: "/product"},
+  {name: "Docs", href: "/docs"},
+  {name: "Tutorials", href: "/tutorials"},
+  {name: "Pricing", href: "/pricing"}
+];
 function Index() {
-  let data = useRouteData();
   return /* @__PURE__ */ React.createElement("div", {
-    style: {textAlign: "center", padding: 20}
-  }, /* @__PURE__ */ React.createElement("h2", null, "Welcome to Remix!"), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("a", {
-    href: "https://remix.run/dashboard/docs"
-  }, "Check out the docs"), " to get started."), /* @__PURE__ */ React.createElement("p", null, "Message from the loader: ", data.message));
+    className: "min-h-screen"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "relative overflow-hidden"
+  }, /* @__PURE__ */ React.createElement(import_react9.Popover, {
+    as: "header",
+    className: "relative"
+  }, ({open}) => /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", {
+    className: "bg-gray-900 pt-6"
+  }, /* @__PURE__ */ React.createElement("nav", {
+    className: "relative max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6",
+    "aria-label": "Global"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "flex items-center flex-1"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "flex items-center justify-between w-full md:w-auto"
+  }, /* @__PURE__ */ React.createElement("a", {
+    href: "#"
+  }, /* @__PURE__ */ React.createElement("span", {
+    className: "sr-only"
+  }, "Fungi"), /* @__PURE__ */ React.createElement("img", {
+    className: "h-8 w-auto sm:h-10",
+    src: "/logo_transparent.png",
+    alt: "Fungi logo"
+  })), /* @__PURE__ */ React.createElement("div", {
+    className: "-mr-2 flex items-center md:hidden"
+  }, /* @__PURE__ */ React.createElement(import_react9.Popover.Button, {
+    className: "bg-gray-900 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-800 focus:outline-none focus:ring-2 focus-ring-inset focus:ring-white"
+  }, /* @__PURE__ */ React.createElement("span", {
+    className: "sr-only"
+  }, "Open main menu"), /* @__PURE__ */ React.createElement(import_outline.MenuIcon, {
+    className: "h-6 w-6",
+    "aria-hidden": "true"
+  })))), /* @__PURE__ */ React.createElement("div", {
+    className: "hidden space-x-8 md:flex md:ml-10"
+  }, navigation.map((item) => /* @__PURE__ */ React.createElement("a", {
+    key: item.name,
+    href: item.href,
+    className: "text-base font-medium text-white hover:text-gray-300"
+  }, item.name)))), /* @__PURE__ */ React.createElement("div", {
+    className: "hidden md:flex md:items-center md:space-x-6"
+  }, /* @__PURE__ */ React.createElement("a", {
+    href: "#",
+    className: "text-base font-medium text-white hover:text-gray-300"
+  }, "Log in"), /* @__PURE__ */ React.createElement("a", {
+    href: "#",
+    className: "inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700"
+  }, "Start free trial")))), /* @__PURE__ */ React.createElement(import_react9.Transition, {
+    show: open,
+    as: import_react8.Fragment,
+    enter: "duration-150 ease-out",
+    enterFrom: "opacity-0 scale-95",
+    enterTo: "opacity-100 scale-100",
+    leave: "duration-100 ease-in",
+    leaveFrom: "opacity-100 scale-100",
+    leaveTo: "opacity-0 scale-95"
+  }, /* @__PURE__ */ React.createElement(import_react9.Popover.Panel, {
+    focus: true,
+    static: true,
+    className: "absolute top-0 inset-x-0 p-2 transition transform origin-top md:hidden"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "px-5 pt-4 flex items-center justify-between"
+  }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("img", {
+    className: "h-8 w-auto",
+    src: "/logo_transparent.png",
+    alt: ""
+  })), /* @__PURE__ */ React.createElement("div", {
+    className: "-mr-2"
+  }, /* @__PURE__ */ React.createElement(import_react9.Popover.Button, {
+    className: "bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand"
+  }, /* @__PURE__ */ React.createElement("span", {
+    className: "sr-only"
+  }, "Close menu"), /* @__PURE__ */ React.createElement(import_outline.XIcon, {
+    className: "h-6 w-6",
+    "aria-hidden": "true"
+  })))), /* @__PURE__ */ React.createElement("div", {
+    className: "pt-5 pb-6"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "px-2 space-y-1"
+  }, navigation.map((item) => /* @__PURE__ */ React.createElement("a", {
+    key: item.name,
+    href: item.href,
+    className: "block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50"
+  }, item.name))), /* @__PURE__ */ React.createElement("div", {
+    className: "mt-6 px-5"
+  }, /* @__PURE__ */ React.createElement("a", {
+    href: "#",
+    className: "block text-center w-full py-3 px-4 rounded-md shadow bg-brand text-white font-medium hover:bg-red-500"
+  }, "Start free trial")), /* @__PURE__ */ React.createElement("div", {
+    className: "mt-6 px-5"
+  }, /* @__PURE__ */ React.createElement("p", {
+    className: "text-center text-base font-medium text-gray-500"
+  }, "Existing customer?", " ", /* @__PURE__ */ React.createElement("a", {
+    href: "#",
+    className: "text-gray-900 hover:underline"
+  }, "Login"))))))))), /* @__PURE__ */ React.createElement("main", null, /* @__PURE__ */ React.createElement("div", {
+    className: "pt-10 bg-gray-900 sm:pt-16 lg:pt-8 lg:pb-14 lg:overflow-hidden"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "mx-auto max-w-7xl lg:px-8"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "lg:grid lg:grid-cols-2 lg:gap-20"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 sm:text-center lg:px-0 lg:text-left lg:flex lg:items-center"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "lg:py-24"
+  }, /* @__PURE__ */ React.createElement("a", {
+    href: "/pricing",
+    className: "inline-flex items-center text-white bg-black rounded-full p-1 pr-2 sm:text-base lg:text-sm xl:text-base hover:text-gray-200"
+  }, /* @__PURE__ */ React.createElement("span", {
+    className: "px-3 py-0.5 text-white text-xs font-semibold leading-5 uppercase tracking-wide bg-brand rounded-full"
+  }, "On sale"), /* @__PURE__ */ React.createElement("span", {
+    className: "ml-4 text-sm"
+  }, "Visit our pricing page"), /* @__PURE__ */ React.createElement(import_solid.ChevronRightIcon, {
+    className: "ml-2 w-5 h-5 text-gray-500",
+    "aria-hidden": "true"
+  })), /* @__PURE__ */ React.createElement("h1", {
+    className: "mt-4 text-4xl tracking-tight font-extrabold text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl"
+  }, /* @__PURE__ */ React.createElement("span", {
+    className: "block"
+  }, "A better way to"), /* @__PURE__ */ React.createElement("span", {
+    className: "block text-brand"
+  }, "build realtime apps")), /* @__PURE__ */ React.createElement("p", {
+    className: "mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl"
+  }, "Robust, scalable and easy to use realtime APIs. We take care of all the complexity so you can focus on building your app."), /* @__PURE__ */ React.createElement("div", {
+    className: "mt-10 sm:mt-12"
+  }, /* @__PURE__ */ React.createElement("form", {
+    action: "#",
+    className: "sm:max-w-xl sm:mx-auto lg:mx-0"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "sm:flex"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "min-w-0 flex-1"
+  }, /* @__PURE__ */ React.createElement("label", {
+    htmlFor: "email",
+    className: "sr-only"
+  }, "Email address"), /* @__PURE__ */ React.createElement("input", {
+    id: "email",
+    type: "email",
+    placeholder: "Enter your email",
+    className: "block w-full px-4 py-3 rounded-md border-0 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-300 focus:ring-offset-gray-900"
+  })), /* @__PURE__ */ React.createElement("div", {
+    className: "mt-3 sm:mt-0 sm:ml-3"
+  }, /* @__PURE__ */ React.createElement("button", {
+    type: "submit",
+    className: "block w-full py-3 px-4 rounded-md shadow bg-brand text-white font-medium hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-300 focus:ring-offset-gray-900"
+  }, "Start free trial"))), /* @__PURE__ */ React.createElement("p", {
+    className: "mt-3 text-sm text-gray-300 sm:mt-4"
+  }, "Start your free 14-day trial. By providing your email, you agree to our", " ", /* @__PURE__ */ React.createElement("a", {
+    href: "#",
+    className: "font-medium text-white"
+  }, "terms of service"), "."))))), /* @__PURE__ */ React.createElement("div", {
+    className: "mt-12 -mb-16 lg:mb-0 lg:mt-12 lg:relative flex items-center"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0"
+  }, /* @__PURE__ */ React.createElement("img", {
+    className: "w-full lg:max-w-none",
+    src: "/hero.svg",
+    alt: ""
+  })))))))));
 }
 
 // <stdin>
