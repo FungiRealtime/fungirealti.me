@@ -4,6 +4,8 @@ import {
   Scripts,
   useLiveReload,
   LinksFunction,
+  LoaderFunction,
+  useRouteData,
 } from "@remix-run/react";
 import { Outlet } from "react-router-dom";
 import styles from "./styles/app.css";
@@ -12,7 +14,16 @@ export let links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
 };
 
+export let loader: LoaderFunction = () => {
+  return {
+    ENV: {
+      PUBLIC_GITHUB_CLIENT_ID: process.env.PUBLIC_GITHUB_CLIENT_ID,
+    },
+  };
+};
+
 export default function App() {
+  let data = useRouteData();
   useLiveReload();
 
   return (
@@ -25,6 +36,11 @@ export default function App() {
       </head>
       <body>
         <Outlet />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+          }}
+        />
         <Scripts />
       </body>
     </html>

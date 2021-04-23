@@ -9,6 +9,7 @@ let { getSession, commitSession, destroySession } = createCookieSessionStorage({
     sameSite: "strict",
     secure: process.env.NODE_ENV === "production",
     maxAge: 1209600, // 14 days,
+    path: "/",
   },
 });
 
