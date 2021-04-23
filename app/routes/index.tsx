@@ -106,7 +106,7 @@ export default function Index() {
                     {isLoggedIn ? (
                       <Fragment>
                         <Link
-                          to="/dashboard"
+                          to="/dashboard/"
                           className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700"
                         >
                           Dashboard
@@ -213,7 +213,7 @@ export default function Index() {
                       className="inline-flex items-center text-white bg-black rounded-full p-1 pr-2 sm:text-base lg:text-sm xl:text-base hover:text-gray-200"
                     >
                       <span className="px-3 py-0.5 text-white text-xs font-semibold leading-5 uppercase tracking-wide bg-brand rounded-full">
-                        On sale
+                        Presale - 50% OFF!
                       </span>
                       <span className="ml-4 text-sm">
                         Visit our pricing page
@@ -304,7 +304,7 @@ export default function Index() {
               <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                 <div className="inline-flex rounded-md shadow">
                   <Link
-                    to="/free-trial"
+                    to={isLoggedIn ? "/dashboard/" : "/free-trial"}
                     className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand hover:bg-red-500"
                   >
                     {isLoggedIn ? "Dashboard" : "Get started"}

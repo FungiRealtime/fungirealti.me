@@ -8,7 +8,7 @@ export let loader: LoaderFunction = async ({ request }) => {
 
   // If the user is already logged in, redirect to dashboard.
   if (session.has("user")) {
-    return redirect("/dashboard", {
+    return redirect("/dashboard/", {
       headers: {
         "Set-Cookie": await commitSession(session),
       },
@@ -81,7 +81,7 @@ export let loader: LoaderFunction = async ({ request }) => {
       username,
     });
 
-    return redirect("/dashboard", {
+    return redirect("/dashboard/", {
       headers: {
         "Set-Cookie": await commitSession(session),
       },
