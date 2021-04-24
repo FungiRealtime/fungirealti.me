@@ -42,7 +42,7 @@ export let loader: LoaderFunction = async ({ request }) => {
   let data = {
     user: session.get("user"),
     license,
-    checkoutSession: session.get("checkoutSession"),
+    checkoutSessionId: session.get("checkoutSessionId"),
   };
 
   return json(data, {
@@ -54,13 +54,13 @@ export let loader: LoaderFunction = async ({ request }) => {
 
 type RouteData = DataWithUser<{
   license: { id: string; boughtAt: Date } | null;
-  checkoutSession: { id: string; paymentIntentId: string };
+  checkoutSessionId: string;
 }>;
 
 export default function Account() {
-  let { user, license, checkoutSession } = useRouteData<RouteData>();
+  let { user, license, checkoutSessionId } = useRouteData<RouteData>();
   let pendingSubmit = usePendingFormSubmit();
-  let isCheckingOut = !!pendingSubmit || !!checkoutSession;
+  let isCheckingOut = !!pendingSubmit || !!checkoutSessionId;
 
   let redirectToCheckout = async () => {
     let stripe = await stripePromise;
@@ -71,7 +71,7 @@ export default function Account() {
     console.log("in here");
 
     let redirectResult = await stripe.redirectToCheckout({
-      sessionId: checkoutSession.id,
+      sessionId: checkoutSessionId,
     });
 
     if (redirectResult.error) {
@@ -81,10 +81,10 @@ export default function Account() {
   };
 
   useEffect(() => {
-    if (checkoutSession) {
+    if (checkoutSessionId) {
       redirectToCheckout();
     }
-  }, [checkoutSession]);
+  }, [checkoutSessionId]);
 
   return (
     <>
@@ -151,8 +151,9 @@ export default function Account() {
                   disabled={isCheckingOut}
                   className={classNames(
                     "mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-brand hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand",
-                    isCheckingOut &&
-                      "cursor-not-allowed bg-opacity-50 hover:bg-opacity-50"
+                    isCheckingOut
+                      ? "cursor-not-allowed bg-opacity-50 hover:bg-opacity-50"
+                      : ""
                   )}
                 >
                   {isCheckingOut ? (

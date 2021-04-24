@@ -35,10 +35,7 @@ export let action: ActionFunction = async ({ request }) => {
     cancel_url: `${domain}/dashboard`,
   });
 
-  session.flash("checkoutSession", {
-    id: checkoutSession.id,
-    paymentIntentId: checkoutSession.payment_intent,
-  });
+  session.flash("checkoutSessionId", checkoutSession.id);
 
   return redirect("/dashboard", {
     headers: {
