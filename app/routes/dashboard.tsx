@@ -3,7 +3,6 @@ import { Fragment } from "react";
 import { getSession } from "../sessions";
 import { getGithubOauthUrl } from "../utils/getGithubOauthUrl";
 import { DashboardHeader, DashboardOutlet } from "../components";
-import { getChildRoutes } from "../utils/fs";
 
 export let meta: MetaFunction = () => {
   return {
@@ -20,9 +19,7 @@ export let loader: LoaderFunction = async ({ request }) => {
     return redirect(getGithubOauthUrl(process.env.PUBLIC_GITHUB_CLIENT_ID!));
   }
 
-  let childRoutes = await getChildRoutes("/dashboard");
-
-  return json({ user: session.get("user"), childRoutes });
+  return json({ user: session.get("user") });
 };
 
 export default function Dashboard() {

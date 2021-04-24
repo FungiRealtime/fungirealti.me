@@ -18,6 +18,7 @@ export let loader: LoaderFunction = () => {
   return {
     ENV: {
       PUBLIC_GITHUB_CLIENT_ID: process.env.PUBLIC_GITHUB_CLIENT_ID,
+      PUBLIC_STRIPE_KEY: process.env.PUBLIC_STRIPE_KEY,
     },
   };
 };

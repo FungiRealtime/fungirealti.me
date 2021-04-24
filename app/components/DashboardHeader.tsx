@@ -5,12 +5,13 @@ import { Fragment } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { DataWithUser } from "../types";
 import { classNames } from "../utils/classNames";
+import { isSamePathname } from "../utils/routes";
 
-let navigation = [{ label: "Account", href: "/dashboard/" }];
+let navigation = [{ label: "Account", href: "/dashboard" }];
 
 let profileLinks = [
-  { label: "Your Account", href: "/dashboard/" },
-  { label: "Sign out", href: "/oauth/sign-out/" },
+  { label: "Your Account", href: "/dashboard" },
+  { label: "Sign out", href: "/oauth/sign-out" },
 ];
 
 export function DashboardHeader() {
@@ -38,7 +39,7 @@ export function DashboardHeader() {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((link) =>
-                          link.href === location.pathname ? (
+                          isSamePathname(location.pathname, link.href) ? (
                             <Link
                               key={link.href}
                               to={link.href}
@@ -132,7 +133,7 @@ export function DashboardHeader() {
             <Disclosure.Panel className="border-b border-gray-700 md:hidden">
               <div className="px-2 py-3 space-y-1 sm:px-3">
                 {navigation.map((link) =>
-                  link.href === location.pathname ? (
+                  isSamePathname(location.pathname, link.href) ? (
                     <Link
                       key={link.href}
                       to={link.href}

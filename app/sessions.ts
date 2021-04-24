@@ -6,7 +6,7 @@ let { getSession, commitSession, destroySession } = createCookieSessionStorage({
     name: "__session",
     secrets: [process.env.SESSION_SECRET_1!],
     httpOnly: true,
-    sameSite: "strict",
+    sameSite: "lax", // We redirect to stripe and back so we need this to avoid issues.
     secure: process.env.NODE_ENV === "production",
     maxAge: 1209600, // 14 days,
     path: "/",

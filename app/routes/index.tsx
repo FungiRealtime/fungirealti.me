@@ -106,7 +106,7 @@ export default function Index() {
                     {isLoggedIn ? (
                       <Fragment>
                         <Link
-                          to="/dashboard/"
+                          to="/dashboard"
                           className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700"
                         >
                           Dashboard
@@ -121,10 +121,10 @@ export default function Index() {
                           Log in
                         </a>
                         <Link
-                          to="/free-trial"
+                          to="/get-started"
                           className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700"
                         >
-                          Start free trial
+                          Get started
                         </Link>
                       </Fragment>
                     )}
@@ -177,21 +177,21 @@ export default function Index() {
                       </div>
                       <div className="mt-6 px-5">
                         <Link
-                          to="/free-trial"
+                          to="/get-started"
                           className="block text-center w-full py-3 px-4 rounded-md shadow bg-brand text-white font-medium hover:bg-red-500"
                         >
-                          Start free trial
+                          Get started
                         </Link>
                       </div>
                       <div className="mt-6 px-5">
                         <p className="text-center text-base font-medium text-gray-500">
                           Existing customer?{" "}
-                          <Link
-                            to="/login"
+                          <a
+                            href={githubOAuthUrl}
                             className="text-gray-900 hover:underline"
                           >
-                            Login
-                          </Link>
+                            Log in
+                          </a>
                         </p>
                       </div>
                     </div>
@@ -213,7 +213,7 @@ export default function Index() {
                       className="inline-flex items-center text-white bg-black rounded-full p-1 pr-2 sm:text-base lg:text-sm xl:text-base hover:text-gray-200"
                     >
                       <span className="px-3 py-0.5 text-white text-xs font-semibold leading-5 uppercase tracking-wide bg-brand rounded-full">
-                        Presale - 50% OFF!
+                        50% OFF!
                       </span>
                       <span className="ml-4 text-sm">
                         Visit our pricing page
@@ -296,15 +296,13 @@ export default function Index() {
               <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 md:text-4xl">
                 <span className="block">Ready to dive in?</span>
                 <span className="block text-brand">
-                  {isLoggedIn
-                    ? "Go to your dashboard."
-                    : "Start your free trial today."}
+                  {isLoggedIn ? "Go to your dashboard." : "Get started today."}
                 </span>
               </h2>
               <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                 <div className="inline-flex rounded-md shadow">
                   <Link
-                    to={isLoggedIn ? "/dashboard/" : "/free-trial"}
+                    to={isLoggedIn ? "/dashboard" : "/get-started"}
                     className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand hover:bg-red-500"
                   >
                     {isLoggedIn ? "Dashboard" : "Get started"}

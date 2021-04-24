@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-type PublicEnv = Record<string, string>;
+export type PublicEnv = Record<string, string>;
 
 declare let window: Window & { ENV: PublicEnv };
 
