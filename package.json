@@ -4,9 +4,9 @@
   "scripts": {
     "postinstall": "npm run build",
     "build": "remix build2",
-    "dev": "pm2-dev pm2.config.js",
-    "start:dev": "ts-node --transpile-only server.ts",
-    "start": "ts-node server.ts",
+    "dev:remix": "remix run2",
+    "dev:server": "ts-node-dev --respawn --transpile-only server.ts",
+    "dev": "concurrently npm:dev:*",
     "css:watch": "postcss styles --base styles --dir app/styles -w",
     "css:build": "postcss styles --base styles --dir app/styles --env production"
   },
@@ -37,12 +37,12 @@
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.0",
     "autoprefixer": "^10.2.5",
-    "pm2": "^4.5.4",
+    "concurrently": "^6.0.2",
     "postcss": "^8.2.12",
     "postcss-cli": "^8.3.1",
     "prisma": "^2.21.2",
     "tailwindcss": "^2.1.2",
-    "ts-node": "^9.1.1",
+    "ts-node-dev": "^1.1.6",
     "typescript": "^4.1.2"
   },
   "sideEffects": false,

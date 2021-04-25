@@ -10,6 +10,5 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "downlevelIteration": true
-  },
-  "include": ["server.ts"]
+  }
 }
