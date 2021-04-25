@@ -7,6 +7,7 @@ import {
   usePendingFormSubmit,
   useRouteData,
 } from "@remix-run/react";
+import { format, parseISO } from "date-fns";
 import { useEffect } from "react";
 import { prisma } from "../../prisma.server";
 import { commitSession, getSession } from "../../sessions";
@@ -27,7 +28,7 @@ export let loader: LoaderFunction = async ({ request }) => {
   }
 
   let user = session.get("user") as User;
-  let license = await prisma.license.findFirst({
+  let stripeCustomer = await prisma.stripeCustomer.findFirst({
     where: {
       userId: {
         equals: user.id,
@@ -35,13 +36,13 @@ export let loader: LoaderFunction = async ({ request }) => {
     },
     select: {
       id: true,
-      boughtAt: true,
+      createdAt: true,
     },
   });
 
   let data = {
     user: session.get("user"),
-    license,
+    stripeCustomer,
     checkoutSessionId: session.get("checkoutSessionId"),
   };
 
@@ -53,25 +54,26 @@ export let loader: LoaderFunction = async ({ request }) => {
 };
 
 type RouteData = DataWithUser<{
-  license: { id: string; boughtAt: Date } | null;
-  checkoutSessionId: string;
+  stripeCustomer: {
+    id: string;
+    createdAt: string;
+  } | null;
+  checkoutSessionId?: string;
 }>;
 
 export default function Account() {
-  let { user, license, checkoutSessionId } = useRouteData<RouteData>();
+  let { user, stripeCustomer, checkoutSessionId } = useRouteData<RouteData>();
   let pendingSubmit = usePendingFormSubmit();
   let isCheckingOut = !!pendingSubmit || !!checkoutSessionId;
 
-  let redirectToCheckout = async () => {
+  let redirectToCheckout = async (sessionId: string) => {
     let stripe = await stripePromise;
     if (!stripe) {
       return;
     }
 
-    console.log("in here");
-
     let redirectResult = await stripe.redirectToCheckout({
-      sessionId: checkoutSessionId,
+      sessionId,
     });
 
     if (redirectResult.error) {
@@ -82,7 +84,7 @@ export default function Account() {
 
   useEffect(() => {
     if (checkoutSessionId) {
-      redirectToCheckout();
+      redirectToCheckout(checkoutSessionId);
     }
   }, [checkoutSessionId]);
 
@@ -96,7 +98,7 @@ export default function Account() {
           </h3>
           <p className="mt-1 max-w-2xl text-sm text-gray-500">
             If you wish to update this information, do so at GitHub and next
-            time you log in the changes will be reflected here.
+            time you log in, the changes will be reflected here.
           </p>
         </div>
         <div className="mt-5 border-t border-gray-200">
@@ -116,9 +118,7 @@ export default function Account() {
               </dd>
             </div>
             <div className="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-              <dt className="text-sm font-medium text-gray-500">
-                GitHub username
-              </dt>
+              <dt className="text-sm font-medium text-gray-500">Username</dt>
               <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 <span className="flex-grow">{user.username}</span>
               </dd>
@@ -134,11 +134,50 @@ export default function Account() {
             License
           </h3>
 
-          {license ? (
+          {stripeCustomer ? (
             <>
               <p className="mt-1 max-w-2xl text-sm text-gray-500">
                 Details about your license.
               </p>
+              <div className="mt-5 border-t border-gray-200">
+                <dl className="divide-y divide-gray-200">
+                  <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                    <dt className="text-sm font-medium text-gray-500">Owner</dt>
+                    <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <span className="flex-grow">{user.email}</span>
+                    </dd>
+                  </div>
+                  <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Issued
+                    </dt>
+                    <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <span className="flex-grow">
+                        {format(
+                          parseISO(stripeCustomer.createdAt),
+                          "d'/'M'/'y"
+                        )}
+                      </span>
+                    </dd>
+                  </div>
+                  <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Duration
+                    </dt>
+                    <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <span className="flex-grow">Lifetime</span>
+                    </dd>
+                  </div>
+                  <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Stripe Customer ID
+                    </dt>
+                    <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <span className="flex-grow">{stripeCustomer.id}</span>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
             </>
           ) : (
             <>

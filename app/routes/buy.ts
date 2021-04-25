@@ -33,6 +33,9 @@ export let action: ActionFunction = async ({ request }) => {
     discounts: isProd ? [{ coupon: "zELeQg7K" }] : undefined,
     success_url: `${domain}/buy?success=true`,
     cancel_url: `${domain}/dashboard`,
+    metadata: {
+      userId: session.get("user").id,
+    },
   });
 
   session.flash("checkoutSessionId", checkoutSession.id);
