@@ -6,17 +6,18 @@ import { commitSession, getSession } from "../../sessions";
 export let loader: LoaderFunction = async ({ request }) => {
   let session = await getSession(request.headers.get("Cookie"));
 
-  // If the user is already logged in, redirect to dashboard.
+  let url = new URL(request.url);
+  let params = new URLSearchParams(url.search);
+  let nextPath = params.get("next") ?? "/dashboard";
+
+  // If the user is already logged in, redirect to next path.
   if (session.has("user")) {
-    return redirect("/dashboard", {
+    return redirect(nextPath, {
       headers: {
         "Set-Cookie": await commitSession(session),
       },
     });
   }
-
-  let url = new URL(request.url);
-  let params = new URLSearchParams(url.search);
 
   let code = params.get("code");
   let clientId = process.env.PUBLIC_GITHUB_CLIENT_ID;
@@ -82,7 +83,7 @@ export let loader: LoaderFunction = async ({ request }) => {
       username,
     });
 
-    return redirect("/dashboard", {
+    return redirect(nextPath, {
       headers: {
         "Set-Cookie": await commitSession(session),
       },

@@ -27,6 +27,7 @@ let stripeWebhook = async (request: Request, response: Response) => {
         },
         select: {
           id: true,
+          username: true,
           stripeCustomer: true,
         },
       });
@@ -41,19 +42,15 @@ let stripeWebhook = async (request: Request, response: Response) => {
           .send(`Webhook Error: this user already owns a license.`);
       }
 
-      let updatedUser = await prisma.user.update({
-        where: { id: user.id },
+      await prisma.stripeCustomer.create({
         data: {
-          stripeCustomer: {
-            create: {
-              id: session.customer,
-              amount: session.amount_total,
-              paymentIntentId: session.payment_intent,
+          id: session.customer,
+          paymentIntentId: session.payment_intent,
+          user: {
+            connect: {
+              id: user.id,
             },
           },
-        },
-        select: {
-          username: true,
         },
       });
 
@@ -62,7 +59,7 @@ let stripeWebhook = async (request: Request, response: Response) => {
         {
           org: "FungiRealtime",
           team_slug: "customers",
-          username: updatedUser.username,
+          username: user.username,
           role: "member",
         }
       );

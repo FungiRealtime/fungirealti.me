@@ -2,12 +2,17 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useMatches, useRouteData } from "@remix-run/react";
 import { Fragment } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { DataWithUser } from "../types";
 import { classNames } from "../utils/classNames";
 import { isSamePathname } from "../utils/routes";
 
-let navigation = [{ label: "Account", href: "/dashboard" }];
+let navigation = [
+  { label: "Account", href: "/dashboard" },
+  { label: "Docs", href: "/docs" },
+  { label: "Tutorials", href: "/tutorials" },
+  { label: "Support", href: "/support" },
+];
 
 let profileLinks = [
   { label: "Your Account", href: "/dashboard" },
@@ -30,31 +35,33 @@ export function DashboardHeader() {
                 <div className="flex items-center justify-between h-16 px-4 sm:px-0">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <img
-                        className="h-8 w-8"
-                        src="/logo_transparent.png"
-                        alt="Logo"
-                      />
+                      <a href="/">
+                        <img
+                          className="h-8 w-8"
+                          src="/logo_transparent.png"
+                          alt="Logo"
+                        />
+                      </a>
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((link) =>
                           isSamePathname(location.pathname, link.href) ? (
-                            <Link
+                            <a
                               key={link.href}
-                              to={link.href}
+                              href={link.href}
                               className="bg-gray-800 text-white px-3 py-2 rounded-md text-sm font-medium"
                             >
                               {link.label}
-                            </Link>
+                            </a>
                           ) : (
-                            <Link
+                            <a
                               key={link.href}
-                              to={link.href}
+                              href={link.href}
                               className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                             >
                               {link.label}
-                            </Link>
+                            </a>
                           )
                         )}
                       </div>
@@ -93,15 +100,15 @@ export function DashboardHeader() {
                                 {profileLinks.map((link) => (
                                   <Menu.Item key={link.href}>
                                     {({ active }) => (
-                                      <Link
-                                        to={link.href}
+                                      <a
+                                        href={link.href}
                                         className={classNames(
                                           active ? "bg-gray-100" : "",
                                           "block px-4 py-2 text-sm text-gray-700"
                                         )}
                                       >
                                         {link.label}
-                                      </Link>
+                                      </a>
                                     )}
                                   </Menu.Item>
                                 ))}
@@ -134,21 +141,21 @@ export function DashboardHeader() {
               <div className="px-2 py-3 space-y-1 sm:px-3">
                 {navigation.map((link) =>
                   isSamePathname(location.pathname, link.href) ? (
-                    <Link
+                    <a
                       key={link.href}
-                      to={link.href}
+                      href={link.href}
                       className="bg-gray-800 text-white block px-3 py-2 rounded-md text-base font-medium"
                     >
                       {link.label}
-                    </Link>
+                    </a>
                   ) : (
-                    <Link
+                    <a
                       key={link.href}
-                      to={link.href}
+                      href={link.href}
                       className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                     >
                       {link.label}
-                    </Link>
+                    </a>
                   )
                 )}
               </div>
@@ -172,13 +179,13 @@ export function DashboardHeader() {
                 </div>
                 <div className="mt-3 px-2 space-y-1">
                   {profileLinks.map((link) => (
-                    <Link
+                    <a
                       key={link.href}
-                      to={link.href}
+                      href={link.href}
                       className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                     >
                       {link.label}
-                    </Link>
+                    </a>
                   ))}
                 </div>
               </div>

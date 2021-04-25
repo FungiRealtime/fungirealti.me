@@ -1,3 +1,5 @@
+let brandColor = "#f95858";
+
 module.exports = {
   mode: "jit",
   purge: ["./app/**/*.tsx", "./app/**/*.jsx", "./app/**/*.js", "./app/**/*.ts"],
@@ -5,10 +7,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: "#f95858",
+        brand: brandColor,
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            a: false,
+          },
+        },
       },
     },
   },
   variants: {},
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

@@ -5,7 +5,7 @@
     "postinstall": "npm run build",
     "build": "remix build2",
     "dev:remix": "remix run2",
-    "dev:server": "ts-node-dev --respawn --transpile-only server.ts",
+    "dev:server": "nodemon",
     "dev": "concurrently npm:dev:*",
     "css:watch": "postcss styles --base styles --dir app/styles -w",
     "css:build": "postcss styles --base styles --dir app/styles --env production"
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^0.16.1",
+    "@tailwindcss/typography": "^0.4.0",
     "@types/compression": "^1.7.0",
     "@types/express": "^4.17.11",
     "@types/morgan": "^1.9.2",
@@ -38,11 +39,12 @@
     "@types/react-dom": "^17.0.0",
     "autoprefixer": "^10.2.5",
     "concurrently": "^6.0.2",
+    "nodemon": "^2.0.7",
     "postcss": "^8.2.12",
     "postcss-cli": "^8.3.1",
     "prisma": "^2.21.2",
     "tailwindcss": "^2.1.2",
-    "ts-node-dev": "^1.1.6",
+    "ts-node": "^9.1.1",
     "typescript": "^4.1.2"
   },
   "sideEffects": false,

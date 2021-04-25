@@ -31,7 +31,7 @@ export let action: ActionFunction = async ({ request }) => {
     ],
     mode: "payment",
     discounts: isProd ? [{ coupon: "zELeQg7K" }] : undefined,
-    success_url: `${domain}/buy?success=true`,
+    success_url: `${domain}/get-started`,
     cancel_url: `${domain}/dashboard`,
     metadata: {
       userId: session.get("user").id,

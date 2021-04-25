@@ -1,4 +1,5 @@
 import "dotenv/config";
+import path from "path";
 import express from "express";
 import compression from "compression";
 import morgan from "morgan";
@@ -20,7 +21,9 @@ app.use(
   })
 );
 
-if (process.env.NODE_ENV === "production") {
+let isProd = process.env.NODE_ENV === "production";
+
+if (isProd) {
   app.use(morgan("tiny"));
 } else {
   app.use(morgan("dev"));
@@ -32,16 +35,36 @@ app.post(
   stripeWebhook
 );
 
-app.all(
-  "*",
-  createRequestHandler({
-    build: require("./build"),
-    getLoadContext() {
-      // Whatever you return here will be passed as `context` to your loaders
-      // and actions.
-    },
-  })
-);
+if (isProd) {
+  app.all(
+    "*",
+    createRequestHandler({
+      build: require("./build"),
+      getLoadContext() {
+        // Whatever you return here will be passed as `context` to your loaders
+        // and actions.
+      },
+    })
+  );
+} else {
+  let cwd = process.cwd();
+  app.all("*", (req, res, next) => {
+    for (let key in require.cache) {
+      if (key.startsWith(path.join(cwd, "build"))) {
+        delete require.cache[key];
+        if (process.env.DEBUG) console.warn("deleted", key);
+      }
+    }
+
+    return createRequestHandler({
+      build: require("./build"),
+      getLoadContext() {
+        // Whatever you return here will be passed as `context` to your loaders
+        // and actions.
+      },
+    })(req, res, next);
+  });
+}
 
 let port = process.env.PORT || 3000;
 

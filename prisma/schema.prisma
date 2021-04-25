@@ -23,7 +23,6 @@ model User {
 
 model StripeCustomer {
   id              String   @id
-  amount          Float
   paymentIntentId String
   user            User     @relation(fields: [userId], references: [id])
   userId          String

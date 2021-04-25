@@ -35,7 +35,6 @@ export let loader: LoaderFunction = async ({ request }) => {
       },
     },
     select: {
-      id: true,
       createdAt: true,
     },
   });
@@ -55,7 +54,6 @@ export let loader: LoaderFunction = async ({ request }) => {
 
 type RouteData = DataWithUser<{
   stripeCustomer: {
-    id: string;
     createdAt: string;
   } | null;
   checkoutSessionId?: string;
@@ -144,7 +142,7 @@ export default function Account() {
                   <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
                     <dt className="text-sm font-medium text-gray-500">Owner</dt>
                     <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <span className="flex-grow">{user.email}</span>
+                      <span className="flex-grow">{user.username}</span>
                     </dd>
                   </div>
                   <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
@@ -166,14 +164,6 @@ export default function Account() {
                     </dt>
                     <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <span className="flex-grow">Lifetime</span>
-                    </dd>
-                  </div>
-                  <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-                    <dt className="text-sm font-medium text-gray-500">
-                      Stripe Customer ID
-                    </dt>
-                    <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <span className="flex-grow">{stripeCustomer.id}</span>
                     </dd>
                   </div>
                 </dl>
