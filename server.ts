@@ -13,9 +13,16 @@ let app = express();
 // purpose of this starter repository, but feel free to (re)move it or change it.
 app.use(compression());
 
-app.use(express.static("public"));
+app.use(
+  express.static("public", {
+    immutable: true,
+    maxAge: "1y",
+  })
+);
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "production") {
+  app.use(morgan("tiny"));
+} else {
   app.use(morgan("dev"));
 }
 
