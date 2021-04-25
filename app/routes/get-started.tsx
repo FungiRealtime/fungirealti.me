@@ -144,7 +144,7 @@ export default function GetStarted() {
                 Getting started
               </span>
             </h1>
-            <p className="mt-8 text-xl text-gray-500 leading-8">
+            <p className="mt-8 text-lg text-gray-500 leading-8">
               If you haven't already, <strong>check your email</strong>, there
               should be an email from GitHub with an invitation to our
               organization. Go ahead and accept the invitation, this will allow

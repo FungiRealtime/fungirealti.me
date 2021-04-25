@@ -8,7 +8,9 @@ export let action: ActionFunction = async ({ request }) => {
   let session = await getSession(request.headers.get("Cookie"));
 
   if (!session.has("user")) {
-    return redirect(getGithubOauthUrl(process.env.PUBLIC_GITHUB_CLIENT_ID!));
+    return redirect(
+      getGithubOauthUrl(process.env.PUBLIC_GITHUB_CLIENT_ID!, "/pricing")
+    );
   }
 
   let isProd = process.env.NODE_ENV === "production";
@@ -31,8 +33,8 @@ export let action: ActionFunction = async ({ request }) => {
     ],
     mode: "payment",
     discounts: isProd ? [{ coupon: "zELeQg7K" }] : undefined,
-    success_url: `${domain}/get-started`,
-    cancel_url: `${domain}/dashboard`,
+    success_url: `${domain}/get-started?redirection=true`,
+    cancel_url: `${domain}/pricing`,
     metadata: {
       userId: session.get("user").id,
     },
@@ -40,7 +42,7 @@ export let action: ActionFunction = async ({ request }) => {
 
   session.flash("checkoutSessionId", checkoutSession.id);
 
-  return redirect("/dashboard", {
+  return redirect("/pricing", {
     headers: {
       "Set-Cookie": await commitSession(session),
     },

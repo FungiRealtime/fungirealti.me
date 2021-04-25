@@ -73,6 +73,13 @@ export let loader: LoaderFunction = async ({ request }) => {
       where: { username: githubUser.login },
       create: payload,
       update: payload,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        avatarURL: true,
+        username: true,
+      },
     });
 
     session.set("user", {

@@ -1,19 +1,10 @@
-import { User } from ".prisma/client";
-import { CashIcon } from "@heroicons/react/outline";
+import { StripeCustomer } from ".prisma/client";
 import { json, redirect } from "@remix-run/node";
-import {
-  Form,
-  LoaderFunction,
-  usePendingFormSubmit,
-  useRouteData,
-} from "@remix-run/react";
+import { LoaderFunction, useRouteData } from "@remix-run/react";
 import { format, parseISO } from "date-fns";
-import { useEffect } from "react";
 import { prisma } from "../../prisma.server";
 import { commitSession, getSession } from "../../sessions";
-import { stripePromise } from "../../stripe.client";
-import { DataWithUser } from "../../types";
-import { classNames } from "../../utils/classNames";
+import { DataWithUser, SessionUser } from "../../types";
 import { getGithubOauthUrl } from "../../utils/getGithubOauthUrl";
 
 export let handle = {
@@ -27,22 +18,23 @@ export let loader: LoaderFunction = async ({ request }) => {
     return redirect(getGithubOauthUrl(process.env.PUBLIC_GITHUB_CLIENT_ID!));
   }
 
-  let user = session.get("user") as User;
-  let stripeCustomer = await prisma.stripeCustomer.findFirst({
+  let user = session.get("user") as SessionUser;
+  let dbUser = await prisma.user.findUnique({
     where: {
-      userId: {
-        equals: user.id,
-      },
+      id: user.id,
     },
     select: {
-      createdAt: true,
+      stripeCustomer: true,
     },
   });
 
+  if (!dbUser) {
+    return redirect("/oauth/sign-out");
+  }
+
   let data = {
     user: session.get("user"),
-    stripeCustomer,
-    checkoutSessionId: session.get("checkoutSessionId"),
+    stripeCustomer: dbUser.stripeCustomer,
   };
 
   return json(data, {
@@ -52,39 +44,10 @@ export let loader: LoaderFunction = async ({ request }) => {
   });
 };
 
-type RouteData = DataWithUser<{
-  stripeCustomer: {
-    createdAt: string;
-  } | null;
-  checkoutSessionId?: string;
-}>;
-
 export default function Account() {
-  let { user, stripeCustomer, checkoutSessionId } = useRouteData<RouteData>();
-  let pendingSubmit = usePendingFormSubmit();
-  let isCheckingOut = !!pendingSubmit || !!checkoutSessionId;
-
-  let redirectToCheckout = async (sessionId: string) => {
-    let stripe = await stripePromise;
-    if (!stripe) {
-      return;
-    }
-
-    let redirectResult = await stripe.redirectToCheckout({
-      sessionId,
-    });
-
-    if (redirectResult.error) {
-      // TODO: Handle error
-      console.error(redirectResult.error);
-    }
-  };
-
-  useEffect(() => {
-    if (checkoutSessionId) {
-      redirectToCheckout(checkoutSessionId);
-    }
-  }, [checkoutSessionId]);
+  let { user, stripeCustomer } = useRouteData<
+    DataWithUser<{ stripeCustomer: StripeCustomer | null }>
+  >();
 
   return (
     <>
@@ -152,7 +115,7 @@ export default function Account() {
                     <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <span className="flex-grow">
                         {format(
-                          parseISO(stripeCustomer.createdAt),
+                          parseISO(stripeCustomer.createdAt as any),
                           "d'/'M'/'y"
                         )}
                       </span>
@@ -171,50 +134,19 @@ export default function Account() {
             </>
           ) : (
             <>
-              <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                You don't own a license, you need one to use Fungi.
-              </p>
-              <Form method="post" action="/buy">
-                <button
-                  type="submit"
-                  disabled={isCheckingOut}
-                  className={classNames(
-                    "mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-brand hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand",
-                    isCheckingOut
-                      ? "cursor-not-allowed bg-opacity-50 hover:bg-opacity-50"
-                      : ""
-                  )}
+              <div className="mt-2 max-w-xl text-sm text-gray-500">
+                <p>
+                  You don't own a license, you need one to use our products.
+                </p>
+              </div>
+              <div className="mt-4">
+                <a
+                  href="/pricing"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-brand hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
                 >
-                  {isCheckingOut ? (
-                    <svg
-                      className="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                  ) : (
-                    <CashIcon
-                      className="-ml-1 mr-2 h-5 w-5"
-                      aria-hidden="true"
-                    />
-                  )}
-                  Buy license
-                </button>
-              </Form>
+                  Go to pricing
+                </a>
+              </div>
             </>
           )}
         </div>
