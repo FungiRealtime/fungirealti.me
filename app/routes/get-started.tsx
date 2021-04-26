@@ -1,6 +1,8 @@
 import { json, LoaderFunction, MetaFunction, redirect } from "@remix-run/node";
 import { useRouteData } from "@remix-run/react";
 import { Footer } from "../components/Footer";
+import { Header } from "../components/Header";
+import { usePublicEnv } from "../hooks/usePublicEnv";
 import { getSession } from "../sessions";
 import { DataWithUser } from "../types";
 import { getGithubOauthUrl } from "../utils/getGithubOauthUrl";
@@ -27,9 +29,18 @@ export let loader: LoaderFunction = async ({ request }) => {
 
 export default function GetStarted() {
   let { user } = useRouteData<DataWithUser>();
+  let { PUBLIC_GITHUB_CLIENT_ID } = usePublicEnv();
+  let githubOAuthUrl = getGithubOauthUrl(
+    PUBLIC_GITHUB_CLIENT_ID,
+    "/get-started"
+  );
 
   return (
     <>
+      <div className="pb-6 bg-gray-900">
+        <Header isLoggedIn={!!user} githubOAuthUrl={githubOAuthUrl} />
+      </div>
+
       <div className="relative py-16 bg-white overflow-hidden">
         <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:h-full lg:w-full">
           <div
@@ -176,13 +187,6 @@ export default function GetStarted() {
                 </a>
               </li>
             </ul>
-            <p>
-              You can also go to your{" "}
-              <a className="text-brand underline" href="/dashboard">
-                Dashboard
-              </a>
-              .
-            </p>
             <img
               className="w-full rounded-lg"
               src="/buy_hero.svg"

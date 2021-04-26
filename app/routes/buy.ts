@@ -13,8 +13,6 @@ export let action: ActionFunction = async ({ request }) => {
     );
   }
 
-  let isProd = process.env.NODE_ENV === "production";
-
   let domain = getDomain();
 
   let checkoutSession = await stripe.checkout.sessions.create({
@@ -26,14 +24,13 @@ export let action: ActionFunction = async ({ request }) => {
           product_data: {
             name: "Fungi License",
           },
-          unit_amount: 269_00,
+          unit_amount: 125_00, // 250_00 in a couple months
         },
         quantity: 1,
       },
     ],
     mode: "payment",
-    discounts: isProd ? [{ coupon: "zELeQg7K" }] : undefined,
-    success_url: `${domain}/get-started?redirection=true`,
+    success_url: `${domain}/get-started`,
     cancel_url: `${domain}/pricing`,
     metadata: {
       userId: session.get("user").id,

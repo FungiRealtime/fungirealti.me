@@ -42,13 +42,13 @@ let stripeWebhook = async (request: Request, response: Response) => {
           .send(`Webhook Error: this user already owns a license.`);
       }
 
-      await prisma.stripeCustomer.create({
+      await prisma.user.update({
+        where: { id: user.id },
         data: {
-          id: session.customer,
-          paymentIntentId: session.payment_intent,
-          user: {
-            connect: {
-              id: user.id,
+          stripeCustomer: {
+            create: {
+              id: session.customer,
+              paymentIntentId: session.payment_intent,
             },
           },
         },

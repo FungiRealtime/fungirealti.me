@@ -40,7 +40,7 @@ export let loader: LoaderFunction = async ({ request }) => {
   });
 
   if (!dbUser) {
-    return redirect("/oauth/sign-out");
+    return redirect("/oauth/sign-out?next=/pricing");
   }
 
   let data = {
@@ -156,11 +156,21 @@ export default function Pricing() {
                   <p className="text-lg leading-6 font-medium text-gray-900">
                     Pay once, own it forever
                   </p>
-                  <div className="mt-4 flex items-center justify-center text-5xl font-extrabold text-gray-900">
-                    <span>$269</span>
-                    <span className="ml-3 text-xl font-medium text-gray-500">
-                      USD
-                    </span>
+                  <div className="flex items-center mt-4 space-x-3">
+                    {/* Original price */}
+                    <div>
+                      <span className="line-through inline text-lg font-medium text-gray-500">
+                        $250
+                      </span>
+                    </div>
+
+                    {/* Current price */}
+                    <div className="flex items-center justify-center text-5xl font-extrabold text-gray-900">
+                      <span>$125</span>
+                      <span className="ml-3 text-xl font-medium text-gray-500">
+                        USD
+                      </span>
+                    </div>
                   </div>
                   <p className="mt-4 text-sm">
                     <a
