@@ -67,7 +67,7 @@ interface RouteData {
 export default function Pricing() {
   let { user, stripeCustomer, checkoutSessionId } = useRouteData<RouteData>();
   let { PUBLIC_GITHUB_CLIENT_ID } = usePublicEnv();
-  let githubOAuthUrl = getGithubOauthUrl(PUBLIC_GITHUB_CLIENT_ID);
+  let githubOAuthUrl = getGithubOauthUrl(PUBLIC_GITHUB_CLIENT_ID, "/pricing");
   let pendingSubmit = usePendingFormSubmit();
   let isCheckingOut = !!pendingSubmit || !!checkoutSessionId;
 
@@ -227,11 +227,14 @@ export default function Pricing() {
                           href={githubOAuthUrl}
                           className="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900"
                         >
-                          Sign up
+                          Log in
                         </a>
 
                         <p className="mt-2 text-gray-600 text-sm">
-                          You need to sign up before buying a license.
+                          Don't have an account?{" "}
+                          <a href={githubOAuthUrl} className="text-brand">
+                            Sign up
+                          </a>
                         </p>
                       </div>
                     )}
