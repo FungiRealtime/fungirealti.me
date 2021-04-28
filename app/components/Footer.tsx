@@ -114,12 +114,6 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-12 border-t border-gray-200 pt-8">
-          <p className="text-base text-gray-400 xl:text-center">
-            &copy; {new Date().getFullYear()} Gabriel Méndez. All rights
-            reserved.
-          </p>
-        </div>
       </div>
     </footer>
   );

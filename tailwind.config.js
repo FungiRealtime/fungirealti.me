@@ -14,15 +14,20 @@ module.exports = {
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
       },
-      typography: {
+      typography: (theme) => ({
         DEFAULT: {
           css: {
+            maxWidth: "none",
             a: {
-              color: brandColor,
+              color: theme("colors.brand"),
+              textDecoration: "none",
+            },
+            "h2 > a": {
+              color: theme("colors.gray.900"),
             },
           },
         },
-      },
+      }),
     },
   },
   variants: {},

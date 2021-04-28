@@ -17,14 +17,14 @@ export default function DocsPage() {
   let Component = useMemo(() => getMDXComponent(code), [code]);
 
   return (
-    <>
-      <header>
+    <div className="flex">
+      <div>
         <h1>{frontmatter.title}</h1>
         <p>{frontmatter.description}</p>
-      </header>
+      </div>
       <main>
         <Component />
       </main>
-    </>
+    </div>
   );
 }

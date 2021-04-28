@@ -103,8 +103,9 @@ export let loader: LoaderFunction = async () => {
           },
         ],
       },
+
       {
-        title: "Core concepts",
+        title: "API reference",
         subsections: [
           {
             title: "Server specification",
@@ -126,7 +127,7 @@ export default function Docs() {
   let { pathname } = useLocation();
 
   return (
-    <div className="lg:max-w-[88rem] w-full mx-auto h-screen bg-white overflow-hidden flex">
+    <div className="lg:max-w-[88rem] mx-auto bg-white flex">
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -182,7 +183,7 @@ export default function Docs() {
                   alt="Fungi"
                 />
               </div>
-              <div className="mt-8 flex-1 h-0 overflow-y-auto">
+              <div className="mt-8 flex-1 h-0">
                 <nav className="px-2 space-y-1">
                   <ul className="space-y-8">
                     {sections.map((section) => (
@@ -232,10 +233,10 @@ export default function Docs() {
       </Transition.Root>
 
       {/* Static sidebar for desktop */}
-      <div className="hidden lg:flex lg:flex-shrink-0 lg:mr-8">
-        <div className="w-60 flex flex-col py-6 border-r border-gray-200">
+      <div className="hidden lg:flex lg:flex-shrink-0 lg:mr-8 lg:w-64 h-screen sticky top-0 border-r border-gray-200">
+        <div className="overflow-y-auto w-full">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="pb-4 flex flex-col flex-grow overflow-y-auto">
+          <div className="pb-4 pt-6 flex flex-col flex-grow">
             <div className="flex-grow flex flex-col">
               <nav className="flex-1 bg-white pl-2 pr-4 space-y-1">
                 <ul className="space-y-8">
@@ -280,8 +281,8 @@ export default function Docs() {
           </div>
         </div>
       </div>
-      <div className="flex-1 flex flex-col lg:mt-1 lg:pl-0 lg:pr-8">
-        <div className="relative z-10 flex-shrink-0 h-16 bg-white border-b border-gray-200 flex">
+      <div className="flex-1 flex flex-col lg:pl-0 lg:pr-8">
+        <div className="sticky top-0 z-10 lg:pt-1 flex-shrink-0 h-16 bg-white border-b border-gray-200 flex">
           <button
             className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand lg:hidden"
             onClick={() => setSidebarOpen(true)}
@@ -339,7 +340,7 @@ export default function Docs() {
           </div>
         </div>
 
-        <main className="flex-1 relative overflow-y-auto focus:outline-none py-8 px-4 lg:px-0">
+        <main className="flex-1 relative focus:outline-none px-4 lg:px-0">
           {/* <div className="px-4 sm:px-6 lg:px-0">
               <h1 className="text-2xl font-semibold text-gray-900">Docs</h1>
             </div> */}
