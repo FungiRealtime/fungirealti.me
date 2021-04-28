@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 let brandColor = "#f95858";
 
 module.exports = {
@@ -9,10 +11,15 @@ module.exports = {
       colors: {
         brand: brandColor,
       },
+      fontFamily: {
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+      },
       typography: {
         DEFAULT: {
           css: {
-            a: false,
+            a: {
+              color: brandColor,
+            },
           },
         },
       },

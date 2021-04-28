@@ -5,7 +5,10 @@ import { useMemo } from "react";
 import { BundledMdx, getBundledMdx } from "../../github.server";
 
 export let loader: LoaderFunction = async ({ params }) => {
-  let bundledMdx = await getBundledMdx(`/docs/${params.slug}`);
+  let bundledMdx = await getBundledMdx(
+    `/docs/${params.section}/${params.subsection}`
+  );
+
   return json(bundledMdx);
 };
 

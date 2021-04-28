@@ -1,89 +1,129 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
-  HomeIcon,
-  InboxIcon,
-  MenuAlt2Icon,
-  UsersIcon,
-  XIcon,
-} from "@heroicons/react/outline";
+import { MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
-import { classNames } from "../utils/classNames";
 import { json, LoaderFunction } from "@remix-run/node";
+import { useRouteData } from "@remix-run/react";
+import { Outlet, useLocation } from "react-router-dom";
 import { GithubFileOrDir } from "../github.server";
 import { octokit } from "../octokit.server";
 
-const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: InboxIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-];
+interface Tree {
+  path: string;
+  type: string;
+}
+
+interface Subsection {
+  title: string;
+  pathname: string;
+}
+
+interface Section {
+  title: string;
+  subsections: Subsection[];
+}
+
+function prettifyString(str: string) {
+  let withoutHyphens = str.replace(/-/g, " ");
+  return withoutHyphens.charAt(0).toUpperCase() + withoutHyphens.slice(1);
+}
 
 export let loader: LoaderFunction = async () => {
-  let { data: filesOrDirs } = await octokit.request(
-    "GET /repos/{owner}/{repo}/contents/{path}",
-    {
-      owner: "FungiRealtime",
-      repo: "fungirealti.me",
-      path: "content",
-    }
-  );
+  // let { data: filesOrDirs } = await octokit.request(
+  //   "GET /repos/{owner}/{repo}/contents/{path}",
+  //   {
+  //     owner: "FungiRealtime",
+  //     repo: "fungirealti.me",
+  //     path: "content",
+  //   }
+  // );
 
-  let docsTreeSha = (filesOrDirs as GithubFileOrDir[]).find(
-    (fileOrDir) => fileOrDir.name === "docs"
-  )?.sha;
-  if (!docsTreeSha) {
-    return json({ error: "" }, { status: 500 });
-  }
+  // let docsTreeSha = (filesOrDirs as GithubFileOrDir[]).find(
+  //   (fileOrDir) => fileOrDir.name === "docs"
+  // )!.sha;
 
-  let { data } = await octokit.request(
-    "GET /repos/{owner}/{repo}/git/trees/{tree_sha}?recursive=1",
-    {
-      owner: "FungiRealtime",
-      repo: "fungirealti.me",
-      tree_sha: docsTreeSha,
-    }
-  );
+  // let { data } = await octokit.request(
+  //   "GET /repos/{owner}/{repo}/git/trees/{tree_sha}?recursive=1",
+  //   {
+  //     owner: "FungiRealtime",
+  //     repo: "fungirealti.me",
+  //     tree_sha: docsTreeSha,
+  //   }
+  // );
 
-  console.log(data.tree);
+  // let trees = data.tree as Tree[];
+  // let sections: Section[] = Object.entries(
+  //   trees.reduce((acc, tree) => {
+  //     let paths = tree.path.split("/");
+  //     let isTree = paths.length === 1 && tree.type === "tree";
 
-  return json(null);
+  //     if (isTree) {
+  //       let leafs = trees.filter(({ path, type }) => {
+  //         let leafPaths = path.split("/");
+  //         return (
+  //           leafPaths.length === 2 &&
+  //           leafPaths[0] === tree.path &&
+  //           type === "tree"
+  //         );
+  //       });
+
+  //       return {
+  //         ...acc,
+  //         [tree.path]: leafs.map((leaf) => {
+  //           let leafPaths = leaf.path.split("/");
+  //           return leafPaths[leafPaths.length - 1];
+  //         }),
+  //       };
+  //     }
+
+  //     return acc;
+  //   }, {} as Record<string, string[]>)
+  // ).map(([tree, leafs]) => {
+  //   return {
+  //     title: prettifyString(tree),
+  //     subsections: leafs.map((leaf) => ({
+  //       title: prettifyString(leaf),
+  //       pathname: `/docs/${tree}/${leaf}`,
+  //     })),
+  //   };
+  // });
+
+  return json({
+    sections: [
+      {
+        title: "Getting started",
+        subsections: [
+          {
+            title: "Installation",
+            pathname: "/docs/getting-started/installation",
+          },
+          {
+            title: "Usage",
+            pathname: "/docs/getting-started/usage",
+          },
+        ],
+      },
+      {
+        title: "Core concepts",
+        subsections: [
+          {
+            title: "Server specification",
+            pathname: "/docs/core-concepts/server-specification",
+          },
+        ],
+      },
+    ],
+  });
 };
 
+interface RouteData {
+  sections: Section[];
+}
+
 export default function Docs() {
+  let { sections } = useRouteData<RouteData>();
   let [sidebarOpen, setSidebarOpen] = useState(false);
+  let { pathname } = useLocation();
 
   return (
     <div className="lg:max-w-[88rem] w-full mx-auto h-screen bg-white overflow-hidden flex">
@@ -137,36 +177,50 @@ export default function Docs() {
               </Transition.Child>
               <div className="flex-shrink-0 px-4 flex items-center">
                 <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
-                  alt="Workflow"
+                  className="h-12 sm:h-10 w-auto"
+                  src="/logo_transparent.png"
+                  alt="Fungi"
                 />
               </div>
-              <div className="mt-5 flex-1 h-0 overflow-y-auto">
+              <div className="mt-8 flex-1 h-0 overflow-y-auto">
                 <nav className="px-2 space-y-1">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? "bg-gray-100 text-gray-900"
-                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                        "group rounded-md py-2 px-2 flex items-center text-base font-medium"
-                      )}
-                    >
-                      <item.icon
-                        className={classNames(
-                          item.current
-                            ? "text-gray-500"
-                            : "text-gray-400 group-hover:text-gray-500",
-                          "mr-4 h-6 w-6"
-                        )}
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </a>
-                  ))}
+                  <ul className="space-y-8">
+                    {sections.map((section) => (
+                      <li key={section.title}>
+                        <h5 className="px-3 mb-3 lg:mb-3 uppercase tracking-wide font-semibold text-sm sm:text-xs text-gray-900">
+                          {section.title}
+                        </h5>
+                        <ul>
+                          {section.subsections.map((subsection) =>
+                            subsection.pathname === pathname ? (
+                              <li key={subsection.pathname}>
+                                <a
+                                  className="px-3 py-2 text-base sm:text-sm transition-colors duration-200 relative block text-brand"
+                                  href={subsection.title}
+                                >
+                                  <span className="rounded-md absolute inset-0 bg-red-50"></span>
+                                  <span className="relative font-medium">
+                                    {subsection.title}
+                                  </span>
+                                </a>
+                              </li>
+                            ) : (
+                              <li key={subsection.pathname}>
+                                <a
+                                  className="px-3 py-2 text-base sm:text-sm transition-colors duration-200 relative block text-gray-500 hover:text-gray-900"
+                                  href={subsection.pathname}
+                                >
+                                  <span className="relative font-medium">
+                                    {subsection.title}
+                                  </span>
+                                </a>
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
                 </nav>
               </div>
             </div>
@@ -179,54 +233,68 @@ export default function Docs() {
 
       {/* Static sidebar for desktop */}
       <div className="hidden lg:flex lg:flex-shrink-0 lg:mr-8">
-        <div className="w-64 flex flex-col pt-5">
+        <div className="w-60 flex flex-col py-6 border-r border-gray-200">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="pb-4 flex flex-col flex-grow overflow-y-auto">
             <div className="flex-grow flex flex-col">
               <nav className="flex-1 bg-white pl-2 pr-4 space-y-1">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.current
-                        ? "bg-gray-100 text-gray-900"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                      "group rounded-md py-2 px-2 flex items-center text-sm font-medium"
-                    )}
-                  >
-                    <item.icon
-                      className={classNames(
-                        item.current
-                          ? "text-gray-500"
-                          : "text-gray-400 group-hover:text-gray-500",
-                        "mr-3 h-6 w-6"
-                      )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </a>
-                ))}
+                <ul className="space-y-8">
+                  {sections.map((section) => (
+                    <li key={section.title}>
+                      <h5 className="px-3 mb-3 uppercase tracking-wide font-semibold text-xs text-gray-900">
+                        {section.title}
+                      </h5>
+                      <ul>
+                        {section.subsections.map((subsection) =>
+                          subsection.pathname === pathname ? (
+                            <li key={subsection.pathname}>
+                              <a
+                                className="px-3 py-2 text-sm transition-colors duration-200 relative block text-brand"
+                                href={subsection.title}
+                              >
+                                <span className="rounded-md absolute inset-0 bg-red-50"></span>
+                                <span className="relative font-medium">
+                                  {subsection.title}
+                                </span>
+                              </a>
+                            </li>
+                          ) : (
+                            <li key={subsection.pathname}>
+                              <a
+                                className="px-3 py-2 text-sm transition-colors duration-200 relative block text-gray-500 hover:text-gray-900"
+                                href={subsection.pathname}
+                              >
+                                <span className="relative font-medium">
+                                  {subsection.title}
+                                </span>
+                              </a>
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    </li>
+                  ))}
+                </ul>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      <div className="flex-1 flex flex-col mt-1 lg:pl-0 lg:pr-8">
+      <div className="flex-1 flex flex-col lg:mt-1 lg:pl-0 lg:pr-8">
         <div className="relative z-10 flex-shrink-0 h-16 bg-white border-b border-gray-200 flex">
           <button
-            className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 lg:hidden"
+            className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand lg:hidden"
             onClick={() => setSidebarOpen(true)}
           >
             <span className="sr-only">Open sidebar</span>
             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
           </button>
           <div className="flex-1 flex justify-between px-4 lg:px-0">
-            <div className="flex items-center mr-6">
+            <div className="hidden lg:flex items-center mr-6">
               <img
                 className="h-8 w-auto"
                 src="/logo_transparent.png"
-                alt="Workflow"
+                alt="Fungi"
               />
             </div>
 
@@ -252,7 +320,7 @@ export default function Docs() {
             <div className="ml-4 flex items-center lg:ml-6">
               <a
                 href="https://github.com/FungiRealtime"
-                className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
               >
                 <span className="sr-only">Visit GitHub</span>
                 <svg
@@ -271,19 +339,19 @@ export default function Docs() {
           </div>
         </div>
 
-        <main className="flex-1 relative overflow-y-auto focus:outline-none">
-          <div className="py-6">
-            <div className="px-4 sm:px-6 lg:px-0">
+        <main className="flex-1 relative overflow-y-auto focus:outline-none py-8 px-4 lg:px-0">
+          {/* <div className="px-4 sm:px-6 lg:px-0">
               <h1 className="text-2xl font-semibold text-gray-900">Docs</h1>
-            </div>
-            <div className="px-4 sm:px-6 lg:px-0">
-              {/* Replace with your content */}
-              <div className="py-4">
+            </div> */}
+          {/* <div className="px-4 sm:px-6 lg:px-0"> */}
+          {/* Replace with your content */}
+          {/* <div className="py-4">
                 <div className="h-96 border-4 border-dashed border-gray-200 rounded-lg" />
-              </div>
-              {/* /End replace */}
-            </div>
-          </div>
+              </div> */}
+          {/* /End replace */}
+          {/* </div> */}
+
+          <Outlet />
         </main>
       </div>
     </div>
