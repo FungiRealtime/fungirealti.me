@@ -1,4 +1,7 @@
+import type { PluggableList } from "unified";
 import { bundleMDX } from "mdx-bundler";
+import remarkPrism from "remark-prism";
+import remarkGfm from "remark-gfm";
 import { octokit } from "./octokit.server";
 
 async function downloadFileBySha(sha: string) {
@@ -70,6 +73,17 @@ export async function getBundledMdx(mdxPath: string): Promise<BundledMdx> {
     );
   }
 
-  let { code, frontmatter } = await bundleMDX(content);
+  let remarkPlugins: PluggableList = [remarkGfm, remarkPrism];
+
+  let { code, frontmatter } = await bundleMDX(content, {
+    xdmOptions(_input, options) {
+      options.remarkPlugins = [
+        ...(options.remarkPlugins ?? []),
+        ...remarkPlugins,
+      ];
+      return options;
+    },
+  });
+
   return { code, frontmatter };
 }
