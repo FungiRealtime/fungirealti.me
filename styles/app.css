@@ -8,174 +8,71 @@
   src: url(/fonts/inter.var.woff2) format("woff2");
 }
 
-/* One Dark Pro PrismJS: https://github.com/AGMStudio/prism-theme-one-dark/blob/master/prism-onedark.css */
-code[class*="language-"],
-pre[class*="language-"] {
-  color: #abb2bf;
-  background: none;
-  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
-  text-align: left;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
-  word-wrap: normal;
-  line-height: 1.5;
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
-}
-
-pre[class*="language-"]::-moz-selection,
-pre[class*="language-"] ::-moz-selection,
-code[class*="language-"]::-moz-selection,
-code[class*="language-"] ::-moz-selection {
-  text-shadow: none;
-  background: #383e49;
-}
-
-pre[class*="language-"]::selection,
-pre[class*="language-"] ::selection,
-code[class*="language-"]::selection,
-code[class*="language-"] ::selection {
-  text-shadow: none;
-  background: #9aa2b1;
-}
-
-@media print {
-  code[class*="language-"],
-  pre[class*="language-"] {
-    text-shadow: none;
-  }
-}
-/* Code blocks */
-pre[class*="language-"] {
-  padding: 1em;
-  margin: 0.5em 0;
-  overflow: auto;
-}
-
-:not(pre) > code[class*="language-"],
-pre[class*="language-"] {
-  background: #282c34;
-}
-
-/* Inline code */
-:not(pre) > code[class*="language-"] {
-  padding: 0.1em;
-  border-radius: 0.3em;
-  white-space: normal;
-}
-
-.token.comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-  color: #5c6370;
-}
-
-.token.punctuation {
-  color: #abb2bf;
-}
-
+.token.tag,
+.token.class-name,
 .token.selector,
-.token.tag {
-  color: #e06c75;
-}
-
-.token.property,
-.token.boolean,
-.token.number,
-.token.constant,
-.token.symbol,
-.token.attr-name,
-.token.deleted {
-  color: #d19a66;
-}
-
-.token.string,
-.token.char,
-.token.attr-value,
-.token.builtin,
-.token.inserted {
-  color: #98c379;
-}
-
-.token.operator,
-.token.entity,
-.token.url,
-.language-css .token.string,
-.style .token.string {
-  color: #56b6c2;
-}
-
-.token.atrule,
-.token.keyword {
-  color: #c678dd;
-}
-
+.token.selector .class,
 .token.function {
-  color: #61afef;
+  @apply text-fuchsia-400;
 }
 
-.token.regex,
-.token.important,
-.token.variable {
-  color: #c678dd;
+.token.attr-name,
+.token.keyword,
+.token.rule,
+.token.operator,
+.token.pseudo-class,
+.token.important {
+  @apply text-cyan-400;
 }
 
-.token.important,
-.token.bold {
-  font-weight: bold;
+.token.attr-value,
+.token.class,
+.token.string,
+.token.number,
+.token.unit,
+.token.color {
+  @apply text-lime-300;
 }
 
-.token.italic {
-  font-style: italic;
+.token.punctuation,
+.token.module,
+.token.property {
+  @apply text-light-blue-200;
 }
 
-.token.entity {
-  cursor: help;
+.token.atapply .token:not(.rule):not(.important) {
+  color: inherit;
 }
 
-pre.line-numbers {
-  position: relative;
-  padding-left: 3.8em;
-  counter-reset: linenumber;
+.language-shell .token:not(.comment) {
+  color: inherit;
 }
 
-pre.line-numbers > code {
-  position: relative;
+.language-css .token.function {
+  color: inherit;
 }
 
-.line-numbers .line-numbers-rows {
-  position: absolute;
-  pointer-events: none;
-  top: 0;
-  font-size: 100%;
-  left: -3.8em;
-  width: 3em; /* works for line-numbers below 1000 lines */
-  letter-spacing: -1px;
-  border-right: 0;
-
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+.token.comment {
+  @apply text-gray-400;
 }
 
-.line-numbers-rows > span {
-  pointer-events: none;
-  display: block;
-  counter-increment: linenumber;
+.token.deleted:not(.prefix) {
+  @apply relative block -mx-4 px-4;
 }
 
-.line-numbers-rows > span:before {
-  content: counter(linenumber);
-  color: #5c6370;
-  display: block;
-  padding-right: 0.8em;
-  text-align: right;
+.token.deleted:not(.prefix)::after {
+  content: "";
+  @apply pointer-events-none absolute inset-0 block bg-rose-400 bg-opacity-25;
+}
+
+.token.deleted.prefix {
+  @apply text-gray-400 select-none;
+}
+
+.token.inserted:not(.prefix) {
+  @apply block bg-emerald-700 bg-opacity-50 -mx-4 px-4;
+}
+
+.token.inserted.prefix {
+  @apply text-emerald-200 text-opacity-75 select-none;
 }
