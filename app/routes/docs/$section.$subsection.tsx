@@ -2,10 +2,11 @@ import { json, MetaFunction } from "@remix-run/node";
 import { LoaderFunction, useRouteData } from "@remix-run/react";
 import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
-import { BundledMdx, getBundledMdx } from "../../github.server";
+import { DocsPageNavigation } from "../../components/DocsPageNavigation";
+import { CompiledMdx, compileMdx } from "../../utils/mdx.server";
 
 export let meta: MetaFunction = ({ data }) => {
-  let { frontmatter } = data as BundledMdx;
+  let { frontmatter } = data as CompiledMdx;
   return {
     title: `${frontmatter.title} - Fungi Docs`,
     description: frontmatter.description,
@@ -13,18 +14,16 @@ export let meta: MetaFunction = ({ data }) => {
 };
 
 export let loader: LoaderFunction = async ({ params }) => {
-  let bundledMdx = await getBundledMdx(
+  let compiledMdx = await compileMdx(
     `/docs/${params.section}/${params.subsection}`
   );
 
-  return json(bundledMdx);
+  return json(compiledMdx);
 };
 
 export default function DocsPage() {
-  let { code, frontmatter } = useRouteData<BundledMdx>();
+  let { code, frontmatter, sectionsLinks } = useRouteData<CompiledMdx>();
   let Component = useMemo(() => getMDXComponent(code), [code]);
-
-  console.log(code);
 
   return (
     <div className="flex">
@@ -40,12 +39,7 @@ export default function DocsPage() {
         </div>
       </div>
 
-      <nav className="hidden xl:block pl-12 w-64 pt-10 overflow-y-auto max-h-[84vh] sticky top-16">
-        {/* <h5 className="text-gray-900 uppercase tracking-wide font-semibold mb-3 text-sm lg:text-xs">
-          On this page
-        </h5> */}
-        {/* TODO: Get the sections headers and links */}
-      </nav>
+      <DocsPageNavigation links={sectionsLinks} />
     </div>
   );
 }

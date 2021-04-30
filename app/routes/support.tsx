@@ -11,7 +11,7 @@ import { Form, usePendingFormSubmit, useRouteData } from "@remix-run/react";
 import Mailgun from "mailgun-js";
 import { usePublicEnv } from "../hooks/usePublicEnv";
 import { getGithubOauthUrl } from "../utils/getGithubOauthUrl";
-import { mailgun } from "../mailgun.server";
+import { mailgun } from "../utils/mailgun.server";
 import { classNames } from "../utils/classNames";
 
 export let meta: MetaFunction = () => {

@@ -5,8 +5,8 @@ import { SearchIcon } from "@heroicons/react/solid";
 import { json, LoaderFunction } from "@remix-run/node";
 import { useRouteData } from "@remix-run/react";
 import { Outlet, useLocation } from "react-router-dom";
-import { GithubFileOrDir } from "../github.server";
-import { octokit } from "../octokit.server";
+import { GithubFileOrDir } from "../utils/github.server";
+import { octokit } from "../utils/octokit.server";
 
 interface Tree {
   path: string;
@@ -29,91 +29,67 @@ function prettifyString(str: string) {
 }
 
 export let loader: LoaderFunction = async () => {
-  // let { data: filesOrDirs } = await octokit.request(
-  //   "GET /repos/{owner}/{repo}/contents/{path}",
-  //   {
-  //     owner: "FungiRealtime",
-  //     repo: "fungirealti.me",
-  //     path: "content",
-  //   }
-  // );
+  let { data: filesOrDirs } = await octokit.request(
+    "GET /repos/{owner}/{repo}/contents/{path}",
+    {
+      owner: "FungiRealtime",
+      repo: "fungirealti.me",
+      path: "content",
+    }
+  );
 
-  // let docsTreeSha = (filesOrDirs as GithubFileOrDir[]).find(
-  //   (fileOrDir) => fileOrDir.name === "docs"
-  // )!.sha;
+  let docsTreeSha = (filesOrDirs as GithubFileOrDir[]).find(
+    (fileOrDir) => fileOrDir.name === "docs"
+  )!.sha;
 
-  // let { data } = await octokit.request(
-  //   "GET /repos/{owner}/{repo}/git/trees/{tree_sha}?recursive=1",
-  //   {
-  //     owner: "FungiRealtime",
-  //     repo: "fungirealti.me",
-  //     tree_sha: docsTreeSha,
-  //   }
-  // );
+  let { data } = await octokit.request(
+    "GET /repos/{owner}/{repo}/git/trees/{tree_sha}?recursive=1",
+    {
+      owner: "FungiRealtime",
+      repo: "fungirealti.me",
+      tree_sha: docsTreeSha,
+    }
+  );
 
-  // let trees = data.tree as Tree[];
-  // let sections: Section[] = Object.entries(
-  //   trees.reduce((acc, tree) => {
-  //     let paths = tree.path.split("/");
-  //     let isTree = paths.length === 1 && tree.type === "tree";
+  let trees = data.tree as Tree[];
+  let sections: Section[] = Object.entries(
+    trees.reduce((acc, tree) => {
+      let paths = tree.path.split("/");
+      let isTree = paths.length === 1 && tree.type === "tree";
 
-  //     if (isTree) {
-  //       let leafs = trees.filter(({ path, type }) => {
-  //         let leafPaths = path.split("/");
-  //         return (
-  //           leafPaths.length === 2 &&
-  //           leafPaths[0] === tree.path &&
-  //           type === "tree"
-  //         );
-  //       });
+      if (isTree) {
+        let leafs = trees.filter(({ path, type }) => {
+          let leafPaths = path.split("/");
+          return (
+            leafPaths.length === 2 &&
+            leafPaths[0] === tree.path &&
+            type === "tree"
+          );
+        });
 
-  //       return {
-  //         ...acc,
-  //         [tree.path]: leafs.map((leaf) => {
-  //           let leafPaths = leaf.path.split("/");
-  //           return leafPaths[leafPaths.length - 1];
-  //         }),
-  //       };
-  //     }
+        return {
+          ...acc,
+          [tree.path]: leafs.map((leaf) => {
+            let leafPaths = leaf.path.split("/");
+            return leafPaths[leafPaths.length - 1];
+          }),
+        };
+      }
 
-  //     return acc;
-  //   }, {} as Record<string, string[]>)
-  // ).map(([tree, leafs]) => {
-  //   return {
-  //     title: prettifyString(tree),
-  //     subsections: leafs.map((leaf) => ({
-  //       title: prettifyString(leaf),
-  //       pathname: `/docs/${tree}/${leaf}`,
-  //     })),
-  //   };
-  // });
+      return acc;
+    }, {} as Record<string, string[]>)
+  ).map(([tree, leafs]) => {
+    return {
+      title: prettifyString(tree),
+      subsections: leafs.map((leaf) => ({
+        title: prettifyString(leaf),
+        pathname: `/docs/${tree}/${leaf}`,
+      })),
+    };
+  });
 
   return json({
-    sections: [
-      {
-        title: "Getting started",
-        subsections: [
-          {
-            title: "Installation",
-            pathname: "/docs/getting-started/installation",
-          },
-          {
-            title: "Usage",
-            pathname: "/docs/getting-started/usage",
-          },
-        ],
-      },
-
-      {
-        title: "API reference",
-        subsections: [
-          {
-            title: "Server specification",
-            pathname: "/docs/core-concepts/server-specification",
-          },
-        ],
-      },
-    ],
+    sections,
   });
 };
 

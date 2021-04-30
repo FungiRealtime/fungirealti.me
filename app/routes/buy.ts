@@ -1,6 +1,6 @@
 import { ActionFunction, redirect } from "@remix-run/node";
 import { commitSession, getSession } from "../sessions";
-import { stripe } from "../stripe.server";
+import { stripe } from "../utils/stripe.server";
 import { getDomain } from "../utils/domain";
 import { getGithubOauthUrl } from "../utils/getGithubOauthUrl";
 

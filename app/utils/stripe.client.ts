@@ -1,5 +1,5 @@
 import { loadStripe } from "@stripe/stripe-js";
-import { PublicEnv } from "./hooks/usePublicEnv";
+import { PublicEnv } from "../hooks/usePublicEnv";
 
 declare let window: Window & { ENV: PublicEnv };
 

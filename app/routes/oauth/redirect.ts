@@ -1,6 +1,6 @@
 import { json, LoaderFunction, redirect } from "@remix-run/node";
 import { useRouteData } from "@remix-run/react";
-import { prisma } from "../../prisma.server";
+import { prisma } from "../../utils/prisma.server";
 import { commitSession, getSession } from "../../sessions";
 
 export let loader: LoaderFunction = async ({ request }) => {
