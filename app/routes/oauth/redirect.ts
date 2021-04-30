@@ -1,7 +1,7 @@
 import { json, LoaderFunction, redirect } from "@remix-run/node";
 import { useRouteData } from "@remix-run/react";
 import { prisma } from "../../utils/prisma.server";
-import { commitSession, getSession } from "../../sessions";
+import { commitSession, getSession } from "../../utils/sessions";
 
 export let loader: LoaderFunction = async ({ request }) => {
   let session = await getSession(request.headers.get("Cookie"));

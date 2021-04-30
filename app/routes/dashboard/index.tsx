@@ -3,7 +3,7 @@ import { json, redirect } from "@remix-run/node";
 import { LoaderFunction, useRouteData } from "@remix-run/react";
 import { format, parseISO } from "date-fns";
 import { prisma } from "../../utils/prisma.server";
-import { commitSession, getSession } from "../../sessions";
+import { commitSession, getSession } from "../../utils/sessions";
 import { DataWithUser, SessionUser } from "../../types";
 import { getGithubOauthUrl } from "../../utils/getGithubOauthUrl";
 

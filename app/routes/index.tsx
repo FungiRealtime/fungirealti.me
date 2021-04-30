@@ -2,7 +2,7 @@ import { LoaderFunction, MetaFunction, useRouteData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { ChatIcon } from "@heroicons/react/outline";
 import { BellIcon, ChevronRightIcon, GlobeIcon } from "@heroicons/react/solid";
-import { getSession } from "../sessions";
+import { getSession } from "../utils/sessions";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { getGithubOauthUrl } from "../utils/getGithubOauthUrl";

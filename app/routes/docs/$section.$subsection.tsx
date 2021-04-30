@@ -3,10 +3,11 @@ import { LoaderFunction, useRouteData } from "@remix-run/react";
 import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
 import { DocsPageNavigation } from "../../components/DocsPageNavigation";
-import { CompiledMdx, compileMdx } from "../../utils/mdx.server";
+import { MdxPage } from "../../types";
+import { getMdxPage } from "../../utils/mdx.server";
 
 export let meta: MetaFunction = ({ data }) => {
-  let { frontmatter } = data as CompiledMdx;
+  let { frontmatter } = data;
   return {
     title: `${frontmatter.title} - Fungi Docs`,
     description: frontmatter.description,
@@ -14,15 +15,20 @@ export let meta: MetaFunction = ({ data }) => {
 };
 
 export let loader: LoaderFunction = async ({ params }) => {
-  let compiledMdx = await compileMdx(
-    `/docs/${params.section}/${params.subsection}`
-  );
+  let page = await getMdxPage({
+    rootDir: "docs",
+    slug: `${params.section}/${params.subsection}`,
+  });
 
-  return json(compiledMdx);
+  if (!page) {
+    return json(null, { status: 404 });
+  }
+
+  return json(page);
 };
 
 export default function DocsPage() {
-  let { code, frontmatter, sectionsLinks } = useRouteData<CompiledMdx>();
+  let { code, frontmatter, sectionsLinks } = useRouteData<MdxPage>();
   let Component = useMemo(() => getMDXComponent(code), [code]);
 
   return (

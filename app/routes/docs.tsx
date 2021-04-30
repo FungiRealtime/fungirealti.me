@@ -5,88 +5,11 @@ import { SearchIcon } from "@heroicons/react/solid";
 import { json, LoaderFunction } from "@remix-run/node";
 import { useRouteData } from "@remix-run/react";
 import { Outlet, useLocation } from "react-router-dom";
-import { GithubFileOrDir } from "../utils/github.server";
-import { octokit } from "../utils/octokit.server";
-
-interface Tree {
-  path: string;
-  type: string;
-}
-
-interface Subsection {
-  title: string;
-  pathname: string;
-}
-
-interface Section {
-  title: string;
-  subsections: Subsection[];
-}
-
-function prettifyString(str: string) {
-  let withoutHyphens = str.replace(/-/g, " ");
-  return withoutHyphens.charAt(0).toUpperCase() + withoutHyphens.slice(1);
-}
+import { Section } from "../types";
+import { getDocsSections } from "../utils/github.server";
 
 export let loader: LoaderFunction = async () => {
-  let { data: filesOrDirs } = await octokit.request(
-    "GET /repos/{owner}/{repo}/contents/{path}",
-    {
-      owner: "FungiRealtime",
-      repo: "fungirealti.me",
-      path: "content",
-    }
-  );
-
-  let docsTreeSha = (filesOrDirs as GithubFileOrDir[]).find(
-    (fileOrDir) => fileOrDir.name === "docs"
-  )!.sha;
-
-  let { data } = await octokit.request(
-    "GET /repos/{owner}/{repo}/git/trees/{tree_sha}?recursive=1",
-    {
-      owner: "FungiRealtime",
-      repo: "fungirealti.me",
-      tree_sha: docsTreeSha,
-    }
-  );
-
-  let trees = data.tree as Tree[];
-  let sections: Section[] = Object.entries(
-    trees.reduce((acc, tree) => {
-      let paths = tree.path.split("/");
-      let isTree = paths.length === 1 && tree.type === "tree";
-
-      if (isTree) {
-        let leafs = trees.filter(({ path, type }) => {
-          let leafPaths = path.split("/");
-          return (
-            leafPaths.length === 2 &&
-            leafPaths[0] === tree.path &&
-            type === "tree"
-          );
-        });
-
-        return {
-          ...acc,
-          [tree.path]: leafs.map((leaf) => {
-            let leafPaths = leaf.path.split("/");
-            return leafPaths[leafPaths.length - 1];
-          }),
-        };
-      }
-
-      return acc;
-    }, {} as Record<string, string[]>)
-  ).map(([tree, leafs]) => {
-    return {
-      title: prettifyString(tree),
-      subsections: leafs.map((leaf) => ({
-        title: prettifyString(leaf),
-        pathname: `/docs/${tree}/${leaf}`,
-      })),
-    };
-  });
+  let sections = await getDocsSections();
 
   return json({
     sections,
@@ -99,8 +22,8 @@ interface RouteData {
 
 export default function Docs() {
   let { sections } = useRouteData<RouteData>();
-  let [sidebarOpen, setSidebarOpen] = useState(false);
   let { pathname } = useLocation();
+  let [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="lg:max-w-[88rem] mx-auto bg-white flex">
@@ -317,17 +240,6 @@ export default function Docs() {
         </div>
 
         <main className="flex-1 relative focus:outline-none px-4 lg:px-0">
-          {/* <div className="px-4 sm:px-6 lg:px-0">
-              <h1 className="text-2xl font-semibold text-gray-900">Docs</h1>
-            </div> */}
-          {/* <div className="px-4 sm:px-6 lg:px-0"> */}
-          {/* Replace with your content */}
-          {/* <div className="py-4">
-                <div className="h-96 border-4 border-dashed border-gray-200 rounded-lg" />
-              </div> */}
-          {/* /End replace */}
-          {/* </div> */}
-
           <Outlet />
         </main>
       </div>

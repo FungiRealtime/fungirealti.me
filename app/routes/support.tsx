@@ -6,7 +6,7 @@ import {
   MetaFunction,
   redirect,
 } from "@remix-run/node";
-import { commitSession, getSession } from "../sessions";
+import { commitSession, getSession } from "../utils/sessions";
 import { Form, usePendingFormSubmit, useRouteData } from "@remix-run/react";
 import Mailgun from "mailgun-js";
 import { usePublicEnv } from "../hooks/usePublicEnv";

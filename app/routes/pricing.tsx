@@ -8,7 +8,7 @@ import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { usePublicEnv } from "../hooks/usePublicEnv";
 import { prisma } from "../utils/prisma.server";
-import { commitSession, getSession } from "../sessions";
+import { commitSession, getSession } from "../utils/sessions";
 import { stripePromise } from "../utils/stripe.client";
 import { SessionUser } from "../types";
 import { classNames } from "../utils/classNames";

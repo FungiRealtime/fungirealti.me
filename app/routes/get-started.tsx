@@ -3,7 +3,7 @@ import { useRouteData } from "@remix-run/react";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { usePublicEnv } from "../hooks/usePublicEnv";
-import { getSession } from "../sessions";
+import { getSession } from "../utils/sessions";
 import { DataWithUser } from "../types";
 import { getGithubOauthUrl } from "../utils/getGithubOauthUrl";
 

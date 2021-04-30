@@ -1,6 +1,6 @@
 import { json, LoaderFunction, MetaFunction, redirect } from "@remix-run/node";
 import { Fragment } from "react";
-import { getSession } from "../sessions";
+import { getSession } from "../utils/sessions";
 import { getGithubOauthUrl } from "../utils/getGithubOauthUrl";
 import { DashboardHeader, DashboardOutlet } from "../components";
 

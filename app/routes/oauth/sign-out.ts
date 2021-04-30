@@ -1,6 +1,6 @@
 import { redirect } from "@remix-run/node";
 import { LoaderFunction } from "@remix-run/react";
-import { destroySession, getSession } from "../../sessions";
+import { destroySession, getSession } from "../../utils/sessions";
 
 export let loader: LoaderFunction = async ({ request }) => {
   let session = await getSession(request.headers.get("Cookie"));
