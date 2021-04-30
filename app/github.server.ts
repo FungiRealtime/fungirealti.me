@@ -4,6 +4,7 @@ import visit from "unist-util-visit";
 import { bundleMDX } from "mdx-bundler";
 import remarkPrism from "remark-prism";
 import remarkGfm from "remark-gfm";
+import remarkAutoLinkHeadings from "remark-autolink-headings";
 import { octokit } from "./octokit.server";
 
 async function downloadFileBySha(sha: string) {
@@ -80,11 +81,12 @@ export async function getBundledMdx(mdxPath: string): Promise<BundledMdx> {
   let remarkPlugins: PluggableList = [
     remarkGfm,
     remarkPrism,
-    function wrapHeadingsWithLinks() {
+    remarkAutoLinkHeadings,
+    function getSectionsLinks() {
       return function transformer(tree: Node) {
         visit(tree, function visitor(node, index, parent) {
           if (node.type === "heading") {
-            let headingDepth = node.depth; // Whether it's an h1, h2, h3, h4, h5 or h6
+            console.log(node);
           }
         });
       };

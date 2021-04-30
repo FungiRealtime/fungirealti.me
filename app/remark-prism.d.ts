@@ -1,1 +1,1 @@
-declare module "remark-prism";
+declare module "remark-autolink-headings";

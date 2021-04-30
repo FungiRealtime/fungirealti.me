@@ -1,8 +1,6 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
 
-let brandColor = "#f95858";
-
 module.exports = {
   mode: "jit",
   purge: ["./app/**/*.tsx", "./app/**/*.jsx", "./app/**/*.js", "./app/**/*.ts"],
@@ -51,7 +49,7 @@ module.exports = {
     },
     extend: {
       colors: {
-        brand: brandColor,
+        brand: "#f95858",
       },
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
@@ -65,7 +63,29 @@ module.exports = {
               textDecoration: "none",
             },
             "h2 > a": {
-              color: theme("colors.gray.900"),
+              fontWeight: "inherit",
+              color: "inherit",
+              textDecoration: "inherit",
+            },
+            "h3 > a": {
+              fontWeight: "inherit",
+              color: "inherit",
+              textDecoration: "inherit",
+            },
+            "h4 > a": {
+              fontWeight: "inherit",
+              color: "inherit",
+              textDecoration: "inherit",
+            },
+            "h5 > a": {
+              fontWeight: "inherit",
+              color: "inherit",
+              textDecoration: "inherit",
+            },
+            "h6 > a": {
+              fontWeight: "inherit",
+              color: "inherit",
+              textDecoration: "inherit",
             },
           },
         },

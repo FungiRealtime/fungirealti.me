@@ -24,6 +24,8 @@ export default function DocsPage() {
   let { code, frontmatter } = useRouteData<BundledMdx>();
   let Component = useMemo(() => getMDXComponent(code), [code]);
 
+  console.log(code);
+
   return (
     <div className="flex">
       <div className="flex-1">
