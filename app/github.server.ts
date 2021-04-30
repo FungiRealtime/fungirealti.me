@@ -1,4 +1,6 @@
 import type { PluggableList } from "unified";
+import type { Node } from "unist";
+import visit from "unist-util-visit";
 import { bundleMDX } from "mdx-bundler";
 import remarkPrism from "remark-prism";
 import remarkGfm from "remark-gfm";
@@ -73,7 +75,19 @@ export async function getBundledMdx(mdxPath: string): Promise<BundledMdx> {
     );
   }
 
-  let remarkPlugins: PluggableList = [remarkGfm, remarkPrism];
+  let remarkPlugins: PluggableList = [
+    remarkGfm,
+    remarkPrism,
+    function wrapHeadingsWithLinks() {
+      return function transformer(tree: Node) {
+        visit(tree, function visitor(node, index, parent) {
+          if (node.type === "heading") {
+            console.log(node);
+          }
+        });
+      };
+    },
+  ];
 
   let { code, frontmatter } = await bundleMDX(content, {
     xdmOptions(_input, options) {
