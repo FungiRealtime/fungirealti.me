@@ -75,6 +75,8 @@ export async function getBundledMdx(mdxPath: string): Promise<BundledMdx> {
     );
   }
 
+  let sectionsLinks: Record<string, string> = {};
+
   let remarkPlugins: PluggableList = [
     remarkGfm,
     remarkPrism,
@@ -82,7 +84,7 @@ export async function getBundledMdx(mdxPath: string): Promise<BundledMdx> {
       return function transformer(tree: Node) {
         visit(tree, function visitor(node, index, parent) {
           if (node.type === "heading") {
-            console.log(node);
+            let headingDepth = node.depth; // Whether it's an h1, h2, h3, h4, h5 or h6
           }
         });
       };
