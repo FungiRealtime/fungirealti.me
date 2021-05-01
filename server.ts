@@ -25,6 +25,14 @@ let isProd = process.env.NODE_ENV === "production";
 
 if (isProd) {
   app.use(morgan("tiny"));
+  app.use((req, res, next) => {
+    if (req.get("X-Forwarded-Proto") == "http") {
+      // request was via http, so redirect to https
+      res.redirect("https://" + req.headers.host + req.url);
+    } else {
+      next();
+    }
+  });
 } else {
   app.use(morgan("dev"));
 }
@@ -66,8 +74,8 @@ if (isProd) {
   });
 }
 
-let port = process.env.PORT || 3000;
+let port = Number(process.env.PORT) || 3000;
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Express server started on http://localhost:${port}`);
 });

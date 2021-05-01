@@ -3,12 +3,14 @@
   "name": "fungi-website",
   "scripts": {
     "postinstall": "npm run build",
+    "prebuild": "rm -rf build public/build",
     "build": "remix build2",
     "dev:remix": "remix run2",
     "dev:server": "nodemon",
     "dev": "concurrently npm:dev:*",
     "css:watch": "postcss styles --base styles --dir app/styles -w",
-    "css:build": "postcss styles --base styles --dir app/styles --env production"
+    "css:build": "postcss styles --base styles --dir app/styles --env production",
+    "deploy": "flyctl deploy --build-arg REMIX_TOKEN=${REMIX_TOKEN}"
   },
   "dependencies": {
     "@headlessui/react": "^1.0.0",
