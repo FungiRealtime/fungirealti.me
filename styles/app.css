@@ -8,6 +8,57 @@
   src: url(/fonts/inter.var.woff2) format("woff2");
 }
 
+.prose h2::before {
+  content: "";
+  display: block;
+  margin-top: -90px;
+  height: 90px;
+  visibility: hidden;
+  pointer-events: none;
+  position: relative;
+  z-index: -1;
+}
+.prose h3::before {
+  content: "";
+  display: block;
+  margin-top: -90px;
+  height: 90px;
+  visibility: hidden;
+  pointer-events: none;
+  position: relative;
+  z-index: -1;
+}
+.prose h4::before {
+  content: "";
+  display: block;
+  margin-top: -90px;
+  height: 90px;
+  visibility: hidden;
+  pointer-events: none;
+  position: relative;
+  z-index: -1;
+}
+.prose h5::before {
+  content: "";
+  display: block;
+  margin-top: -90px;
+  height: 90px;
+  visibility: hidden;
+  pointer-events: none;
+  position: relative;
+  z-index: -1;
+}
+.prose h6::before {
+  content: "";
+  display: block;
+  margin-top: -90px;
+  height: 90px;
+  visibility: hidden;
+  pointer-events: none;
+  position: relative;
+  z-index: -1;
+}
+
 code[class*="language-"],
 pre[class*="language-"] {
   color: #ebdbb2;

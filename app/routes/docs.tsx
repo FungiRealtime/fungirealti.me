@@ -7,6 +7,7 @@ import { useRouteData } from "@remix-run/react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Section } from "../types";
 import { getDocsSections } from "../utils/github.server";
+import { ActiveHeadingProvider } from "../active-heading-provider";
 
 export let loader: LoaderFunction = async () => {
   let sections = await getDocsSections();
@@ -240,7 +241,9 @@ export default function Docs() {
         </div>
 
         <main className="flex-1 relative focus:outline-none px-4 lg:px-0">
-          <Outlet />
+          <ActiveHeadingProvider>
+            <Outlet />
+          </ActiveHeadingProvider>
         </main>
       </div>
     </div>

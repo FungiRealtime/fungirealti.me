@@ -1,8 +1,9 @@
 import { json, LoaderFunction, MetaFunction, redirect } from "@remix-run/node";
 import { Fragment } from "react";
 import { getSession } from "../utils/sessions";
-import { getGithubOauthUrl } from "../utils/getGithubOauthUrl";
-import { DashboardHeader, DashboardOutlet } from "../components";
+import { getGithubOauthUrl } from "../utils/get-github-oauth-url";
+import { DashboardHeader } from "../components/dashboard-header";
+import { DashboardOutlet } from "../components/dashboard-outlet";
 
 export let meta: MetaFunction = () => {
   return {

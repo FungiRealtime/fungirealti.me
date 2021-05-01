@@ -2,7 +2,7 @@ import { ActionFunction, redirect } from "@remix-run/node";
 import { commitSession, getSession } from "../utils/sessions";
 import { stripe } from "../utils/stripe.server";
 import { getDomain } from "../utils/domain";
-import { getGithubOauthUrl } from "../utils/getGithubOauthUrl";
+import { getGithubOauthUrl } from "../utils/get-github-oauth-url";
 
 export let action: ActionFunction = async ({ request }) => {
   let session = await getSession(request.headers.get("Cookie"));

@@ -7,9 +7,9 @@ import {
   XIcon,
 } from "@heroicons/react/outline";
 import { Fragment } from "react";
-import { usePublicEnv } from "../hooks/usePublicEnv";
+import { usePublicEnv } from "../hooks/use-public-env";
 import { classNames } from "../utils/classNames";
-import { getGithubOauthUrl } from "../utils/getGithubOauthUrl";
+import { getGithubOauthUrl } from "../utils/get-github-oauth-url";
 
 let navigation = [
   { name: "Pricing", href: "/pricing" },

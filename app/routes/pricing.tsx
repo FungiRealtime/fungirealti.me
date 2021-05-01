@@ -4,15 +4,15 @@ import { json, LoaderFunction, MetaFunction, redirect } from "@remix-run/node";
 import { Form, usePendingFormSubmit, useRouteData } from "@remix-run/react";
 import { format, parseISO } from "date-fns";
 import { useEffect } from "react";
-import { Footer } from "../components/Footer";
-import { Header } from "../components/Header";
-import { usePublicEnv } from "../hooks/usePublicEnv";
+import { Footer } from "../components/footer";
+import { Header } from "../components/header";
+import { usePublicEnv } from "../hooks/use-public-env";
 import { prisma } from "../utils/prisma.server";
 import { commitSession, getSession } from "../utils/sessions";
 import { stripePromise } from "../utils/stripe.client";
 import { SessionUser } from "../types";
 import { classNames } from "../utils/classNames";
-import { getGithubOauthUrl } from "../utils/getGithubOauthUrl";
+import { getGithubOauthUrl } from "../utils/get-github-oauth-url";
 
 export let meta: MetaFunction = () => {
   return {

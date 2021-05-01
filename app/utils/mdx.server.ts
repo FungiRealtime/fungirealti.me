@@ -30,7 +30,7 @@ function arrayToObj<ItemType extends Record<string, unknown>>(
   return obj;
 }
 
-async function compileMdx<FrontmatterType extends Record<string, unknown>>(
+async function compileMdx<FrontmatterType extends Record<string, any>>(
   slug: string,
   githubFiles: Array<GitHubFile>
 ): Promise<MdxPage | null> {
@@ -57,7 +57,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
     function getSectionsHeadingsLinks() {
       return function walker(tree: Node) {
         visit(tree, function visitor(node) {
-          if (node.type === "heading" && node.depth === 2 && node.children) {
+          if (node.type === "heading" && node.children) {
             let linkHref = `#${node.data?.id}`;
             let linkText = (node.children as HeadingChild[]).find(
               (child) => child.type === "text" && child.value
@@ -70,6 +70,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
             sectionsLinks.push({
               href: linkHref,
               text: linkText,
+              depth: node.depth as number,
             });
           }
         });
@@ -80,11 +81,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
       {
         behavior: "wrap",
         linkProperties: {
-          className: "hover:text-gray-700 block",
-          style: {
-            paddingTop: "90px",
-            marginTop: "-90px",
-          },
+          className: "hover:text-gray-700",
         },
       },
     ],

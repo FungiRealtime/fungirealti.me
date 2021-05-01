@@ -1,4 +1,4 @@
-import { Header } from "../components/Header";
+import { Header } from "../components/header";
 import {
   ActionFunction,
   json,
@@ -9,8 +9,8 @@ import {
 import { commitSession, getSession } from "../utils/sessions";
 import { Form, usePendingFormSubmit, useRouteData } from "@remix-run/react";
 import Mailgun from "mailgun-js";
-import { usePublicEnv } from "../hooks/usePublicEnv";
-import { getGithubOauthUrl } from "../utils/getGithubOauthUrl";
+import { usePublicEnv } from "../hooks/use-public-env";
+import { getGithubOauthUrl } from "../utils/get-github-oauth-url";
 import { mailgun } from "../utils/mailgun.server";
 import { classNames } from "../utils/classNames";
 

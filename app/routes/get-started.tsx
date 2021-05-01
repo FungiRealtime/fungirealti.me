@@ -1,11 +1,11 @@
 import { json, LoaderFunction, MetaFunction, redirect } from "@remix-run/node";
 import { useRouteData } from "@remix-run/react";
-import { Footer } from "../components/Footer";
-import { Header } from "../components/Header";
-import { usePublicEnv } from "../hooks/usePublicEnv";
+import { Footer } from "../components/footer";
+import { Header } from "../components/header";
+import { usePublicEnv } from "../hooks/use-public-env";
 import { getSession } from "../utils/sessions";
 import { DataWithUser } from "../types";
-import { getGithubOauthUrl } from "../utils/getGithubOauthUrl";
+import { getGithubOauthUrl } from "../utils/get-github-oauth-url";
 
 export let meta: MetaFunction = () => {
   return {

@@ -26,6 +26,7 @@ export interface MdxPage<
 export interface SectionLink {
   text: string;
   href: string;
+  depth: number;
 }
 
 export interface GithubFileOrDir {

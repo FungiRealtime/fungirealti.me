@@ -2,7 +2,7 @@ import { LoaderFunction, MetaFunction, json } from "@remix-run/node";
 import { useRouteData } from "@remix-run/react";
 import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
-import { DocsPageNavigation } from "../../components/DocsPageNavigation";
+import { DocsPageNavigation } from "../../components/docs-page-navigation";
 import { MdxPage } from "../../types";
 import { getMdxPage } from "../../utils/mdx.server";
 
@@ -17,7 +17,7 @@ export let meta: MetaFunction = ({ data }) => {
 export let loader: LoaderFunction = async () => {
   let page = await getMdxPage({
     rootDir: "docs",
-    slug: "", // no slug because we want the docs/index.mdx file
+    slug: "index.mdx", // no slug because we want the docs/index.mdx file
   });
 
   if (!page) {
@@ -41,9 +41,16 @@ export default function GettingStarted() {
 
   return (
     <div className="flex">
-      <div className="prose text-gray-500 flex-1 pt-8 pb-12">
-        <h1>{frontmatter.title}</h1>
-        <Component />
+      <div className="flex-1">
+        <div className="text-gray-500 flex-1 pt-8 pb-10 border-b border-gray-200">
+          <h1 className="text-gray-900 font-bold text-3xl">
+            {frontmatter.title}
+          </h1>
+          <p className="mt-2 text-lg">{frontmatter.description}</p>
+        </div>
+        <div className="prose text-gray-500 pt-8 pb-12">
+          <Component />
+        </div>
       </div>
 
       <DocsPageNavigation links={sectionsLinks} />

@@ -5,7 +5,7 @@ import { format, parseISO } from "date-fns";
 import { prisma } from "../../utils/prisma.server";
 import { commitSession, getSession } from "../../utils/sessions";
 import { DataWithUser, SessionUser } from "../../types";
-import { getGithubOauthUrl } from "../../utils/getGithubOauthUrl";
+import { getGithubOauthUrl } from "../../utils/get-github-oauth-url";
 
 export let handle = {
   label: "Account",

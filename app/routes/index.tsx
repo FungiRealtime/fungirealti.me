@@ -3,10 +3,10 @@ import { json } from "@remix-run/node";
 import { ChatIcon } from "@heroicons/react/outline";
 import { BellIcon, ChevronRightIcon, GlobeIcon } from "@heroicons/react/solid";
 import { getSession } from "../utils/sessions";
-import { Footer } from "../components/Footer";
-import { Header } from "../components/Header";
-import { getGithubOauthUrl } from "../utils/getGithubOauthUrl";
-import { usePublicEnv } from "../hooks/usePublicEnv";
+import { Footer } from "../components/footer";
+import { Header } from "../components/header";
+import { getGithubOauthUrl } from "../utils/get-github-oauth-url";
+import { usePublicEnv } from "../hooks/use-public-env";
 
 export let meta: MetaFunction = () => {
   return {

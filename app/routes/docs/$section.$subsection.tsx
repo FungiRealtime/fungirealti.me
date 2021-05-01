@@ -2,9 +2,10 @@ import { json, MetaFunction } from "@remix-run/node";
 import { LoaderFunction, useRouteData } from "@remix-run/react";
 import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
-import { DocsPageNavigation } from "../../components/DocsPageNavigation";
+import { DocsPageNavigation } from "../../components/docs-page-navigation";
 import { MdxPage } from "../../types";
 import { getMdxPage } from "../../utils/mdx.server";
+import { MDXAnchor } from "../../components/mdx-anchor";
 
 export let meta: MetaFunction = ({ data }) => {
   let { frontmatter } = data;
@@ -41,7 +42,13 @@ export default function DocsPage() {
           <p className="mt-2 text-lg">{frontmatter.description}</p>
         </div>
         <div className="prose text-gray-500 pt-8 pb-12">
-          <Component />
+          <Component
+            components={{
+              a: (props) => (
+                <MDXAnchor {...props} sectionsLinks={sectionsLinks} />
+              ),
+            }}
+          />
         </div>
       </div>
 
