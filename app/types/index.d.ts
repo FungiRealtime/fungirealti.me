@@ -39,12 +39,8 @@ export interface Tree {
   type: string;
 }
 
-export interface Subsection {
-  title: string;
-  pathname: string;
-}
-
 export interface Section {
   title: string;
-  subsections: Subsection[];
+  pathname: string;
+  subsections: Pick<Section, "title" | "pathname">[];
 }

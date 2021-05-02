@@ -8,6 +8,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { Section } from "../types";
 import { getDocsSections } from "../utils/github.server";
 import { ActiveHeadingProvider } from "../active-heading-provider";
+import { OutletDataProvider } from "../outlet-data-provider";
 
 export let loader: LoaderFunction = async () => {
   let sections = await getDocsSections();
@@ -242,7 +243,9 @@ export default function Docs() {
 
         <main className="flex-1 relative focus:outline-none px-4 lg:px-0">
           <ActiveHeadingProvider>
-            <Outlet />
+            <OutletDataProvider data={{ docsSections: sections }}>
+              <Outlet />
+            </OutletDataProvider>
           </ActiveHeadingProvider>
         </main>
       </div>

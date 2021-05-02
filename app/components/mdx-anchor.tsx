@@ -12,7 +12,8 @@ interface AnchorProps extends HTMLProps<HTMLAnchorElement> {
 function HeadingAnchor({ children, sectionsLinks, ...props }: AnchorProps) {
   let { setHrefs } = useActiveHeading();
   let { ref, inView } = useInView({
-    threshold: 0,
+    threshold: 1,
+    rootMargin: "-60px",
   });
 
   useEffect(() => {

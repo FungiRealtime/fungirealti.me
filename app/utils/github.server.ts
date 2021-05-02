@@ -179,6 +179,7 @@ export async function getDocsSections() {
   ).map(([tree, leafs]) => {
     return {
       title: prettifyDirName(tree),
+      pathname: `/docs/${tree}`,
       subsections: leafs.map((leaf) => ({
         title: prettifyDirName(leaf),
         pathname: `/docs/${tree}/${leaf}`,
