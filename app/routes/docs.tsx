@@ -27,7 +27,7 @@ export default function Docs() {
   let [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="lg:max-w-[88rem] mx-auto bg-white flex">
+    <div className="lg:max-w-[88rem] mx-auto bg-white lg:flex">
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
           as="div"

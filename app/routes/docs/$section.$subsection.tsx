@@ -34,7 +34,7 @@ export default function DocsPage() {
 
   return (
     <div className="flex">
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         <div className="text-gray-500 flex-1 pt-8 pb-10 border-b border-gray-200">
           <h1 className="text-gray-900 font-bold text-3xl">
             {frontmatter.title}
