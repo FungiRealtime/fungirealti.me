@@ -54,14 +54,14 @@ function Content({ data }: ContentProps) {
 
   return (
     <div className="flex">
-      <div className="flex-1 min-w-0 pb-24 lg:pb-16">
-        <div className="text-gray-500 flex-1 pt-8 pb-10 border-b border-gray-200">
+      <div id="content" className="flex-1 min-w-0 pb-24 lg:pb-16">
+        <header className="text-gray-500 flex-1 pt-8 pb-10 border-b border-gray-200">
           <h1 className="text-gray-900 font-bold text-3xl">
             {frontmatter.title}
           </h1>
           <p className="mt-2 text-lg">{frontmatter.description}</p>
-        </div>
-        <div className="prose text-gray-500 pt-8">
+        </header>
+        <section className="prose text-gray-500 pt-8">
           <Component
             components={{
               a: (props) => (
@@ -69,7 +69,7 @@ function Content({ data }: ContentProps) {
               ),
             }}
           />
-        </div>
+        </section>
 
         {(previous || next) && (
           <>
@@ -116,12 +116,12 @@ export default function DocsPage() {
     return (
       <div className="flex">
         <div className="flex-1 min-w-0 pb-24 lg:pb-16">
-          <div className="text-gray-500 flex-1 pt-8 pb-10">
+          <header className="text-gray-500 flex-1 pt-8 pb-10">
             <h1 className="text-gray-900 font-bold text-3xl">Page not found</h1>
             <p className="mt-2 text-lg">
               The page you're trying to visit doesn't exist in the docs.
             </p>
-          </div>
+          </header>
         </div>
       </div>
     );
