@@ -8,8 +8,16 @@ import { getMdxPage } from "../../utils/mdx.server";
 import { MDXAnchor } from "../../components/mdx-anchor";
 import { useOutletData } from "../../hooks/use-outlet-data";
 import { useDocsNavigation } from "../../hooks/use-docs-navigation";
+import FourOhFour from "../404";
 
 export let meta: MetaFunction = ({ data }) => {
+  if (!data) {
+    return {
+      title: `Page not found - Fungi Docs`,
+      description: "The page you're trying to visit doesn't exist in the docs.",
+    };
+  }
+
   let { frontmatter } = data;
   return {
     title: `${frontmatter.title} - Fungi Docs`,
@@ -34,8 +42,12 @@ interface OutletData {
   docsSections: Section[];
 }
 
-export default function DocsPage() {
-  let { code, frontmatter, sectionsLinks } = useRouteData<MdxPage>();
+interface ContentProps {
+  data: MdxPage;
+}
+
+function Content({ data }: ContentProps) {
+  let { code, frontmatter, sectionsLinks } = data;
   let Component = useMemo(() => getMDXComponent(code), [code]);
   let { docsSections } = useOutletData<OutletData>();
   let { previous, next } = useDocsNavigation(docsSections);
@@ -59,36 +71,61 @@ export default function DocsPage() {
           />
         </div>
 
-        <hr className="border-gray-200 mt-10 mb-4" />
+        {(previous || next) && (
+          <>
+            <hr className="border-gray-200 mt-10 mb-4" />
 
-        <div className="flex font-medium leading-6">
-          {previous && (
-            <a
-              href={previous.pathname}
-              className="mr-8 transition-colors text-gray-500 hover:text-gray-900 inline-flex items-start"
-            >
-              <span aria-hidden="true" className="mr-2">
-                ←
-              </span>
-              {previous.title}
-            </a>
-          )}
+            <div className="flex font-medium leading-6">
+              {previous && (
+                <a
+                  href={previous.pathname}
+                  className="mr-8 transition-colors text-gray-500 hover:text-gray-900 inline-flex items-start"
+                >
+                  <span aria-hidden="true" className="mr-2">
+                    ←
+                  </span>
+                  {previous.title}
+                </a>
+              )}
 
-          {next && (
-            <a
-              href={next.pathname}
-              className="transition-colors text-right text-gray-500 hover:text-gray-900 inline-flex items-start ml-auto"
-            >
-              {next.title}
-              <span aria-hidden="true" className="ml-2">
-                →
-              </span>
-            </a>
-          )}
-        </div>
+              {next && (
+                <a
+                  href={next.pathname}
+                  className="transition-colors text-right text-gray-500 hover:text-gray-900 inline-flex items-start ml-auto"
+                >
+                  {next.title}
+                  <span aria-hidden="true" className="ml-2">
+                    →
+                  </span>
+                </a>
+              )}
+            </div>
+          </>
+        )}
       </div>
 
       <DocsPageNavigation links={sectionsLinks} />
     </div>
   );
+}
+
+export default function DocsPage() {
+  let data = useRouteData<MdxPage | null>();
+
+  if (!data) {
+    return (
+      <div className="flex">
+        <div className="flex-1 min-w-0 pb-24 lg:pb-16">
+          <div className="text-gray-500 flex-1 pt-8 pb-10">
+            <h1 className="text-gray-900 font-bold text-3xl">Page not found</h1>
+            <p className="mt-2 text-lg">
+              The page you're trying to visit doesn't exist in the docs.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return <Content data={data} />;
 }

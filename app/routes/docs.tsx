@@ -182,7 +182,7 @@ export default function Docs() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col lg:pl-0 lg:pr-8 min-w-0">
+      <div className="flex flex-col lg:pl-0 lg:pr-8 min-w-0 flex-1">
         <div className="sticky top-0 z-10 lg:pt-1 flex-shrink-0 h-16 bg-white border-b border-gray-200 flex">
           <button
             className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand lg:hidden"
