@@ -2,10 +2,9 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useMatches, useRouteData } from "@remix-run/react";
 import { Fragment } from "react";
-import { useLocation } from "react-router-dom";
 import { DataWithUser } from "../types";
 import { classNames } from "../utils/classNames";
-import { isSamePathname } from "../utils/routes";
+import { MyNavLink } from "./my-nav-link";
 
 let navigation = [
   { label: "Account", href: "/dashboard" },
@@ -21,7 +20,6 @@ let profileLinks = [
 export function DashboardHeader() {
   let { user } = useRouteData<DataWithUser>();
   let matches = useMatches();
-  let location = useLocation();
   let routeLabel = matches.find((match) => match.handle?.label)?.handle.label;
 
   return (
@@ -44,25 +42,16 @@ export function DashboardHeader() {
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
-                        {navigation.map((link) =>
-                          isSamePathname(location.pathname, link.href) ? (
-                            <a
-                              key={link.href}
-                              href={link.href}
-                              className="bg-gray-800 text-white px-3 py-2 rounded-md text-sm font-medium"
-                            >
-                              {link.label}
-                            </a>
-                          ) : (
-                            <a
-                              key={link.href}
-                              href={link.href}
-                              className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                            >
-                              {link.label}
-                            </a>
-                          )
-                        )}
+                        {navigation.map((link) => (
+                          <MyNavLink
+                            key={link.href}
+                            to={link.href}
+                            className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                            activeClassName="bg-gray-800 text-white px-3 py-2 rounded-md text-sm font-medium"
+                          >
+                            {link.label}
+                          </MyNavLink>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -138,25 +127,16 @@ export function DashboardHeader() {
 
             <Disclosure.Panel className="border-b border-gray-700 md:hidden">
               <div className="px-2 py-3 space-y-1 sm:px-3">
-                {navigation.map((link) =>
-                  isSamePathname(location.pathname, link.href) ? (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      className="bg-gray-800 text-white block px-3 py-2 rounded-md text-base font-medium"
-                    >
-                      {link.label}
-                    </a>
-                  ) : (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                    >
-                      {link.label}
-                    </a>
-                  )
-                )}
+                {navigation.map((link) => (
+                  <MyNavLink
+                    key={link.href}
+                    to={link.href}
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                    activeClassName="bg-gray-800 text-white block px-3 py-2 rounded-md text-base font-medium"
+                  >
+                    {link.label}
+                  </MyNavLink>
+                ))}
               </div>
               <div className="pt-4 pb-3 border-t border-gray-700">
                 <div className="flex items-center px-5">

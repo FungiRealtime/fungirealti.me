@@ -82,6 +82,7 @@ async function compileMdx<FrontmatterType extends Record<string, any>>(
         behavior: "wrap",
         linkProperties: {
           className: "hover:text-gray-700",
+          "data-heading": "true",
         },
       },
     ],

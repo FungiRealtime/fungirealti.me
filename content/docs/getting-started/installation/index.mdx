@@ -5,6 +5,8 @@ description: "Learn how to get Fungi up and running in your project."
 
 ## Requirements
 
+- [A license](/pricing). In order to use Fungi's products, you must be a member of our GitHub org and the only way to join it is by purchasing a license, read the [getting started](/docs) doc to learn more.
+
 - [Docker](https://www.docker.com/). You can run Fungi anywhere it's available. This documentation assumes you're familiar with it and its ecosystem.
 
 - [Redis](https://redis.io/). You must run a redis instance locally to which Fungi will connect and use for communication. You can use Docker to run redis since you'll be needing it either way.
@@ -22,14 +24,10 @@ Go ahead and [install Docker](https://www.docker.com/get-started) if you haven't
 
 1. Get a GitHub personal access token (PAT). Follow the instructions [here](https://docs.github.com/github/authenticating-to-github/creating-a-personal-access-token) to create one and make sure you select the `read:packages` scope.
 
-2. Login with Docker:
+2. Login with Docker using the PAT from the previous step:
 
 ```sh
-# You can either use an environment variable like we did here for the personal access token (PAT) which is the recommended way or echo it directly.
-
-# Replace github-username with your GitHub username.
-
-echo $PAT | docker login ghcr.io --username github-username --password-stdin
+$ echo $PAT | docker login ghcr.io --username github-username --password-stdin
 ```
 
 You should see a `Login succeeded` message on your terminal if the login was successful.
