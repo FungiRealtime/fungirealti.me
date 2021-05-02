@@ -1,8 +1,5 @@
 let navigation = {
-  learn: [
-    { name: "Documentation", href: "/docs" },
-    { name: "Tutorials", href: "/tutorials" },
-  ],
+  learn: [{ name: "Documentation", href: "/docs" }],
   support: [
     { name: "Pricing", href: "/pricing" },
     { name: "Talk to us", href: "/support" },

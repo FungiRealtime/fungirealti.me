@@ -206,11 +206,6 @@ export default function Support() {
                       Documentation
                     </a>
                   </li>
-                  <li>
-                    <a className="text-brand underline" href="/tutorials">
-                      Tutorials
-                    </a>
-                  </li>
                 </ul>
               </div>
 

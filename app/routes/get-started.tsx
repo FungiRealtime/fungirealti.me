@@ -181,11 +181,6 @@ export default function GetStarted() {
                   Documentation
                 </a>
               </li>
-              <li>
-                <a className="text-brand underline" href="/tutorials">
-                  Tutorials
-                </a>
-              </li>
             </ul>
             <img
               className="w-full rounded-lg"

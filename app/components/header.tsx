@@ -1,15 +1,12 @@
 import { Popover, Transition } from "@headlessui/react";
 import {
-  AcademicCapIcon,
   ChevronDownIcon,
   DocumentTextIcon,
   MenuIcon,
   XIcon,
 } from "@heroicons/react/outline";
 import { Fragment } from "react";
-import { usePublicEnv } from "../hooks/use-public-env";
 import { classNames } from "../utils/classNames";
-import { getGithubOauthUrl } from "../utils/get-github-oauth-url";
 
 let navigation = [
   { name: "Pricing", href: "/pricing" },
@@ -22,13 +19,6 @@ let developersNavigation = [
     description: "Read the docs to learn how to use our products.",
     href: "/docs",
     icon: DocumentTextIcon,
-  },
-  {
-    name: "Tutorials",
-    description:
-      "Explore our tutorials to build real world apps with our products.",
-    href: "/tutorials",
-    icon: AcademicCapIcon,
   },
 ];
 

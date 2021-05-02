@@ -10,7 +10,6 @@ import { isSamePathname } from "../utils/routes";
 let navigation = [
   { label: "Account", href: "/dashboard" },
   { label: "Docs", href: "/docs" },
-  { label: "Tutorials", href: "/tutorials" },
   { label: "Support", href: "/support" },
 ];
 
