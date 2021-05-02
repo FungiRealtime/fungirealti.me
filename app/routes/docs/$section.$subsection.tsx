@@ -2,12 +2,12 @@ import { json, MetaFunction } from "@remix-run/node";
 import { LoaderFunction, useRouteData } from "@remix-run/react";
 import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
-import { useLocation } from "react-router-dom";
 import { DocsPageNavigation } from "../../components/docs-page-navigation";
 import { MdxPage, Section } from "../../types";
 import { getMdxPage } from "../../utils/mdx.server";
 import { MDXAnchor } from "../../components/mdx-anchor";
 import { useOutletData } from "../../hooks/use-outlet-data";
+import { useDocsNavigation } from "../../hooks/use-docs-navigation";
 
 export let meta: MetaFunction = ({ data }) => {
   let { frontmatter } = data;
@@ -34,31 +34,11 @@ interface OutletData {
   docsSections: Section[];
 }
 
-function usePreviousAndNextSections(
-  docsSections: Section[]
-): [
-  Pick<Section, "title" | "pathname"> | undefined,
-  Pick<Section, "title" | "pathname"> | undefined
-] {
-  let [previousSection, nextSection] =
-    docsSections
-      .find((section) => location.pathname.startsWith(section.pathname))
-      ?.subsections.filter(
-        (_, index, subsections) =>
-          location.pathname.startsWith(subsections[index + 1]?.pathname) ||
-          location.pathname.startsWith(subsections[index - 1]?.pathname)
-      ) ?? [];
-
-  return [previousSection, nextSection];
-}
-
 export default function DocsPage() {
   let { code, frontmatter, sectionsLinks } = useRouteData<MdxPage>();
   let Component = useMemo(() => getMDXComponent(code), [code]);
   let { docsSections } = useOutletData<OutletData>();
-  let [previousSection, nextSection] = usePreviousAndNextSections(docsSections);
-
-  console.log({ previousSection, nextSection });
+  let { previous, next } = useDocsNavigation(docsSections);
 
   return (
     <div className="flex">
@@ -82,24 +62,29 @@ export default function DocsPage() {
         <hr className="border-gray-200 mt-10 mb-4" />
 
         <div className="flex font-medium leading-6">
-          <a
-            href="#"
-            className="mr-8 transition-colors text-gray-500 hover:text-gray-900 inline-flex items-start"
-          >
-            <span aria-hidden="true" className="mr-2">
-              ←
-            </span>
-            Previous page
-          </a>
-          <a
-            href="#"
-            className="transition-colors text-right text-gray-500 hover:text-gray-900 inline-flex items-start ml-auto"
-          >
-            Next page
-            <span aria-hidden="true" className="ml-2">
-              →
-            </span>
-          </a>
+          {previous && (
+            <a
+              href={previous.pathname}
+              className="mr-8 transition-colors text-gray-500 hover:text-gray-900 inline-flex items-start"
+            >
+              <span aria-hidden="true" className="mr-2">
+                ←
+              </span>
+              {previous.title}
+            </a>
+          )}
+
+          {next && (
+            <a
+              href={next.pathname}
+              className="transition-colors text-right text-gray-500 hover:text-gray-900 inline-flex items-start ml-auto"
+            >
+              {next.title}
+              <span aria-hidden="true" className="ml-2">
+                →
+              </span>
+            </a>
+          )}
         </div>
       </div>
 
