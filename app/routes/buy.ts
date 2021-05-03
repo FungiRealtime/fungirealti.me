@@ -1,4 +1,4 @@
-import { ActionFunction, redirect } from "@remix-run/node";
+import { ActionFunction, redirect } from "remix";
 import { commitSession, getSession } from "../utils/sessions";
 import { stripe } from "../utils/stripe.server";
 import { getDomain } from "../utils/domain";

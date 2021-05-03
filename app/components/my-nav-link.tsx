@@ -9,7 +9,7 @@ interface MyNavLinkProps extends LinkProps {
   activeClassName?: string;
   caseSensitive?: boolean;
   end?: boolean;
-  navigation: "browser" | "js";
+  navigation?: "browser" | "js";
 }
 
 // This component does the same as react router's <NavLink> with the difference

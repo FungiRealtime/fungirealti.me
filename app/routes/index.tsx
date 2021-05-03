@@ -1,5 +1,5 @@
-import { LoaderFunction, MetaFunction, useRouteData } from "@remix-run/react";
-import { json } from "@remix-run/node";
+import { LoaderFunction, MetaFunction, useRouteData } from "remix";
+import { json } from "remix";
 import { ChatIcon } from "@heroicons/react/outline";
 import { BellIcon, ChevronRightIcon, GlobeIcon } from "@heroicons/react/solid";
 import { getSession } from "../utils/sessions";
@@ -100,7 +100,7 @@ export default function Index() {
                   <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0">
                     <img
                       className="w-full lg:max-w-none"
-                      src="/hero.svg"
+                      src="/images/hero.svg"
                       alt="Collaboration"
                     />
                   </div>

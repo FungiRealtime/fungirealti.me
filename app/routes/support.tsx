@@ -5,9 +5,9 @@ import {
   LoaderFunction,
   MetaFunction,
   redirect,
-} from "@remix-run/node";
+} from "remix";
 import { commitSession, getSession } from "../utils/sessions";
-import { Form, usePendingFormSubmit, useRouteData } from "@remix-run/react";
+import { Form, usePendingFormSubmit, useRouteData } from "remix";
 import Mailgun from "mailgun-js";
 import { usePublicEnv } from "../hooks/use-public-env";
 import { getGithubOauthUrl } from "../utils/get-github-oauth-url";
@@ -209,7 +209,11 @@ export default function Support() {
                 </ul>
               </div>
 
-              <img className="mt-12 w-[60%]" src="/mail_sent.svg" alt="" />
+              <img
+                className="mt-12 w-[60%]"
+                src="/images/mail_sent.svg"
+                alt=""
+              />
             </div>
           ) : (
             <>

@@ -1,4 +1,4 @@
-import { MetaFunction } from "@remix-run/react";
+import { MetaFunction } from "remix";
 
 export let meta: MetaFunction = () => {
   return {
@@ -16,7 +16,7 @@ export default function FourOhFour() {
           <a href="/">
             <img
               className="mx-auto h-64"
-              src="/logo_transparent_letters.png"
+              src="/images/logo_transparent_letters.png"
               alt="Logo"
             />
           </a>

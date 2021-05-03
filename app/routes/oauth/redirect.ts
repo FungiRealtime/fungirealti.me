@@ -1,5 +1,5 @@
-import { json, LoaderFunction, redirect } from "@remix-run/node";
-import { useRouteData } from "@remix-run/react";
+import { json, LoaderFunction, redirect } from "remix";
+import { useRouteData } from "remix";
 import { prisma } from "../../utils/prisma.server";
 import { commitSession, getSession } from "../../utils/sessions";
 

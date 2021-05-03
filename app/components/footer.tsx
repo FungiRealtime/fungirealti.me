@@ -35,7 +35,11 @@ export function Footer() {
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-8 xl:col-span-1">
             <a href="/">
-              <img className="h-10" src="/logo_transparent.png" alt="Fungi" />
+              <img
+                className="h-10"
+                src="/images/logo_transparent.png"
+                alt="Fungi"
+              />
             </a>
             <p className="text-gray-500 text-base">
               Powering realtime experiences with robust and easy to use APIs and

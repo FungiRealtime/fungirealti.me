@@ -1,4 +1,4 @@
-import { json, LoaderFunction, MetaFunction, redirect } from "@remix-run/node";
+import { json, LoaderFunction, MetaFunction, redirect } from "remix";
 import { Fragment } from "react";
 import { getSession } from "../utils/sessions";
 import { getGithubOauthUrl } from "../utils/get-github-oauth-url";

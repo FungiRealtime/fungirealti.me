@@ -1,5 +1,5 @@
-import { HeadersFunction, json, MetaFunction } from "@remix-run/node";
-import { LoaderFunction, useRouteData } from "@remix-run/react";
+import { HeadersFunction, json, MetaFunction } from "remix";
+import { LoaderFunction, useRouteData } from "remix";
 import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
 import { DocsPageNavigation } from "../../components/docs-page-navigation";

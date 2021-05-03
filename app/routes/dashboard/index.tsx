@@ -1,6 +1,6 @@
 import { StripeCustomer } from ".prisma/client";
-import { json, redirect } from "@remix-run/node";
-import { LoaderFunction, useRouteData } from "@remix-run/react";
+import { json, redirect } from "remix";
+import { LoaderFunction, useRouteData } from "remix";
 import { format, parseISO } from "date-fns";
 import { prisma } from "../../utils/prisma.server";
 import { commitSession, getSession } from "../../utils/sessions";

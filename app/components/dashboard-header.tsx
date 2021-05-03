@@ -1,6 +1,6 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import { useMatches, useRouteData } from "@remix-run/react";
+import { useMatches, useRouteData } from "remix";
 import { Fragment } from "react";
 import { DataWithUser } from "../types";
 import { classNames } from "../utils/classNames";
@@ -35,7 +35,7 @@ export function DashboardHeader() {
                       <a href="/">
                         <img
                           className="h-8 w-8"
-                          src="/logo_transparent.png"
+                          src="/images/logo_transparent.png"
                           alt="Logo"
                         />
                       </a>

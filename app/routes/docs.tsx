@@ -1,8 +1,8 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
-import { HeadersFunction, json, LoaderFunction } from "@remix-run/node";
-import { useRouteData } from "@remix-run/react";
+import { HeadersFunction, json, LoaderFunction } from "remix";
+import { useRouteData } from "remix";
 import { Outlet, useLocation } from "react-router-dom";
 import { Section } from "../types";
 import { getDocsSections } from "../utils/github.server";
@@ -94,7 +94,7 @@ export default function Docs() {
               <div className="flex-shrink-0 px-4 flex items-center">
                 <img
                   className="h-12 sm:h-10 w-auto"
-                  src="/logo_transparent.png"
+                  src="/images/logo_transparent.png"
                   alt="Fungi"
                 />
               </div>
@@ -209,7 +209,7 @@ export default function Docs() {
             <div className="hidden lg:flex items-center mr-6">
               <img
                 className="h-8 w-auto"
-                src="/logo_transparent.png"
+                src="/images/logo_transparent.png"
                 alt="Fungi"
               />
             </div>

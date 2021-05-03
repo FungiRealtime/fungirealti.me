@@ -5,9 +5,9 @@ import remarkPrism from "remark-prism";
 import remarkGfm from "remark-gfm";
 import remarkSlug from "remark-slug";
 import remarkAutoLinkHeadings from "remark-autolink-headings";
-import visit from "unist-util-visit";
 import { downloadMdxFileOrDirectory } from "./github.server";
 import { GitHubFile, SectionLink, MdxPage } from "../types";
+import visit from "unist-util-visit";
 
 interface HeadingChild {
   type: string;

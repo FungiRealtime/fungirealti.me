@@ -43,7 +43,7 @@ export function Header({ isLoggedIn, githubOAuthUrl }: HeaderProps) {
                     <span className="sr-only">Fungi</span>
                     <img
                       className="h-8 w-auto sm:h-10"
-                      src="/logo_transparent.png"
+                      src="/images/logo_transparent.png"
                       alt="Fungi logo"
                     />
                   </a>
@@ -178,7 +178,7 @@ export function Header({ isLoggedIn, githubOAuthUrl }: HeaderProps) {
                   <div>
                     <img
                       className="h-8 w-auto"
-                      src="/logo_transparent.png"
+                      src="/images/logo_transparent.png"
                       alt="Fungi logo"
                     />
                   </div>

@@ -1,7 +1,7 @@
 import { StripeCustomer } from ".prisma/client";
 import { CheckCircleIcon } from "@heroicons/react/outline";
-import { json, LoaderFunction, MetaFunction, redirect } from "@remix-run/node";
-import { Form, usePendingFormSubmit, useRouteData } from "@remix-run/react";
+import { json, LoaderFunction, MetaFunction, redirect } from "remix";
+import { Form, usePendingFormSubmit, useRouteData } from "remix";
 import { format, parseISO } from "date-fns";
 import { useEffect } from "react";
 import { Footer } from "../components/footer";

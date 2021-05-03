@@ -1,12 +1,12 @@
 import {
+  LiveReload,
   Meta,
   Links,
   Scripts,
-  useLiveReload,
   LinksFunction,
   LoaderFunction,
   useRouteData,
-} from "@remix-run/react";
+} from "remix";
 import { Outlet } from "react-router-dom";
 import styles from "./styles/app.css";
 
@@ -28,7 +28,6 @@ export let loader: LoaderFunction = () => {
 
 export default function App() {
   let data = useRouteData();
-  useLiveReload();
 
   return (
     <html lang="en">
@@ -47,6 +46,7 @@ export default function App() {
           }}
         />
         <Scripts />
+        {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>
   );
