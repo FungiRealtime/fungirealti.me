@@ -53,7 +53,7 @@ interface RouteData {
 export default function Index() {
   let { isLoggedIn } = useRouteData<RouteData>();
   let { PUBLIC_GITHUB_CLIENT_ID } = usePublicEnv();
-  let githubOAuthUrl = getGithubOauthUrl(PUBLIC_GITHUB_CLIENT_ID);
+  let githubOAuthUrl = getGithubOauthUrl(PUBLIC_GITHUB_CLIENT_ID!);
 
   return (
     <div className="min-h-screen">

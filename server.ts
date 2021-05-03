@@ -6,6 +6,7 @@ import morgan from "morgan";
 import { createRequestHandler } from "@remix-run/express";
 import { stripeWebhook } from "./webhooks/stripe";
 
+let isProd = process.env.NODE_ENV === "production";
 let app = express();
 
 // Responses should be served with compression to minimize total network bytes.
@@ -14,17 +15,7 @@ let app = express();
 // purpose of this starter repository, but feel free to (re)move it or change it.
 app.use(compression());
 
-app.use(
-  express.static("public", {
-    immutable: true,
-    maxAge: "1y",
-  })
-);
-
-let isProd = process.env.NODE_ENV === "production";
-
 if (isProd) {
-  app.use(morgan("tiny"));
   app.use((req, res, next) => {
     if (req.get("X-Forwarded-Proto") == "http") {
       // request was via http, so redirect to https
@@ -33,6 +24,17 @@ if (isProd) {
       next();
     }
   });
+}
+
+app.use(
+  express.static("public", {
+    immutable: true,
+    maxAge: "1y",
+  })
+);
+
+if (isProd) {
+  app.use(morgan("tiny"));
 } else {
   app.use(morgan("dev"));
 }

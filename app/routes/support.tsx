@@ -109,7 +109,7 @@ export default function Support() {
     isSuccess,
   } = useRouteData<RouteData>();
   let { PUBLIC_GITHUB_CLIENT_ID } = usePublicEnv();
-  let githubOAuthUrl = getGithubOauthUrl(PUBLIC_GITHUB_CLIENT_ID);
+  let githubOAuthUrl = getGithubOauthUrl(PUBLIC_GITHUB_CLIENT_ID!);
   let pendingSubmit = usePendingFormSubmit();
 
   return (

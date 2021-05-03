@@ -102,8 +102,8 @@ export function DocsSearch() {
             initialQuery={initialQuery}
             initialScrollY={window.scrollY}
             onClose={onClose}
-            indexName={PUBLIC_ALGOLIA_INDEX}
-            apiKey={PUBLIC_ALGOLIA_API_KEY}
+            indexName={PUBLIC_ALGOLIA_INDEX!}
+            apiKey={PUBLIC_ALGOLIA_API_KEY!}
             appId={PUBLIC_ALGOLIA_APP_ID}
             // @ts-ignore
             navigator={{

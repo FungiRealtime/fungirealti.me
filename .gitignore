@@ -6,4 +6,4 @@ public/build
 app/styles
 build
 server-build
-.env.algolia
+.env.algolia-docsearch

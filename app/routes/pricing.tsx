@@ -67,7 +67,7 @@ interface RouteData {
 export default function Pricing() {
   let { user, stripeCustomer, checkoutSessionId } = useRouteData<RouteData>();
   let { PUBLIC_GITHUB_CLIENT_ID } = usePublicEnv();
-  let githubOAuthUrl = getGithubOauthUrl(PUBLIC_GITHUB_CLIENT_ID, "/pricing");
+  let githubOAuthUrl = getGithubOauthUrl(PUBLIC_GITHUB_CLIENT_ID!, "/pricing");
   let pendingSubmit = usePendingFormSubmit();
   let isCheckingOut = !!pendingSubmit || !!checkoutSessionId;
 

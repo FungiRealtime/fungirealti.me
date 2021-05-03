@@ -31,7 +31,7 @@ export default function GetStarted() {
   let { user } = useRouteData<DataWithUser>();
   let { PUBLIC_GITHUB_CLIENT_ID } = usePublicEnv();
   let githubOAuthUrl = getGithubOauthUrl(
-    PUBLIC_GITHUB_CLIENT_ID,
+    PUBLIC_GITHUB_CLIENT_ID!,
     "/get-started"
   );
 
