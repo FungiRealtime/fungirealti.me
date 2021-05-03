@@ -75,15 +75,15 @@ export function DocsSearch() {
         type="button"
         ref={searchButtonRef}
         onClick={onOpen}
-        className="group leading-6 font-medium flex items-center space-x-3 sm:space-x-4 hover:text-gray-600 transition-colors duration-200 w-full py-2 sm:text-sm"
+        className="group leading-6 font-medium flex items-center space-x-3 sm:space-x-4 hover:text-gray-600 transition-colors duration-200 w-full py-2"
       >
-        <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+        <SearchIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />
         <span className="text-gray-500">
           Quick search<span className="hidden sm:inline"> for anything</span>
         </span>
         <span
           style={{ opacity: browserDetected ? "1" : "0" }}
-          className="hidden sm:block text-gray-400 text-sm leading-5 py-0.5 px-1.5 border border-gray-300 rounded-md sm:text-sm"
+          className="hidden sm:block text-gray-400 leading-5 py-0.5 px-1.5 border border-gray-300 rounded-md"
         >
           <span className="sr-only">Press </span>
           <kbd className="font-sans">
