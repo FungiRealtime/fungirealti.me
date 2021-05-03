@@ -1,7 +1,6 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
-import { SearchIcon } from "@heroicons/react/solid";
 import { json, LoaderFunction } from "@remix-run/node";
 import { useRouteData } from "@remix-run/react";
 import { Outlet, useLocation } from "react-router-dom";
@@ -9,6 +8,7 @@ import { Section } from "../types";
 import { getDocsSections } from "../utils/github.server";
 import { ActiveHeadingProvider } from "../active-heading-provider";
 import { OutletDataProvider } from "../outlet-data-provider";
+import { DocsSearch } from "../components/docs-search";
 
 export let loader: LoaderFunction = async () => {
   let sections = await getDocsSections();
@@ -201,23 +201,7 @@ export default function Docs() {
             </div>
 
             <div className="flex-1 flex">
-              <form className="w-full flex lg:ml-0" action="#" method="GET">
-                <label htmlFor="search_field" className="sr-only">
-                  Search
-                </label>
-                <div className="relative w-full text-gray-400 focus-within:text-gray-600">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center">
-                    <SearchIcon className="h-5 w-5" aria-hidden="true" />
-                  </div>
-                  <input
-                    id="search_field"
-                    className="block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm"
-                    placeholder="Search"
-                    type="search"
-                    name="search"
-                  />
-                </div>
-              </form>
+              <DocsSearch />
             </div>
             <div className="ml-4 flex items-center lg:ml-6">
               <a

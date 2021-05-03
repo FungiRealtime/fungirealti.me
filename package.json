@@ -13,6 +13,7 @@
     "deploy": "flyctl deploy --build-arg REMIX_TOKEN=${REMIX_TOKEN}"
   },
   "dependencies": {
+    "@docsearch/react": "^1.0.0-alpha.27",
     "@headlessui/react": "^1.0.0",
     "@heroicons/react": "^1.0.1",
     "@octokit/rest": "^18.5.3",
