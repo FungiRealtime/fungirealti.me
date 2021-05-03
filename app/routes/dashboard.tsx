@@ -1,4 +1,10 @@
-import { json, LoaderFunction, MetaFunction, redirect } from "remix";
+import {
+  HeadersFunction,
+  json,
+  LoaderFunction,
+  MetaFunction,
+  redirect,
+} from "remix";
 import { Fragment } from "react";
 import { getSession } from "../utils/sessions";
 import { getGithubOauthUrl } from "../utils/get-github-oauth-url";
@@ -21,6 +27,12 @@ export let loader: LoaderFunction = async ({ request }) => {
   }
 
   return json({ user: session.get("user") });
+};
+
+export let headers: HeadersFunction = () => {
+  return {
+    "Cache-Control": "max-age=0",
+  };
 };
 
 export default function Dashboard() {

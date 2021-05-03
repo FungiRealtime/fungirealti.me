@@ -1,5 +1,5 @@
 import { StripeCustomer } from ".prisma/client";
-import { json, redirect } from "remix";
+import { HeadersFunction, json, redirect } from "remix";
 import { LoaderFunction, useRouteData } from "remix";
 import { format, parseISO } from "date-fns";
 import { prisma } from "../../utils/prisma.server";
@@ -9,6 +9,12 @@ import { getGithubOauthUrl } from "../../utils/get-github-oauth-url";
 
 export let handle = {
   label: "Account",
+};
+
+export let headers: HeadersFunction = ({ parentHeaders }) => {
+  return {
+    "Cache-Control": parentHeaders.get("Cache-Control")!,
+  };
 };
 
 export let loader: LoaderFunction = async ({ request }) => {

@@ -1,6 +1,12 @@
 import { StripeCustomer } from ".prisma/client";
 import { CheckCircleIcon } from "@heroicons/react/outline";
-import { json, LoaderFunction, MetaFunction, redirect } from "remix";
+import {
+  HeadersFunction,
+  json,
+  LoaderFunction,
+  MetaFunction,
+  redirect,
+} from "remix";
 import { Form, usePendingFormSubmit, useRouteData } from "remix";
 import { format, parseISO } from "date-fns";
 import { useEffect } from "react";
@@ -63,6 +69,12 @@ interface RouteData {
   stripeCustomer: StripeCustomer | null;
   checkoutSessionId?: string;
 }
+
+export let headers: HeadersFunction = () => {
+  return {
+    "Cache-Control": "max-age=0",
+  };
+};
 
 export default function Pricing() {
   let { user, stripeCustomer, checkoutSessionId } = useRouteData<RouteData>();
