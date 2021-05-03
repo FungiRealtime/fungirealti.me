@@ -87,7 +87,7 @@ export function DocsSearch() {
         >
           <span className="sr-only">Press </span>
           <kbd className="font-sans">
-            <abbr title={actionKey[1]} className="no-underline">
+            <abbr title={actionKey[1]} style={{ textDecoration: "none" }}>
               {actionKey[0]}
             </abbr>
           </kbd>
