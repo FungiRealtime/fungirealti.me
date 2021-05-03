@@ -41,7 +41,7 @@ export default function GettingStarted() {
 
   return (
     <div className="flex">
-      <div id="content" className="flex-1">
+      <div className="flex-1">
         <header className="text-gray-500 flex-1 pt-8 pb-10 border-b border-gray-200">
           <h1 className="text-gray-900 font-bold text-3xl">
             {frontmatter.title}
