@@ -8,7 +8,6 @@ import { getMdxPage } from "../../utils/mdx.server";
 import { MDXAnchor } from "../../components/mdx-anchor";
 import { useOutletData } from "../../hooks/use-outlet-data";
 import { useDocsNavigation } from "../../hooks/use-docs-navigation";
-import FourOhFour from "../404";
 
 export let meta: MetaFunction = ({ data }) => {
   if (!data) {
