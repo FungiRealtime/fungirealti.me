@@ -3,11 +3,18 @@ import path from "path";
 import express from "express";
 import compression from "compression";
 import morgan from "morgan";
+import helmet from "helmet";
 import { createRequestHandler } from "@remix-run/express";
 import { stripeWebhook } from "./webhooks/stripe";
 
 let isProd = process.env.NODE_ENV === "production";
 let app = express();
+
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
 // Responses should be served with compression to minimize total network bytes.
 // However, where this compression happens can vary wildly depending on your stack
