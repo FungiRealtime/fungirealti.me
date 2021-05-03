@@ -1,0 +1,5 @@
+version: "3"
+services:
+  docsearch-scrapper:
+    image: algolia/docsearch-scraper
+    env_file: ./.env.algolia
