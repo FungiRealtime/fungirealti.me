@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
-import { json, LoaderFunction } from "@remix-run/node";
+import { HeadersFunction, json, LoaderFunction } from "@remix-run/node";
 import { useRouteData } from "@remix-run/react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Section } from "../types";
@@ -13,9 +13,23 @@ import { DocsSearch } from "../components/docs-search";
 export let loader: LoaderFunction = async () => {
   let sections = await getDocsSections();
 
-  return json({
-    sections,
-  });
+  return json(
+    {
+      sections,
+    },
+    {
+      headers: {
+        "Cache-Control":
+          "public, max-age=7200, s-maxage=86400, stale-while-revalidate=2592000",
+      },
+    }
+  );
+};
+
+export let headers: HeadersFunction = ({ loaderHeaders }) => {
+  return {
+    "Cache-Control": loaderHeaders.get("Cache-Control")!,
+  };
 };
 
 interface RouteData {

@@ -1,4 +1,9 @@
-import { LoaderFunction, MetaFunction, json } from "@remix-run/node";
+import {
+  LoaderFunction,
+  MetaFunction,
+  json,
+  HeadersFunction,
+} from "@remix-run/node";
 import { useRouteData } from "@remix-run/react";
 import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
@@ -25,6 +30,12 @@ export let loader: LoaderFunction = async () => {
   }
 
   return json(page);
+};
+
+export let headers: HeadersFunction = ({ parentHeaders }) => {
+  return {
+    "Cache-Control": parentHeaders.get("Cache-Control")!,
+  };
 };
 
 interface Frontmatter {

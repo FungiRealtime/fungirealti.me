@@ -1,4 +1,4 @@
-import { json, MetaFunction } from "@remix-run/node";
+import { HeadersFunction, json, MetaFunction } from "@remix-run/node";
 import { LoaderFunction, useRouteData } from "@remix-run/react";
 import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
@@ -36,6 +36,12 @@ export let loader: LoaderFunction = async ({ params }) => {
   }
 
   return json(page);
+};
+
+export let headers: HeadersFunction = ({ parentHeaders }) => {
+  return {
+    "Cache-Control": parentHeaders.get("Cache-Control")!,
+  };
 };
 
 interface OutletData {

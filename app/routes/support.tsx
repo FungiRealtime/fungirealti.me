@@ -37,6 +37,7 @@ export let loader: LoaderFunction = async ({ request }) => {
   return json(data, {
     headers: {
       "Set-Cookie": await commitSession(session),
+      "Cache-Control": "public, max-age=86400",
     },
   });
 };
