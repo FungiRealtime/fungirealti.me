@@ -14,6 +14,7 @@ import { usePublicEnv } from "../hooks/use-public-env";
 import { getGithubOauthUrl } from "../utils/get-github-oauth-url";
 import { mailgun } from "../utils/mailgun.server";
 import { classNames } from "../utils/classNames";
+import { Footer } from "../components/footer";
 
 export let meta: MetaFunction = () => {
   return {
@@ -381,6 +382,8 @@ export default function Support() {
           )}
         </div>
       </div>
+
+      <Footer />
     </>
   );
 }
