@@ -2,8 +2,7 @@ import React from "react";
 
 let supportedLangs = [
   {
-    library: "Node.js",
-    maintainer: "Fungi Realtime",
+    environment: "Node.js",
     docs: () => {
       return <a href="/docs/getting-started/javascript">Docs</a>;
     },
@@ -30,13 +29,7 @@ export function ServerSupportedLangs() {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Library
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Maintainer
+                    Environment
                   </th>
                   <th
                     scope="col"
@@ -54,12 +47,9 @@ export function ServerSupportedLangs() {
               </thead>
               <tbody>
                 {supportedLangs.map((lang) => (
-                  <tr key={lang.library} className="bg-white">
+                  <tr key={lang.environment} className="bg-white">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {lang.library}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {lang.maintainer}
+                      {lang.environment}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <lang.docs />
