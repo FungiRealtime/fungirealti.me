@@ -5,7 +5,10 @@ import remarkPrism from "remark-prism";
 import remarkGfm from "remark-gfm";
 import remarkSlug from "remark-slug";
 import remarkAutoLinkHeadings from "remark-autolink-headings";
-import { downloadMdxFileOrDirectory } from "./github.server";
+import {
+  downloadMdxFileOrDirectory,
+  removeNumberPrefix,
+} from "./github.server";
 import { GitHubFile, SectionLink, MdxPage } from "../types";
 import visit from "unist-util-visit";
 
@@ -35,7 +38,15 @@ async function compileMdx<FrontmatterType extends Record<string, any>>(
   githubFiles: Array<GitHubFile>
 ): Promise<MdxPage | null> {
   let indexRegex = new RegExp(`${slug}\\/index.mdx?$`);
-  let indexFile = githubFiles.find(({ path }) => indexRegex.test(path));
+  let indexFile = githubFiles.find(({ path }) => {
+    let pathWithoutNumberPrefix = path
+      .split("/")
+      .map((part) => removeNumberPrefix(part, "-"))
+      .join("/");
+
+    return indexRegex.test(pathWithoutNumberPrefix);
+  });
+
   if (!indexFile) return null;
 
   let rootDir = indexFile.path.replace(/index.mdx?$/, "");

@@ -50,10 +50,14 @@ async function downloadFileBySha(sha: string) {
 async function downloadFirstMdxFile(
   list: Array<{ name: string; type: string; path: string; sha: string }>
 ) {
+  console.log("got here");
+
   let filesOnly = list.filter(({ type }) => type === "file");
   for (let extension of [".mdx", ".md"]) {
     let file = filesOnly.find(({ name }) => name.endsWith(extension));
-    if (file) return downloadFileBySha(file.sha);
+    if (file) {
+      return downloadFileBySha(file.sha);
+    }
   }
   return null;
 }
@@ -101,20 +105,42 @@ export async function downloadMdxFileOrDirectory(
   let dirList = await downloadDirList(parentDir);
 
   let basename = nodePath.basename(mdxFileOrDirectory);
-  let potentials = dirList.filter(({ name }) => name.startsWith(basename));
+
+  let potentials = dirList.filter(({ name }) => {
+    let matchesWithPrefix = new RegExp(`\\d+-${basename}`).test(name);
+
+    if (!matchesWithPrefix) {
+      return name.startsWith(basename);
+    }
+
+    return matchesWithPrefix;
+  });
+
+  if (potentials.length === 0) return [];
 
   let content = await downloadFirstMdxFile(potentials);
   // /content/about.mdx => entry is about.mdx, but compileMdx needs
   // the entry to be called "/content/index.mdx" so we'll set it to that
   // because this is the entry for this path
   if (content) {
-    return [{ path: nodePath.join(mdxFileOrDirectory, "index.mdx"), content }];
+    return [{ path: nodePath.join(potentials[0].path, "index.mdx"), content }];
   }
 
   let directory = potentials.find(({ type }) => type === "dir");
   if (!directory) return [];
 
-  return downloadDirectory(mdxFileOrDirectory);
+  return downloadDirectory(potentials[0].path);
+}
+
+export function removeNumberPrefix(str: string, separator: string) {
+  let parts = str.split(separator);
+  let hasNumberPrefix = /^\d+$/.test(parts[0]);
+  if (!hasNumberPrefix) {
+    return str;
+  }
+
+  let [, ...partsWithoutPrefix] = parts;
+  return partsWithoutPrefix.join(separator);
 }
 
 function prettifyDirName(str: string) {
@@ -180,10 +206,13 @@ export async function getDocsSections() {
     return {
       title: prettifyDirName(tree),
       pathname: `/docs/${tree}`,
-      subsections: leafs.map((leaf) => ({
-        title: prettifyDirName(leaf),
-        pathname: `/docs/${tree}/${leaf}`,
-      })),
+      subsections: leafs.map((leaf) => {
+        let withoutNumberPrefix = removeNumberPrefix(leaf, "-");
+        return {
+          title: prettifyDirName(withoutNumberPrefix),
+          pathname: `/docs/${tree}/${withoutNumberPrefix}`,
+        };
+      }),
     };
   });
 
