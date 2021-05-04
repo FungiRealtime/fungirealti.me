@@ -32,6 +32,9 @@ module.exports = {
               color: theme("colors.brand"),
               textDecoration: "none",
             },
+            img: {
+              margin: 0,
+            },
             "h2 > a": {
               fontWeight: "inherit",
               color: "inherit",
