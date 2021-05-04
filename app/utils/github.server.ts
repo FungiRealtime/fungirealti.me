@@ -50,8 +50,6 @@ async function downloadFileBySha(sha: string) {
 async function downloadFirstMdxFile(
   list: Array<{ name: string; type: string; path: string; sha: string }>
 ) {
-  console.log("got here");
-
   let filesOnly = list.filter(({ type }) => type === "file");
   for (let extension of [".mdx", ".md"]) {
     let file = filesOnly.find(({ name }) => name.endsWith(extension));
