@@ -70,11 +70,11 @@ interface RouteData {
   checkoutSessionId?: string;
 }
 
-export let headers: HeadersFunction = () => {
-  return {
-    "Cache-Control": "max-age=0",
-  };
-};
+// export let headers: HeadersFunction = () => {
+//   return {
+//     "Cache-Control": "max-age=0",
+//   };
+// };
 
 export default function Pricing() {
   let { user, stripeCustomer, checkoutSessionId } = useRouteData<RouteData>();

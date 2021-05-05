@@ -31,11 +31,11 @@ export let loader: LoaderFunction = async ({ request }) => {
   return json(data);
 };
 
-export let headers: HeadersFunction = () => {
-  return {
-    "Cache-Control": "max-age=0",
-  };
-};
+// export let headers: HeadersFunction = () => {
+//   return {
+//     "Cache-Control": "max-age=0",
+//   };
+// };
 
 let features = [
   {
