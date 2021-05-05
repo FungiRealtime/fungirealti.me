@@ -3,9 +3,13 @@ title: "Core concepts"
 description: "Core concepts about Fungi you should know before using our product."
 ---
 
+import { SystemEvents } from "./system-events";
+
 ## Clients
 
 You'll see the term **client** being used all over the docs, when we say client we refer to an user of your application (authenticated or not) with an active connection to Fungi's APIs.
+
+An active connection is an established [WebSocket](https://wikipedia.org/wiki/WebSocket) connection between a web browser (or any other client application) and Fungi's APIs.
 
 ## Channels
 
@@ -37,7 +41,7 @@ Examples of private channels names:
 
 ## Events
 
-Events are **payloads of data delivered to clients**, this is how realtime data is sent between clients. These are some of the characteristics about channels:
+Events are **payloads of JSON delivered to clients**, this is how realtime data is sent between clients. These are some of the characteristics about events:
 
 - An event can be sent to one or more (up to 10) channels at once.
 - An event must carry a payload (the data). The payload can't be larger than 10 KB.
@@ -46,11 +50,19 @@ Events are **payloads of data delivered to clients**, this is how realtime data 
 
 ### Server events
 
-A server SDK is required to send server events, they allow you send events on public and private channels.
+This is the perfect type of event if you need validation or persistence because these events will always go through your server before being sent.
+
+A server SDK is required to send server events, they allow you send events on public and private channels though Fungi's REST API. These events can only be sent from a secure environment because server SDKs require sensitive application credentials.
+
+Examples of server events names:
+
+- `new-message`
+- `new-friend-request`
+- `joined-voice-call`
 
 ### Client events
 
-Not all events need to go through your server since some actions may not require validation or persistence and that's what client events are for, an example of this can be a realtime collaboration app in which users can see eachother's cursor position.
+Not all events need to go through a server since some actions may not require validation or persistence and that's what client events are for, the events will be sent through a WebSocket connection. An example of this can be a realtime collaboration app in which users can see eachother's cursor position.
 
 _It is important that you be careful when using client events because they originate from other users and they could be malicious users._
 
@@ -65,3 +77,9 @@ Examples of client events names:
 
 - `client-cursor-moved`
 - `client-clicked`
+
+### System events
+
+These events are sent by Fungi's APIs to notify the client SDK of some action.
+
+<SystemEvents />
