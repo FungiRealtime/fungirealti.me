@@ -1,5 +1,4 @@
 import nodePath from "path";
-import escapeStringRegexp from "escape-string-regexp";
 import { octokit } from "./octokit.server";
 import type { GitHubFile, GithubFileOrDir, Section, Tree } from "../types";
 
@@ -106,9 +105,7 @@ export async function downloadMdxFileOrDirectory(
   let basename = nodePath.basename(mdxFileOrDirectory);
 
   let potentials = dirList.filter(({ name }) => {
-    let matchesWithPrefix = new RegExp(
-      `\\d+-${escapeStringRegexp(basename)}`
-    ).test(name);
+    let matchesWithPrefix = new RegExp(`\\d+-${basename}`).test(name);
 
     if (!matchesWithPrefix) {
       return name.startsWith(basename);
