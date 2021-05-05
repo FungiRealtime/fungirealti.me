@@ -2,56 +2,36 @@ import React from "react";
 
 interface SystemEvent {
   name: string;
-  payload: any;
   description: string;
 }
 
 let systemEvents: SystemEvent[] = [
   {
     name: "fungi:connection_established",
-    payload: {
-      socket_id: "string", // The unique identifier for the socket
-      activity_timeout: "number", // The interval to send ping events to the server
-    },
     description:
       "Event sent when the client successfully establishes a connection with the server.",
   },
   {
     name: "fungi:subscription_succeeded",
-    payload: {
-      channel: "string", // The name of the channel
-    },
     description:
       "Event sent when the client successfully subscribes to a channel.",
   },
   {
     name: "fungi:subscription_error",
-    payload: {
-      channel: "string", // The name of the channel
-      reason: "string", // The reason the subscription wasn't successful
-    },
     description: "Event sent when the client fails to subscribe to a channel.",
   },
   {
     name: "fungi:unsubscription_succeeded",
-    payload: {
-      channel: "string", // The name of the channel
-    },
     description:
       "Event sent when the client successfully unsubscribes from a channel.",
   },
   {
     name: "fungi:error",
-    payload: {
-      message: "string", // A textual description of the error
-      code: "number", // Fungi re-uses HTTP error codes, 401 for Unauthorized, etc.
-    },
     description:
       "Event sent by Fungi when an action attempted by a client fails (like authorization for a private channel).",
   },
   {
     name: "fungi:pong",
-    payload: null,
     description:
       "Event sent by Fungi in response to pings sent by a client SDK to keep the connection alive.",
   },
@@ -76,12 +56,6 @@ export function SystemEvents() {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Payload
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
                     Description
                   </th>
                 </tr>
@@ -91,11 +65,6 @@ export function SystemEvents() {
                   <tr key={event.name} className="bg-white">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {event.name}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <pre>
-                        <code>{JSON.stringify(event.payload, null, 2)}</code>
-                      </pre>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {event.description}
