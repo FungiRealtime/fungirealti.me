@@ -112,7 +112,7 @@ export default function Docs() {
                               <li key={subsection.pathname}>
                                 <a
                                   className="px-3 py-2 text-base sm:text-sm transition-colors duration-200 relative block text-brand"
-                                  href={subsection.title}
+                                  href={subsection.pathname}
                                 >
                                   <span className="rounded-md absolute inset-0 bg-red-50"></span>
                                   <span className="relative font-medium">
@@ -166,7 +166,7 @@ export default function Docs() {
                             <li key={subsection.pathname}>
                               <a
                                 className="px-3 py-2 text-sm transition-colors duration-200 relative block text-brand"
-                                href={subsection.title}
+                                href={subsection.pathname}
                               >
                                 <span className="rounded-md absolute inset-0 bg-red-50"></span>
                                 <span className="relative font-medium">

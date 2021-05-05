@@ -3,4 +3,65 @@ title: "Core concepts"
 description: "Core concepts about Fungi you should know before using our product."
 ---
 
+## Clients
+
+You'll see the term **client** being used all over the docs, when we say client we refer to an user of your application (authenticated or not) with an active connection to Fungi's APIs.
+
 ## Channels
+
+Channels are like **rooms** that clients can join and leave at any time, when a client joins a room, they become **subscribers** of the channel. These are some of the characteristics about channels:
+
+- Each channel has a **unique name**, this means that there can't be more than 1 channel with the same name. A channel name can't be longer than 200 characters.
+- Channels **don't have a capacity** so there can be as many subscribers as required by the application.
+- There's 2 types of channels, [public channels](#public-channels) and [private channels](#private-channels).
+
+### Public channels
+
+These are channels that **anyone can join**, they're perfect for things like cryptocurrency statistics, public rooms for chat applications, etc.
+
+Examples of public channels names:
+
+- `my-public-channel`
+- `cryptocurrency-stats`
+- `global-chat-room-1`
+
+### Private channels
+
+These channels are **private** like the name suggests, in order for a client to subscribe to one, they first must be **authorized** by your application and their name must be prefixed with `private-`. They're perfect for things like private chat rooms, direct messaging, voice calls, etc.
+
+Examples of private channels names:
+
+- `private-app`
+- `private-call-123`
+- `private-room-456`
+
+## Events
+
+Events are **payloads of data delivered to clients**, this is how realtime data is sent between clients. These are some of the characteristics about channels:
+
+- An event can be sent to one or more (up to 10) channels at once.
+- An event must carry a payload (the data). The payload can't be larger than 10 KB.
+- An event must have a name which identifies it, for example if your application has a feature of sending messages, the event's name for a new message could be `new-message`. An event name can't be longer than 200 characters.
+- There's 3 types of events, [client events](#client-events), [server events](#server-events) and [system events](#system-events).
+
+### Server events
+
+A server SDK is required to send server events, they allow you send events on public and private channels.
+
+### Client events
+
+Not all events need to go through your server since some actions may not require validation or persistence and that's what client events are for, an example of this can be a realtime collaboration app in which users can see eachother's cursor position.
+
+_It is important that you be careful when using client events because they originate from other users and they could be malicious users._
+
+Client events have the following **restrictions**:
+
+- Client events can only be triggered on [private channels](#private-channels) because they require authentication.
+- Client events must be prefixed with `client-`. Events with any other prefix can't be sent as a client event.
+- Client events can only be sent on channels to which the user is subscribed to. For example if the user Alice is subscribed only to the channel `private-channel-1`, this user will only be able to send client events on the channel `private-channel-1`.
+- Each client can publish up to 10 client events per second. This can be [configured](/docs/getting-started/installation#websocket-api) in our APIs.
+
+Examples of client events names:
+
+- `client-cursor-moved`
+- `client-clicked`
