@@ -24,29 +24,9 @@ export let meta: MetaFunction = () => {
 export let loader: LoaderFunction = async ({ request }) => {
   let session = await getSession(request.headers.get("Cookie"));
 
-  if (!session.has("user")) {
-    return json({ user: null, stripeCustomer: null });
-  }
-
-  let user = session.get("user") as SessionUser;
-
-  let dbUser = await prisma.user.findUnique({
-    where: {
-      id: user.id,
-    },
-    select: {
-      stripeCustomer: true,
-    },
-  });
-
-  if (!dbUser) {
-    return redirect("/oauth/sign-out?next=/pricing");
-  }
-
   let data = {
     user: session.get("user"),
     checkoutSessionId: session.get("checkoutSessionId"),
-    stripeCustomer: dbUser.stripeCustomer,
   };
 
   return json(data, {
@@ -60,12 +40,11 @@ let includedFeatures = ["SDKs", "APIs", "Support", "Community discussions"];
 
 interface RouteData {
   user: SessionUser | null;
-  stripeCustomer: StripeCustomer | null;
   checkoutSessionId?: string;
 }
 
 export default function Pricing() {
-  let { user, stripeCustomer, checkoutSessionId } = useRouteData<RouteData>();
+  let { user, checkoutSessionId } = useRouteData<RouteData>();
   let { PUBLIC_GITHUB_CLIENT_ID } = usePublicEnv();
   let githubOAuthUrl = getGithubOauthUrl(PUBLIC_GITHUB_CLIENT_ID!, "/pricing");
   let pendingSubmit = usePendingFormSubmit();
@@ -182,72 +161,42 @@ export default function Pricing() {
                   </p>
 
                   <div className="mt-6">
-                    {!!user ? (
-                      stripeCustomer ? (
-                        <>
-                          <p className="flex text-sm font-medium text-gray-900 items-center justify-center space-x-2">
-                            Owned since{" "}
-                            {format(
-                              parseISO(stripeCustomer.createdAt as any),
-                              "d'/'M'/'y"
-                            )}
-                          </p>
-                        </>
-                      ) : (
-                        <Form method="post" action="/buy">
-                          <button
-                            type="submit"
-                            disabled={isCheckingOut}
-                            className={classNames(
-                              "flex items-center justify-center w-full px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900",
-                              isCheckingOut
-                                ? "cursor-not-allowed bg-opacity-50 hover:bg-opacity-50"
-                                : ""
-                            )}
+                    <Form method="post" action="/buy">
+                      <button
+                        type="submit"
+                        disabled={isCheckingOut}
+                        className={classNames(
+                          "flex items-center justify-center w-full px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900",
+                          isCheckingOut
+                            ? "cursor-not-allowed bg-opacity-50 hover:bg-opacity-50"
+                            : ""
+                        )}
+                      >
+                        {isCheckingOut && (
+                          <svg
+                            className="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
                           >
-                            {isCheckingOut && (
-                              <svg
-                                className="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                              >
-                                <circle
-                                  className="opacity-25"
-                                  cx="12"
-                                  cy="12"
-                                  r="10"
-                                  stroke="currentColor"
-                                  strokeWidth="4"
-                                ></circle>
-                                <path
-                                  className="opacity-75"
-                                  fill="currentColor"
-                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                ></path>
-                              </svg>
-                            )}
-                            Get access
-                          </button>
-                        </Form>
-                      )
-                    ) : (
-                      <div>
-                        <a
-                          href={githubOAuthUrl}
-                          className="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900"
-                        >
-                          Log in
-                        </a>
-
-                        <p className="mt-2 text-gray-600 text-sm">
-                          Don't have an account?{" "}
-                          <a href={githubOAuthUrl} className="text-brand">
-                            Sign up
-                          </a>
-                        </p>
-                      </div>
-                    )}
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                        )}
+                        Get access
+                      </button>
+                    </Form>
                   </div>
                 </div>
               </div>

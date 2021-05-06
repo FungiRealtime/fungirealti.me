@@ -54,9 +54,23 @@ export default function GettingStarted() {
           </h1>
           <p className="mt-2 text-lg">{frontmatter.description}</p>
         </header>
-        <section className="prose text-gray-500 pt-8 pb-12">
+        <section className="prose text-gray-500 pt-8">
           <Component />
         </section>
+
+        <hr className="border-gray-200 mt-10 mb-4" />
+
+        <div className="flex font-medium leading-6">
+          <a
+            href="/docs/getting-started/what-is-Fungi"
+            className="transition-colors text-right text-gray-500 hover:text-gray-900 inline-flex items-start ml-auto"
+          >
+            What is Fungi
+            <span aria-hidden="true" className="ml-2">
+              →
+            </span>
+          </a>
+        </div>
       </div>
 
       <DocsPageNavigation links={sectionsLinks} />
