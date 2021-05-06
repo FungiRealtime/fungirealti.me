@@ -4,7 +4,7 @@ let supportedLangs = [
   {
     platform: "Node.js",
     docs: () => {
-      return <a href="/docs/getting-started/node">Docs</a>;
+      return <a href="/docs/node/installation">Docs</a>;
     },
     code: () => {
       return (
