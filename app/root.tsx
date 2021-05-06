@@ -1,14 +1,15 @@
 import {
-  LiveReload,
   Meta,
   Links,
   Scripts,
   LinksFunction,
   LoaderFunction,
   useRouteData,
+  LiveReload,
 } from "remix";
 import { Outlet } from "react-router-dom";
 import styles from "./styles/app.css";
+import { createElement, ReactNode } from "react";
 
 export let links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
@@ -26,30 +27,48 @@ export let loader: LoaderFunction = () => {
   };
 };
 
+interface RouteData {
+  ENV: Record<string, string>;
+}
+
 export default function App() {
-  let data = useRouteData();
+  return (
+    <Document>
+      <Outlet />
+    </Document>
+  );
+}
+
+function Document({ children }: { children: ReactNode }) {
+  let data = useRouteData<RouteData>();
 
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="/favicon.png" type="image/png" />
         <Meta />
+
+        <link rel="stylesheet" href={styles} />
+        <link rel="icon" href="/favicon.png" type="image/png" />
         <Links />
       </head>
       <body>
-        <Outlet />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
-          }}
-        />
-        {/* <LiveReload /> */}
+        {children}
+        <LiveReload />
+        <EnvironmentVariables env={data.ENV} />
         <Scripts />
       </body>
     </html>
   );
+}
+
+function EnvironmentVariables({ env }: { env: RouteData["ENV"] }) {
+  return createElement("script", {
+    dangerouslySetInnerHTML: {
+      __html: `window.ENV = ${JSON.stringify(env)}`,
+    },
+  });
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
@@ -63,7 +82,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
       </head>
       <body>
         <div>
-          <h1>App Error</h1>
+          <h1>Error</h1>
           <pre>{error.message}</pre>
         </div>
 
