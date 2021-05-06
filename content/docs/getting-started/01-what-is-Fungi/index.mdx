@@ -43,7 +43,7 @@ Examples of private channels names:
 
 ## Events
 
-Events are **payloads of JSON delivered to clients**, this is how realtime data is sent between clients. These are some of the characteristics about events:
+Events are **mainly used to communicate between subscribers of the same channel**, for example in a messaging app, an event would be sent from a subscriber to tell the rest of subscribers that they have performed an action like sending a message.
 
 - An event can be sent to one or more (up to 10) channels at once.
 - An event must carry a payload (the data). The payload can't be larger than 10 KB.
