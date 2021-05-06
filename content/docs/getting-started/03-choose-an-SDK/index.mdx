@@ -10,7 +10,7 @@ import { ServerSupportedLangs } from "./server-supported-langs";
 
 Fungi's SDKs are divided into 2 categories:
 
-- **Client**. Client SDKs consume Fungi's APIs using a [WebSocket interface](https://en.wikipedia.org/wiki/WebSocket). If the SDK is used on a modern browser which supports WebSockets natively, the native interface will be used, otherwise the SDK will fallback to [ws](https://github.com/websockets/ws).
+- **Client**. Client SDKs consume Fungi's APIs using a [WebSocket interface](https://en.wikipedia.org/wiki/WebSocket).
 
 - **Server**. Server SDKs can interact with Fungi's HTTP API, **publish messages** and **authenticate channel subscriptions**. They should be used in a secure environment because they require sensitive application credentials.
 
