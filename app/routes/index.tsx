@@ -1,9 +1,4 @@
-import {
-  HeadersFunction,
-  LoaderFunction,
-  MetaFunction,
-  useRouteData,
-} from "remix";
+import { LoaderFunction, MetaFunction, useRouteData } from "remix";
 import { json } from "remix";
 import { ChatIcon } from "@heroicons/react/outline";
 import { BellIcon, ChevronRightIcon, GlobeIcon } from "@heroicons/react/solid";
@@ -30,12 +25,6 @@ export let loader: LoaderFunction = async ({ request }) => {
 
   return json(data);
 };
-
-// export let headers: HeadersFunction = () => {
-//   return {
-//     "Cache-Control": "max-age=0",
-//   };
-// };
 
 let features = [
   {

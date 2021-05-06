@@ -5,12 +5,6 @@ import { usePublicEnv } from "../../hooks/use-public-env";
 import { getGithubOauthUrl } from "../../utils/get-github-oauth-url";
 import { getSession } from "../../utils/sessions";
 
-export let headers: HeadersFunction = () => {
-  return {
-    "Cache-Control": "max-age=0",
-  };
-};
-
 export let loader: LoaderFunction = async ({ request }) => {
   let session = await getSession(request.headers.get("Cookie"));
 

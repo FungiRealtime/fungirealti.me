@@ -1,7 +1,6 @@
 import { Header } from "../components/header";
 import {
   ActionFunction,
-  HeadersFunction,
   json,
   LoaderFunction,
   MetaFunction,
@@ -21,12 +20,6 @@ export let meta: MetaFunction = () => {
     title: "Fungi | Contact support",
     description:
       "Fungi empowers developers to add realtime features to their apps with easy to use and scalable APIs.",
-  };
-};
-
-export let headers: HeadersFunction = () => {
-  return {
-    "Cache-Control": "max-age=0",
   };
 };
 
