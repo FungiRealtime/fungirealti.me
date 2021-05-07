@@ -2,6 +2,22 @@ import React from "react";
 
 let api = [
   {
+    name: "name",
+    signature: "name: boolean",
+    description: () => <span>The name of the channel.</span>,
+    args: [],
+  },
+  {
+    name: "isSubscribed",
+    signature: "isSubscribed: boolean",
+    description: () => (
+      <span>
+        Whether or not the client has successfully subscribed to the channel.
+      </span>
+    ),
+    args: [],
+  },
+  {
     name: "bind",
     signature: "bind<TData>;(event: string, handler: EventBindHandler<TData>",
     description: () => <span>Binds to an event on the channel.</span>,
@@ -63,10 +79,33 @@ let api = [
     ),
     args: [
       {
-        name: "...events",
-        description: "The events names to unbind from.",
+        name: "eventName",
+        description: "The name of the event. Must be prefixed with client-.",
+      },
+      {
+        name: "data",
+        description: "The data payload to be distributed with the event.",
       },
     ],
+  },
+  {
+    name: "getEventHandlers",
+    signature: "getEventHandlers(event: string): ChannelEventHandler[]",
+    description: () => (
+      <span>Gets the event handlers for a bound event. For internal use.</span>
+    ),
+    args: [
+      {
+        name: "event",
+        description: "The name of the bound event to get the handlers of.",
+      },
+    ],
+  },
+  {
+    name: "getGlobalHandlers",
+    signature: "getGlobalHandlers(): ChannelGlobalHandler<any>[]",
+    description: () => <span>Gets the global handlers. For internal use.</span>,
+    args: [],
   },
 ];
 
