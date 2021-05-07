@@ -87,7 +87,7 @@ export function ChannelAPI() {
                   </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-gray-200 divide-solid">
                 {api.map((property) => (
                   <tr key={property.name} className="bg-white">
                     <td className="flex flex-col items-start space-y-6 px-6 py-4 whitespace-nowrap text-sm text-gray-500">
