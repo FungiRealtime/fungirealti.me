@@ -1,0 +1,106 @@
+---
+title: "JavaScript SDK channels"
+description: "Learn how to use Fungi channels with the JavaScript SDK."
+---
+
+import { ChannelAPI } from "./channel-api";
+
+We recommend reading what [channels](/docs/getting-started/what-is-Fungi#channels) are before continuing.
+
+The client below will be used in the examples.
+
+```js
+// fungi.js
+import { Client } from "@fungi-realtime/core";
+
+let client = new Client({
+  // Fungi's WebSocket API is running on port 8081
+  endpoint: "ws://localhost:8081",
+});
+
+export { client };
+```
+
+## Subscribing to a channel
+
+To become a subscriber of a [public channel](/docs/getting-started/what-is-Fungi#public-channels) or a [private channel](/docs/getting-started/what-is-Fungi#private-channels) you call the `client.subscribe(channelName)` method. This method **returns the channel** you want to subscribe to so you can do things on the channel such as binding to events which means doing something whenever you receive an event on the channel.
+
+### Subscribing to a public channel
+
+We'll use the client we exported in the previous snippet.
+
+```js
+// index.js
+import { client } from "./fungi";
+
+let coolChannel = client.subscribe("cool-channel");
+```
+
+That's it! 🎉
+
+### Subscribing to a private channel
+
+Read how [authentication](/docs/core-concepts/authentication) works before continuing.
+
+You subscribe to [private channels](/docs/getting-started/what-is-Fungi#private-channels) the same way you subscribe to public channels except private channels are authenticated channels which means you need to tell the SDK where this authentication will take place.
+
+```diff-js
+// fungi.js
+import { Client } from "@fungi-realtime/core";
+
+let client = new Client({
+  // Fungi's WebSocket API is running on port 8081
+  endpoint: "ws://localhost:8081",
++
++ // In this example, there's a server running on port 3000
++ // which performs the authentication required to subscribe
++ // to a private channel.
++ auth: {
++   endpoint: 'http://localhost:3000/auth/fungi'
++ }
+});
+
+export { client };
+```
+
+If you need to pass extra headers to your server so it can complete this authentication process, you can do so in the `Client` config.
+
+```diff-js
+// fungi.js
+import { Client } from "@fungi-realtime/core";
+
+let client = new Client({
+  // Fungi's WebSocket API is running on port 8081
+  endpoint: "ws://localhost:8081",
+
+  // In this example, there's a server running on port 3000
+  // which performs the authentication required to subscribe
+  // to a private channel.
+  auth: {
+    endpoint: 'http://localhost:3000/auth/fungi',
++   headers: {
++     Authorization: `Bearer ${localStorage.getItem('access_token')}`
++   }
+  }
+});
+
+export { client };
+```
+
+Now that the SDK knows how to authenticate channel subscriptions, you can go ahead and subscribe to a private channel.
+
+```js
+// index.js
+import { client } from "./fungi";
+
+// Remember to prefix the channel name with "private-"
+let coolChannel = client.subscribe("private-cool-channel");
+```
+
+That's it! 🎉
+
+## Channel API
+
+When you subscribe to a channel, a `Channel` object which represents the channel you're subscribing to is returned, this is the API for that object.
+
+<ChannelAPI />

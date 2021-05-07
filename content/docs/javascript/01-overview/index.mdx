@@ -26,7 +26,7 @@ npm install @fungi-realtime/core
 
 ## Usage
 
-Your client application should share a single Fungi `Client` which represents an [active connection](/docs/getting-started/what-is-Fungi#clients), here we'll create a new file `fungi.js` where we create a new Fungi Client and export it so the rest of the application can use it.
+Your client application should share a single `Client` which represents a Fungi [client](/docs/getting-started/what-is-Fungi#clients), we'll create a new file `fungi.js` where we create a new `Client` and export it so the rest of the application can use it.
 
 ```js
 // fungi.js
@@ -39,3 +39,5 @@ let client = new Client({
 
 export { client };
 ```
+
+That's it! 🎉
