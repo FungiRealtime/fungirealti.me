@@ -38,7 +38,7 @@ export function ChannelAPI() {
                   <tr key={something.name} className="bg-white">
                     <td className="flex flex-col items-start space-y-6 px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <div className="flex flex-col space-y-3 items-start">
-                        <span className="font-medium">{something.name}</span>
+                        <span className="font-bold">{something.name}</span>
                         <code>{something.signature}</code>
                       </div>
 
