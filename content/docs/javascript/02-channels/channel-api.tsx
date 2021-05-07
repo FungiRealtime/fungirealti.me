@@ -36,13 +36,13 @@ export function ChannelAPI() {
               <tbody>
                 {api.map((something) => (
                   <tr key={something.name} className="bg-white">
-                    <td className="flex flex-col space-y-6 px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <div className="flex flex-col space-y-3">
+                    <td className="flex flex-col items-start space-y-6 px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <div className="flex flex-col space-y-3 items-start">
                         <span>{something.name}</span>
                         <code>{something.signature}</code>
                       </div>
 
-                      <div className="flex flex-col space-y-3">
+                      <div className="flex flex-col space-y-3 items-start">
                         <span>{something.description}</span>
 
                         <ul>
