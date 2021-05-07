@@ -63,22 +63,6 @@ async function compileMdx<FrontmatterType extends Record<string, any>>(
   let sectionsLinks: SectionLink[] = [];
   let remarkPlugins: PluggableList = [
     remarkGfm,
-    [
-      remarkPrism,
-      {
-        plugins: [
-          "autolinker",
-          "command-line",
-          "data-uri-highlight",
-          "diff-highlight",
-          "inline-color",
-          "keep-markup",
-          "line-numbers",
-          "show-invisibles",
-          "treeview",
-        ],
-      },
-    ],
     remarkSlug,
     function getSectionsHeadingsLinks() {
       return function walker(tree: Node) {
@@ -110,6 +94,12 @@ async function compileMdx<FrontmatterType extends Record<string, any>>(
           className: "hover:text-gray-700",
           "data-heading": "true",
         },
+      },
+    ],
+    [
+      remarkPrism,
+      {
+        plugins: ["diff-highlight"],
       },
     ],
   ];
