@@ -45,46 +45,46 @@ Read how [authentication](/docs/core-concepts/authentication) works before conti
 You subscribe to [private channels](/docs/getting-started/what-is-Fungi#private-channels) the same way you subscribe to public channels except private channels are authenticated channels which means you need to tell the SDK where this authentication will take place.
 
 ```diff-js
-// fungi.js
-import { Client } from "@fungi-realtime/core";
+  // fungi.js
+  import { Client } from "@fungi-realtime/core";
 
-let client = new Client({
-  // Fungi's WebSocket API is running on port 8081
-  endpoint: "ws://localhost:8081",
+  let client = new Client({
+    // Fungi's WebSocket API is running on port 8081
+    endpoint: "ws://localhost:8081",
 +
-+ // In this example, there's a server running on port 3000
-+ // which performs the authentication required to subscribe
-+ // to a private channel.
-+ auth: {
-+   endpoint: 'http://localhost:3000/auth/fungi'
-+ }
-});
++   // In this example, there's a server running on port 3000
++   // which performs the authentication required to subscribe
++   // to a private channel.
++   auth: {
++     endpoint: 'http://localhost:3000/auth/fungi'
++   }
+  });
 
-export { client };
+  export { client };
 ```
 
 If you need to pass extra headers to your server so it can complete this authentication process, you can do so in the `Client` config.
 
 ```diff-js
-// fungi.js
-import { Client } from "@fungi-realtime/core";
+  // fungi.js
+  import { Client } from "@fungi-realtime/core";
 
-let client = new Client({
-  // Fungi's WebSocket API is running on port 8081
-  endpoint: "ws://localhost:8081",
+  let client = new Client({
+    // Fungi's WebSocket API is running on port 8081
+    endpoint: "ws://localhost:8081",
 
-  // In this example, there's a server running on port 3000
-  // which performs the authentication required to subscribe
-  // to a private channel.
-  auth: {
-    endpoint: 'http://localhost:3000/auth/fungi',
-+   headers: {
-+     Authorization: `Bearer ${localStorage.getItem('access_token')}`
-+   }
-  }
-});
+    // In this example, there's a server running on port 3000
+    // which performs the authentication required to subscribe
+    // to a private channel.
+    auth: {
+      endpoint: 'http://localhost:3000/auth/fungi',
++     headers: {
++       Authorization: `Bearer ${localStorage.getItem('access_token')}`
++     }
+    }
+  });
 
-export { client };
+  export { client };
 ```
 
 Now that the SDK knows how to authenticate channel subscriptions, you can go ahead and subscribe to a private channel.
