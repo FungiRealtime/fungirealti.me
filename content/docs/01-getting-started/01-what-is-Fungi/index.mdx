@@ -15,7 +15,7 @@ An **active connection** is an established [WebSocket](https://wikipedia.org/wik
 
 ## Channels
 
-Channels are like **rooms** that clients can join and leave at any time, when a client joins a room, they become **subscribers** of the channel. These are some of the characteristics about channels:
+Channels are like **rooms** that clients can join and leave at any time, when a client joins a room, they become **subscribers** of the channel and can talk to every subscriber of the channel with [events](#events). These are some of the characteristics about channels:
 
 - Each channel has a **unique name**, this means that there can't be more than 1 channel with the same name. A channel name can't be longer than 200 characters.
 - Channels **don't have a capacity** so there can be as many subscribers as required by the application.

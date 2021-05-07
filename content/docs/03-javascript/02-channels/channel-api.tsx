@@ -14,6 +14,17 @@ let api = [
       { name: "options?", description: "Additional options for the binding." },
     ],
   },
+  {
+    name: "bindGlobal",
+    signature: "bindGlobal<TData>(handler: ChannelGlobalHandler<TData>): void",
+    description: "Binds to all events on the channel.",
+    args: [
+      {
+        name: "handler",
+        description: "The function to run when any event is triggered.",
+      },
+    ],
+  },
 ];
 
 export function ChannelAPI() {
@@ -29,26 +40,27 @@ export function ChannelAPI() {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Description
+                    Property
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {api.map((something) => (
-                  <tr key={something.name} className="bg-white">
+                {api.map((property) => (
+                  <tr key={property.name} className="bg-white">
                     <td className="flex flex-col items-start space-y-6 px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <div className="flex flex-col space-y-3 items-start">
-                        <span className="font-bold">{something.name}</span>
-                        <code>{something.signature}</code>
+                        <span className="font-bold">{property.name}</span>
+                        <code>{property.signature}</code>
                       </div>
 
                       <div className="flex flex-col space-y-3 items-start">
-                        <span>{something.description}</span>
+                        <span>{property.description}</span>
 
                         <ul>
-                          {something.args.map((arg) => (
+                          {property.args.map((arg) => (
                             <li key={arg.name}>
-                              {arg.name}: {arg.description}
+                              <span className="font-medium">{arg.name}</span>:{" "}
+                              {arg.description}
                             </li>
                           ))}
                         </ul>

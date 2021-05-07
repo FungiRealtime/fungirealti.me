@@ -201,14 +201,16 @@ export async function getDocsSections() {
       return acc;
     }, {} as Record<string, string[]>)
   ).map(([tree, leafs]) => {
+    let withoutNumberPrefixTree = removeNumberPrefix(tree, "-");
+
     return {
-      title: prettifyDirName(tree),
-      pathname: `/docs/${tree}`,
+      title: prettifyDirName(withoutNumberPrefixTree),
+      pathname: `/docs/${withoutNumberPrefixTree}`,
       subsections: leafs.map((leaf) => {
-        let withoutNumberPrefix = removeNumberPrefix(leaf, "-");
+        let withoutNumberPrefixLeaf = removeNumberPrefix(leaf, "-");
         return {
-          title: prettifyDirName(withoutNumberPrefix),
-          pathname: `/docs/${tree}/${withoutNumberPrefix}`,
+          title: prettifyDirName(withoutNumberPrefixLeaf),
+          pathname: `/docs/${withoutNumberPrefixTree}/${withoutNumberPrefixLeaf}`,
         };
       }),
     };
