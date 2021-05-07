@@ -35,12 +35,6 @@ export function ChannelAPI() {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Description
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
                     Arguments
                   </th>
                 </tr>
@@ -52,10 +46,9 @@ export function ChannelAPI() {
                       <span>{something.name}</span>
                       <code>{something.signature}</code>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {something.description}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 flex flex-col space-y-3 whitespace-nowrap text-sm text-gray-500">
+                      <span>{something.description}</span>
+
                       <ul>
                         {something.args.map((arg) => (
                           <li key={arg.name}>
