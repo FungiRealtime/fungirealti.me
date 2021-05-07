@@ -29,33 +29,30 @@ export function ChannelAPI() {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Method or attribute
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Arguments
+                    Description
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {api.map((something) => (
                   <tr key={something.name} className="bg-white">
-                    <td className="flex flex-col space-y-3 px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span>{something.name}</span>
-                      <code>{something.signature}</code>
-                    </td>
-                    <td className="px-6 py-4 flex flex-col space-y-3 whitespace-nowrap text-sm text-gray-500">
-                      <span>{something.description}</span>
+                    <td className="flex flex-col space-y-6 px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <div className="flex flex-col space-y-3">
+                        <span>{something.name}</span>
+                        <code>{something.signature}</code>
+                      </div>
 
-                      <ul>
-                        {something.args.map((arg) => (
-                          <li key={arg.name}>
-                            {arg.name}: {arg.description}
-                          </li>
-                        ))}
-                      </ul>
+                      <div className="flex flex-col space-y-3">
+                        <span>{something.description}</span>
+
+                        <ul>
+                          {something.args.map((arg) => (
+                            <li key={arg.name}>
+                              {arg.name}: {arg.description}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </td>
                   </tr>
                 ))}
