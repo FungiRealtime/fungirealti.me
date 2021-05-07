@@ -66,7 +66,17 @@ async function compileMdx<FrontmatterType extends Record<string, any>>(
     [
       remarkPrism,
       {
-        plugins: ["diff-highlight"],
+        plugins: [
+          "autolinker",
+          "command-line",
+          "data-uri-highlight",
+          "diff-highlight",
+          "inline-color",
+          "keep-markup",
+          "line-numbers",
+          "show-invisibles",
+          "treeview",
+        ],
       },
     ],
     remarkSlug,
