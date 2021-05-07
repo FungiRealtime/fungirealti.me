@@ -105,13 +105,7 @@ export async function downloadMdxFileOrDirectory(
   let basename = nodePath.basename(mdxFileOrDirectory);
 
   let potentials = dirList.filter(({ name }) => {
-    let matchesWithPrefix = new RegExp(`\\d+-${basename}`).test(name);
-
-    if (!matchesWithPrefix) {
-      return name.startsWith(basename);
-    }
-
-    return matchesWithPrefix;
+    return name.startsWith(basename);
   });
 
   if (potentials.length === 0) return [];
@@ -202,15 +196,14 @@ export async function getDocsSections() {
     }, {} as Record<string, string[]>)
   ).map(([tree, leafs]) => {
     let withoutNumberPrefixTree = removeNumberPrefix(tree, "-");
-
     return {
       title: prettifyDirName(withoutNumberPrefixTree),
-      pathname: `/docs/${withoutNumberPrefixTree}`,
+      pathname: `/docs/${tree}`,
       subsections: leafs.map((leaf) => {
         let withoutNumberPrefixLeaf = removeNumberPrefix(leaf, "-");
         return {
           title: prettifyDirName(withoutNumberPrefixLeaf),
-          pathname: `/docs/${withoutNumberPrefixTree}/${withoutNumberPrefixLeaf}`,
+          pathname: `/docs/${tree}/${leaf}`,
         };
       }),
     };

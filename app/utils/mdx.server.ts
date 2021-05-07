@@ -38,14 +38,7 @@ async function compileMdx<FrontmatterType extends Record<string, any>>(
   githubFiles: Array<GitHubFile>
 ): Promise<MdxPage | null> {
   let indexRegex = new RegExp(`${slug}\\/index.mdx?$`);
-  let indexFile = githubFiles.find(({ path }) => {
-    let pathWithoutNumberPrefix = path
-      .split("/")
-      .map((part) => removeNumberPrefix(part, "-"))
-      .join("/");
-
-    return indexRegex.test(pathWithoutNumberPrefix);
-  });
+  let indexFile = githubFiles.find(({ path }) => indexRegex.test(path));
 
   if (!indexFile) return null;
 

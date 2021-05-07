@@ -4,7 +4,7 @@ let api = [
   {
     name: "bind",
     signature: "bind<TData>;(event: string, handler: EventBindHandler<TData>",
-    description: "Binds to an event on the channel.",
+    description: () => <span>Binds to an event on the channel.</span>,
     args: [
       { name: "event", description: "The name of the event to bind to." },
       {
@@ -17,11 +17,54 @@ let api = [
   {
     name: "bindGlobal",
     signature: "bindGlobal<TData>(handler: ChannelGlobalHandler<TData>): void",
-    description: "Binds to all events on the channel.",
+    description: () => <span>Binds to all events on the channel.</span>,
     args: [
       {
         name: "handler",
         description: "The function to run when any event is triggered.",
+      },
+    ],
+  },
+  {
+    name: "unbind",
+    signature: "unbind(...events: string[]): void",
+    description: () => <span>Unbinds from events on the channel.</span>,
+    args: [
+      {
+        name: "...events",
+        description: "The events names to unbind from.",
+      },
+    ],
+  },
+  {
+    name: "unbindGlobal",
+    signature: "unbindGlobal(): void",
+    description: () => <span>Removes global bindings for this channel.</span>,
+    args: [],
+  },
+  {
+    name: "unsubscribe",
+    signature: "unsubscribe(): void",
+    description: () => <span>Unsubscribes from the channel.</span>,
+    args: [],
+  },
+  {
+    name: "trigger",
+    signature:
+      "trigger(eventName: string, data: Record<string, unknown>): void",
+    description: () => (
+      <span>
+        Triggers a{" "}
+        <a href="/docs/01-getting-started/01-what-is-Fungi#client-events">
+          client event
+        </a>{" "}
+        on the channel.
+      </span>
+    ),
+    args: [
+      {
+        name: "...events",
+        description: "The events names to unbind from.",
       },
     ],
   },
@@ -54,7 +97,7 @@ export function ChannelAPI() {
                       </div>
 
                       <div className="flex flex-col space-y-3 items-start">
-                        <span>{property.description}</span>
+                        <property.description />
 
                         <ul>
                           {property.args.map((arg) => (
