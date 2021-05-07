@@ -63,7 +63,12 @@ async function compileMdx<FrontmatterType extends Record<string, any>>(
   let sectionsLinks: SectionLink[] = [];
   let remarkPlugins: PluggableList = [
     remarkGfm,
-    remarkPrism,
+    [
+      remarkPrism,
+      {
+        plugins: ["diff-highlight"],
+      },
+    ],
     remarkSlug,
     function getSectionsHeadingsLinks() {
       return function walker(tree: Node) {
