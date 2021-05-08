@@ -30,7 +30,7 @@ export let action: ActionFunction = async ({ request }) => {
       },
     ],
     mode: "payment",
-    success_url: `${domain}/get-started`,
+    success_url: `${domain}/docs`,
     cancel_url: `${domain}/pricing`,
     metadata: {
       userId: session.get("user").id,

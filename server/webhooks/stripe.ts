@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { octokit } from "../../app/utils/octokit.server";
 import { prisma } from "../../app/utils/prisma.server";
 import { stripe } from "../../app/utils/stripe.server";
 
@@ -53,16 +52,6 @@ let stripeWebhook = async (request: Request, response: Response) => {
           },
         },
       });
-
-      await octokit.request(
-        "PUT /orgs/{org}/teams/{team_slug}/memberships/{username}",
-        {
-          org: "FungiRealtime",
-          team_slug: "customers",
-          username: user.username,
-          role: "member",
-        }
-      );
     } catch (err) {
       console.error(err);
       return response.status(400).send(`Webhook Error: ${err.message}`);
