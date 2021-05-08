@@ -13,18 +13,20 @@ generator client {
 model User {
   id             String          @id @default(uuid())
   username       String          @unique
-  githubUserId   Int?
   name           String?
   email          String?
   avatarURL      String
   createdAt      DateTime        @default(now())
+  updatedAt      DateTime?       @updatedAt
   stripeCustomer StripeCustomer?
 }
 
 model StripeCustomer {
-  id              String   @id
+  id              String    @id
   paymentIntentId String
-  user            User     @relation(fields: [userId], references: [id])
+  user            User      @relation(fields: [userId], references: [id])
   userId          String
-  createdAt       DateTime @default(now())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @updatedAt
+  licenseKey      String?   @default(uuid())
 }

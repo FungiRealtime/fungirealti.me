@@ -61,7 +61,6 @@ export let loader: LoaderFunction = async ({ request }) => {
   let githubUser = await userResponse.json();
 
   let payload = {
-    githubUserId: githubUser.id,
     username: githubUser.login,
     name: githubUser.name,
     email: githubUser.email,

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { octokit } from "../app/utils/octokit.server";
-import { prisma } from "../app/utils/prisma.server";
-import { stripe } from "../app/utils/stripe.server";
+import { octokit } from "../../app/utils/octokit.server";
+import { prisma } from "../../app/utils/prisma.server";
+import { stripe } from "../../app/utils/stripe.server";
 
 let stripeWebhook = async (request: Request, response: Response) => {
   let secret = process.env.STRIPE_WEBHOOK_SECRET!;

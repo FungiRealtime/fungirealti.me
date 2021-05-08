@@ -6,6 +6,8 @@ import { prisma } from "../../utils/prisma.server";
 import { commitSession, getSession } from "../../utils/sessions";
 import { DataWithUser, SessionUser } from "../../types";
 import { getGithubOauthUrl } from "../../utils/get-github-oauth-url";
+import { useState } from "react";
+import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 
 export let handle = {
   label: "Account",
@@ -48,6 +50,8 @@ export default function Account() {
   let { user, stripeCustomer } = useRouteData<
     DataWithUser<{ stripeCustomer: StripeCustomer | null }>
   >();
+
+  let [showLicenseKey, setShowLicenseKey] = useState(false);
 
   return (
     <>
@@ -102,6 +106,57 @@ export default function Account() {
               </p>
               <div className="mt-5 border-t border-gray-200">
                 <dl className="divide-y divide-gray-200">
+                  <div className="py-4 items-center sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                    <dt className="text-sm font-medium text-gray-500">Key</dt>
+                    <dd className="mt-1 flex items-center text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <div className="flex-grow flex flex-wrap items-center space-y-2">
+                        <span
+                          className="mr-auto transition-all"
+                          style={
+                            showLicenseKey
+                              ? undefined
+                              : {
+                                  color: "transparent",
+                                  textShadow: "0 0 5px rgba(0,0,0,0.5)",
+                                  pointerEvents: "none",
+                                }
+                          }
+                        >
+                          {stripeCustomer.licenseKey}
+                        </span>
+
+                        {showLicenseKey ? (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setShowLicenseKey(false);
+                            }}
+                            className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
+                          >
+                            <EyeOffIcon
+                              className="-ml-0.5 mr-2 h-4 w-4"
+                              aria-hidden="true"
+                            />
+                            Hide license key
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setShowLicenseKey(true);
+                            }}
+                            className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
+                          >
+                            <EyeIcon
+                              className="-ml-0.5 mr-2 h-4 w-4"
+                              aria-hidden="true"
+                            />
+                            Reveal license key
+                          </button>
+                        )}
+                      </div>
+                    </dd>
+                  </div>
                   <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
                     <dt className="text-sm font-medium text-gray-500">Owner</dt>
                     <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
