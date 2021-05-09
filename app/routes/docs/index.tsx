@@ -9,7 +9,7 @@ import { getMdxPage } from "../../utils/mdx.server";
 export let meta: MetaFunction = ({ data }) => {
   let { frontmatter } = data;
   return {
-    title: `${frontmatter.title} - Fungi Docs`,
+    title: `Fungi Docs`,
     description: frontmatter.description,
   };
 };
