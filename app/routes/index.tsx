@@ -158,7 +158,7 @@ export default function Index() {
               <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                 <div className="inline-flex rounded-md shadow">
                   <a
-                    href={isLoggedIn ? "/get-started" : githubOAuthUrl}
+                    href={isLoggedIn ? "/docs" : githubOAuthUrl}
                     className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand hover:bg-red-500"
                   >
                     {isLoggedIn ? "Get started" : "Sign up"}

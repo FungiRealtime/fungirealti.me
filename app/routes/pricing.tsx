@@ -1,13 +1,10 @@
-import { StripeCustomer } from ".prisma/client";
 import { CheckCircleIcon } from "@heroicons/react/outline";
-import { json, LoaderFunction, MetaFunction, redirect } from "remix";
+import { json, LoaderFunction, MetaFunction } from "remix";
 import { Form, usePendingFormSubmit, useRouteData } from "remix";
-import { format, parseISO } from "date-fns";
 import { useEffect } from "react";
 import { Footer } from "../components/footer";
 import { Header } from "../components/header";
 import { usePublicEnv } from "../hooks/use-public-env";
-import { prisma } from "../utils/prisma.server";
 import { commitSession, getSession } from "../utils/sessions";
 import { stripePromise } from "../utils/stripe.client";
 import { SessionUser } from "../types";
@@ -36,7 +33,7 @@ export let loader: LoaderFunction = async ({ request }) => {
   });
 };
 
-let includedFeatures = ["SDKs", "APIs", "Support", "Community discussions"];
+let includedFeatures = ["APIs", "Future updates"];
 
 interface RouteData {
   user: SessionUser | null;
