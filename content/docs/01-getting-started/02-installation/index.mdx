@@ -27,7 +27,6 @@ Go ahead and [install Docker](https://www.docker.com/get-started) if you haven't
 2. [Login with Docker](https://docs.docker.com/engine/reference/commandline/login/) using the credentials from the previous step:
 
 ```sh
-# We've set an environment variable "FUNGI_LICENSE_KEY" with the license key as the value. That is the recommended approach with security in mind although you can directly echo it.
 echo $FUNGI_LICENSE_KEY | docker login dkr.fungirealti.me --username license-username --password-stdin
 ```
 

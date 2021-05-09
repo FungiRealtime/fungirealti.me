@@ -62,10 +62,10 @@ export default function GettingStarted() {
 
         <div className="flex font-medium leading-6">
           <a
-            href="/docs/getting-started/what-is-Fungi"
+            href="/docs/01-getting-started/01-overview"
             className="transition-colors text-right text-gray-500 hover:text-gray-900 inline-flex items-start ml-auto"
           >
-            What is Fungi
+            Overview
             <span aria-hidden="true" className="ml-2">
               →
             </span>
