@@ -5,7 +5,7 @@ description: "Learn how to use Fungi channels with the JavaScript SDK."
 
 import { ChannelAPI } from "./channel-api";
 
-We recommend reading what [channels](/docs/getting-started/what-is-Fungi#channels) are before continuing.
+We recommend reading what [channels](/docs/01-getting-started/01-overview#channels) are before continuing.
 
 The client below will be used in the examples.
 
@@ -23,11 +23,11 @@ export { client };
 
 ## Subscribing to a channel
 
-To become a subscriber of a [public channel](/docs/getting-started/what-is-Fungi#public-channels) or a [private channel](/docs/getting-started/what-is-Fungi#private-channels) you call the `client.subscribe(channelName)` method. This method **returns the channel** you want to subscribe to so you can do things on the channel such as binding to events which means doing something whenever you receive an event on the channel.
+To become a subscriber of a [public channel](/docs/01-getting-started/01-overview#public-channels) or a [private channel](/docs/01-getting-started/01-overview#private-channels) you call the `client.subscribe(channelName)` method. This method **returns the channel** you're subscribing to.
 
 ### Subscribing to a public channel
 
-We'll use the client we exported in the previous snippet.
+We'll use the client we created at the beggining of this page.
 
 ```js
 // index.js
@@ -40,9 +40,9 @@ That's it! 🎉
 
 ### Subscribing to a private channel
 
-Read how [authentication](/docs/core-concepts/authentication) works before continuing.
+We recommend reading how [authentication](/docs/02-core-concepts/01-authentication) works before continuing.
 
-You subscribe to [private channels](/docs/getting-started/what-is-Fungi#private-channels) the same way you subscribe to public channels except private channels are authenticated channels which means you need to tell the SDK where this authentication will take place.
+You subscribe to [private channels](/docs/01-getting-started/01-overview#private-channels) the same way you subscribe to public channels except these are authenticated channels which means you need to tell the SDK where the authentication will take place. You will need your own server to authenticate these subscriptions, you can take a look at an example in Node [here](/docs/04-node/03-authenticating-clients).
 
 ```diff-js
   // fungi.js
@@ -53,8 +53,7 @@ You subscribe to [private channels](/docs/getting-started/what-is-Fungi#private-
     endpoint: "ws://localhost:8081",
 +
 +   // In this example, there's a server running on port 3000
-+   // which performs the authentication required to subscribe
-+   // to a private channel.
++   // which authenticates subscriptions.
 +   auth: {
 +     endpoint: 'http://localhost:3000/auth/fungi'
 +   }
@@ -74,12 +73,11 @@ If you need to pass extra headers to your server so it can complete this authent
     endpoint: "ws://localhost:8081",
 
     // In this example, there's a server running on port 3000
-    // which performs the authentication required to subscribe
-    // to a private channel.
+    // which authenticates subscriptions.
     auth: {
       endpoint: 'http://localhost:3000/auth/fungi',
 +     headers: {
-+       Authorization: `Bearer ${localStorage.getItem('access_token')}`
++       Authorization: `Bearer ${localStorage.getItem('access_token')}` // 😬 localStorage
 +     }
     }
   });

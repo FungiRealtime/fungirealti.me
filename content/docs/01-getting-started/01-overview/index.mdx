@@ -9,7 +9,7 @@ Fungi is a **set of APIs and SDKs** that help you build realtime features. These
 
 ## Clients
 
-You'll see the term **client** being used all over the place, when we say client we refer to an user of your application (authenticated or not) with an active connection to Fungi's APIs.
+You'll see the term **client** being used all over the place, when we say client we refer to an user of your application (authenticated or not) with a possibly active connection to Fungi's APIs.
 
 An **active connection** is an established [WebSocket](https://wikipedia.org/wiki/WebSocket) connection between a web browser (or any other client application) and Fungi's APIs.
 
@@ -73,7 +73,7 @@ Client events have the following **restrictions**:
 - Client events can only be triggered on [private channels](#private-channels) because they require authentication.
 - Client events must be prefixed with `client-`. Events with any other prefix can't be sent as a client event.
 - Client events can only be sent on channels to which the user is subscribed to. For example if the user Alice is subscribed only to the channel `private-channel-1`, this user will only be able to send client events on the channel `private-channel-1`.
-- Each client can publish up to 10 client events per second. This can be [configured](/docs/getting-started/installation#websocket-api) in our APIs.
+- Each client can publish up to 10 client events per second. This can be [configured](/docs/01-getting-started/02-installation#websocket-api) in our APIs.
 
 Examples of client events names:
 
