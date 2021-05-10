@@ -13,19 +13,21 @@ let repo = {
  * @returns a promise that resolves to a file ListItem of the files/directories in the given directory (not recursive)
  */
 async function downloadDirList(path: string) {
-  let { data } = await octokit.repos.getContent({
-    owner: repo.owner,
-    repo: repo.name,
-    path,
-  });
+  try {
+    let { data } = await octokit.repos.getContent({
+      owner: repo.owner,
+      repo: repo.name,
+      path,
+    });
 
-  if (!Array.isArray(data)) {
-    throw new Error(
-      `Tried to download content from ${path}. GitHub did not return an array of files. This should never happen...`
-    );
+    if (!Array.isArray(data)) {
+      return [];
+    }
+
+    return data;
+  } catch (error) {
+    return [];
   }
-
-  return data;
 }
 
 /**

@@ -1,11 +1,13 @@
 import { MetaFunction } from "remix";
+import { generateMeta } from "../utils/seo";
 
-export let meta: MetaFunction = () => {
-  return {
-    title: "Page not found",
+export let meta: MetaFunction = ({ location }) => {
+  return generateMeta({
+    pathname: location.pathname,
+    title: `Page not found`,
     description:
-      "Fungi empowers developers to add realtime features to their apps with easy to use and scalable APIs.",
-  };
+      "We looked everywhere but couldn't find the page you were looking for.",
+  });
 };
 
 export default function FourOhFour() {

@@ -12,10 +12,11 @@ import { generateMeta } from "../../utils/seo";
 
 export let meta: MetaFunction = ({ data, location }) => {
   if (!data) {
-    return {
+    return generateMeta({
+      pathname: location.pathname,
       title: `Page not found - Fungi Docs`,
       description: "The page you're trying to visit doesn't exist in the docs.",
-    };
+    });
   }
 
   let { frontmatter } = data;
