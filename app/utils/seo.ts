@@ -11,7 +11,7 @@ export function generateMeta(meta: Meta) {
     title: meta.title,
     description: meta.description,
 
-    "og:image": siteUrl + "/logo_transparent.png",
+    "og:image": siteUrl + "/images/logo_transparent.png",
     "og:image:alt": meta.description,
     "og:site_name": "Fungi",
     "og:type": "website",
@@ -19,7 +19,7 @@ export function generateMeta(meta: Meta) {
     "og:url": siteUrl + meta.pathname,
     "og:description": meta.description,
 
-    "twitter:image:src": siteUrl + "/logo_transparent.png",
+    "twitter:image:src": siteUrl + "/images/logo_transparent.png",
     "twitter:card": "summary",
     "twitter:title": meta.title,
     "twitter:description": meta.description,
