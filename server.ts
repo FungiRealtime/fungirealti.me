@@ -5,8 +5,6 @@ import compression from "compression";
 import morgan from "morgan";
 import helmet from "helmet";
 import { createRequestHandler } from "@remix-run/express";
-import { stripeWebhook } from "./server/webhooks/stripe";
-import { registryAuth } from "./server/auth/registry";
 
 let isProd = process.env.NODE_ENV === "production";
 let app = express();
@@ -46,14 +44,6 @@ if (isProd) {
 } else {
   app.use(morgan("dev"));
 }
-
-app.post(
-  "/webhooks/stripe",
-  express.raw({ type: "application/json" }),
-  stripeWebhook
-);
-
-app.post("/auth/registry", registryAuth);
 
 if (isProd) {
   app.all(

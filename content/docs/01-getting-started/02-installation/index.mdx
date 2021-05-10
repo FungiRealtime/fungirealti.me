@@ -5,34 +5,16 @@ description: "Learn how to get Fungi up and running in your project."
 
 ## Requirements
 
-- [A license](/pricing). In order to use Fungi's APIs, you must own a license, if you don't have one, you can get it [here](/pricing).
-
 - [Docker](https://www.docker.com/). You can run Fungi anywhere Docker is available. This documentation assumes you're familiar with the basics.
 
 - [Redis](https://redis.io/). You must run a redis instance locally to which Fungi will connect and use for communication. You can use Docker to run redis since you'll be needing it either way.
 
 ## Overview
 
-Fungi has 2 APIs, each of them a Docker container that you need to run locally:
+Fungi has 2 APIs, each of them a Docker container that you need to run:
 
 - **WebSocket API**. This is the most important component, it allows clients to connect to it and receive realtime updates.
 - **REST API**. Used for actions such as sending realtime messages to the WebSocket API so that clients can receive them.
-
-Go ahead and [install Docker](https://www.docker.com/get-started) if you haven't already. Once it's installed, you'll have to login to **Fungi's Docker Registry** which is where all of Fungi's APIs images are stored.
-
-## Logging in to Fungi's Docker Registry
-
-1. Get your license credentials, follow the instructions [here](/docs#get-your-license-credentials).
-
-2. [Login with Docker](https://docs.docker.com/engine/reference/commandline/login/) using the credentials from the previous step:
-
-```sh
-echo $FUNGI_LICENSE_KEY | docker login dkr.fungirealti.me --username license-username --password-stdin
-```
-
-You should see a `Login Succeeded` message on your terminal if the login was successful.
-
-3. Docker is ready! 🐳
 
 ## With Docker Compose
 
@@ -44,7 +26,7 @@ version: "3.8"
 
 services:
   rest:
-    image: dkr.fungirealti.me/rest:1.0.0
+    image: fungirt/rest:1.0.0
     ports:
       - 8080:8080
     environment:
@@ -53,7 +35,7 @@ services:
       APP_KEY: app-test-key
 
   ws:
-    image: dkr.fungirealti.me/ws:1.0.0
+    image: fungirt/ws:1.0.0
     ports:
       - 8081:8080
     environment:

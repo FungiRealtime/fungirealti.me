@@ -18,8 +18,6 @@ export let links: LinksFunction = () => {
 export let loader: LoaderFunction = () => {
   return {
     ENV: {
-      PUBLIC_GITHUB_CLIENT_ID: process.env.PUBLIC_GITHUB_CLIENT_ID,
-      PUBLIC_STRIPE_KEY: process.env.PUBLIC_STRIPE_KEY,
       PUBLIC_ALGOLIA_APP_ID: process.env.PUBLIC_ALGOLIA_APP_ID,
       PUBLIC_ALGOLIA_API_KEY: process.env.PUBLIC_ALGOLIA_API_KEY,
       PUBLIC_ALGOLIA_INDEX: process.env.PUBLIC_ALGOLIA_INDEX,
