@@ -8,8 +8,9 @@ import { getMdxPage } from "../../utils/mdx.server";
 import { MDXAnchor } from "../../components/mdx-anchor";
 import { useOutletData } from "../../hooks/use-outlet-data";
 import { useDocsNavigation } from "../../hooks/use-docs-navigation";
+import { generateMeta } from "../../utils/seo";
 
-export let meta: MetaFunction = ({ data }) => {
+export let meta: MetaFunction = ({ data, location }) => {
   if (!data) {
     return {
       title: `Page not found - Fungi Docs`,
@@ -18,10 +19,12 @@ export let meta: MetaFunction = ({ data }) => {
   }
 
   let { frontmatter } = data;
-  return {
+
+  return generateMeta({
+    pathname: location.pathname,
     title: `${frontmatter.title} - Fungi Docs`,
     description: frontmatter.description,
-  };
+  });
 };
 
 export let loader: LoaderFunction = async ({ params }) => {

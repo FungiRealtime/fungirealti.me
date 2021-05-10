@@ -3,13 +3,15 @@ import { ChatIcon } from "@heroicons/react/outline";
 import { BellIcon, GlobeIcon } from "@heroicons/react/solid";
 import { Header } from "../components/header";
 import { Footer } from "../components/footer";
+import { generateMeta } from "../utils/seo";
 
-export let meta: MetaFunction = () => {
-  return {
+export let meta: MetaFunction = ({ location }) => {
+  return generateMeta({
+    pathname: location.pathname,
     title: "Fungi | Powering realtime experiences",
     description:
       "Fungi empowers developers to add realtime features to their apps with easy to use and scalable APIs.",
-  };
+  });
 };
 
 let features = [
