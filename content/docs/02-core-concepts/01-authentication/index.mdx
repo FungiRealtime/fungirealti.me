@@ -132,9 +132,9 @@ All our server SDKs generate this for you with the `authenticate` method but we'
 
 Let's imagine that these are our credentials
 
-```js
-key = "dNWdCrBj2QeMrB5etEFyxRhMyP9QGxCQPP";
-secret = "kDUmhJ4BPzLskuy3R6ayJLQJFqY38HcBZh";
+```json
+key = "dNWdCrBj2QeMrB5etEFyxRhMyP9QGxCQPP"
+secret = "kDUmhJ4BPzLskuy3R6ayJLQJFqY38HcBZh"
 ```
 
 And the client connected has a socket id of `123`. Every client receives an unique socket id upon establishing a connection to Fungi like explained [here](#authentication-steps).
@@ -173,7 +173,7 @@ console.log(authToken);
 // xxxxxxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-The auth response from your server should be a JSON with an `auth` property with the generated authToken from the previous snippet:
+The auth response from your server should be a JSON with an `auth` property with the generated auth token from the previous snippet:
 
 ```json
 {
