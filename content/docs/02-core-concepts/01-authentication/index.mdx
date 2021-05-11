@@ -38,6 +38,7 @@ npm install @fungi-realtime/node express cors
 ```
 
 ```js
+// server.js
 const cors = require("cors");
 const express = require("express");
 const { Client } = require("@fungi-realtime/node");
@@ -139,7 +140,7 @@ secret = "kDUmhJ4BPzLskuy3R6ayJLQJFqY38HcBZh"
 
 And the client connected has a socket id of `123`. Every client receives an unique socket id upon establishing a connection to Fungi like explained [here](#authentication-steps).
 
-Given that your application receives a POST request to /fungi/auth sent from the SDK when trying to authenticate a subscription with the body
+Given that your application receives a POST request to /fungi/auth sent from the client SDK when trying to authenticate a subscription with the body
 
 ```json
 {
