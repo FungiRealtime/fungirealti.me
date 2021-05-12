@@ -12,7 +12,7 @@ export function Warning() {
           />
         </div>
         <div className="ml-3">
-          <p style={{ margin: 0 }} className="text-sm text-yellow-700">
+          <p style={{ margin: 0 }} className="text-yellow-700">
             Make sure the endpoint follows the format in the example,{" "}
             <code>http://localhost:8080</code> is a valid endpoint but{" "}
             <code>http://localhost:8080/</code> is <strong>NOT</strong>.
