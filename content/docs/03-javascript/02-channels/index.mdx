@@ -42,7 +42,7 @@ That's it! 🎉
 
 We recommend reading how [authentication](/docs/02-core-concepts/01-authentication) works before continuing.
 
-You subscribe to [private channels](/docs/01-getting-started/01-overview#private-channels) the same way you subscribe to public channels except these are authenticated channels which means you need to tell the SDK where the authentication will take place. You will need your own server to authenticate these subscriptions, you can take a look at an example in Node [here](/docs/04-node/03-authenticating-clients).
+You subscribe to [private channels](/docs/01-getting-started/01-overview#private-channels) the same way you subscribe to public channels except these are authenticated channels which means you need to tell the SDK where the authentication will take place. You will need your own server to authenticate these subscriptions, you can take a look at an example in Node [here](/docs/02-core-concepts/01-authentication#node).
 
 ```diff-js
   // fungi.js
@@ -99,7 +99,27 @@ That's it! 🎉
 
 ## Triggering events on a channel
 
-TODO
+You can only trigger [client events](/docs/01-getting-started/01-overview#client-events) from the JavaScript SDK or any other client SDK.
+
+```js
+// index.js
+import { client } from "./fungi";
+
+// Client events can only be triggered on private channels.
+let coolChannel = client.subscribe("private-cool-channel");
+
+// Wait until subscription succeeds to trigger the event
+// otherwise we will get an error.
+coolChannel.bind("fungi:subscription_succeeded", () => {
+  // Trigger an event with the "client-hello-world" name
+  // and a payload with the data { hello: "world" }.
+  coolChannel.trigger("client-hello-world", {
+    hello: "world",
+  });
+});
+```
+
+If you need to trigger an event on a public channel or you want to have some validation or persistence for the event, take a look at [server events](/docs/01-getting-started/01-overview#server-events).
 
 ## Channel API
 
