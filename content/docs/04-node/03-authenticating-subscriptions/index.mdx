@@ -1,0 +1,57 @@
+---
+title: "Authenticating subscriptions"
+description: "Learn how to authenticate channel subscriptions with the Node SDK."
+---
+
+We recommend reading how [authentication](/docs/02-core-concepts/01-authentication) works in Fungi before continuing.
+
+You use the `authenticate(socketId: string, channelName: string)` method to generate an [auth token](/docs/02-core-concepts/01-authentication#the-auth-token) for a specific client and channel,
+
+```js
+import { Client } from "@fungi-realtime/node";
+
+// We don't pass the httpEndpoint to the client because it's not required
+// if all we're doing is authentication.
+let client = new Client({
+  key: "app-test-key",
+  secret: "app-test-secret",
+});
+
+let socketId = "123";
+let channelName = "cool-channel";
+
+let auth = client.authenticate(socketId, channelName);
+console.log(auth);
+// {
+//   auth: "xxxxxxx:xxxxxxxxxxxxxxxxxxx"
+// }
+```
+
+The example above isn't very practical because normally you receive the socket's id and channel name from your client application (via some [client SDK](/docs/01-getting-started/03-choose-an-SDK#client-sdks)). For that reason we'll show an example using `express` and an endpoint which authenticates every incoming request. In a real world app you should first check that the user has permission for the channel and then authenticate it with Fungi.
+
+```js
+// server.js
+const express = require("express");
+const { Client } = require("@fungi-realtime/node");
+
+let app = express();
+
+let client = new Client({
+  key: "app-test-key",
+  secret: "app-test-secret",
+});
+
+app.use(express.json());
+
+app.post("/fungi/auth", (req, res) => {
+  let socketId = req.body.socket_id;
+  let channel = req.body.channel_name;
+  let auth = client.authenticate(socketId, channel);
+  res.json(auth);
+});
+
+let port = process.env.PORT || 5000;
+app.listen(port);
+```
+
+You can read more about the endpoint implementation [here](/docs/02-core-concepts/01-authentication#server-side-endpoint-implementation).

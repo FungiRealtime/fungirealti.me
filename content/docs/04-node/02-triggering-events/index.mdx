@@ -3,4 +3,120 @@ title: "Triggering events"
 description: "Learn how to trigger events using the Node SDK."
 ---
 
-We recommend reading what [events](/docs/01-getting-started/01-overview#events) are before continuing.
+We recommend reading what [events](/docs/01-getting-started/01-overview#events) are before continuing. The type of events you can trigger with a server SDK are [server events](/docs/01-getting-started/01-overview#server-events).
+
+## Triggering a single event
+
+```js
+import { Client } from "@fungi-realtime/node";
+
+let client = new Client({
+  key: "app-test-key",
+  secret: "app-test-secret",
+  httpEndpoint: "http://localhost:8080",
+});
+
+client
+  .trigger("my-cool-channel", "my-cool-event", {
+    some: "data",
+    hello: "world",
+  })
+  .then((triggeredEvent) => {
+    console.log(triggeredEvent);
+    // {
+    //   channels: ["my-cool-channel"],
+    //   event: "my-cool-event",
+    //   data: {
+    //     some: "data"
+    //   },
+    // }
+  });
+```
+
+You can also trigger an event on multiple channels (up to 10). The first parameter of `trigger()` takes either a string (for a single channel) or an array of strings (multiple channels).
+
+```js
+import { Client } from "@fungi-realtime/node";
+
+let client = new Client({
+  key: "app-test-key",
+  secret: "app-test-secret",
+  httpEndpoint: "http://localhost:8080",
+});
+
+client
+  .trigger(
+    ["my-cool-channel", "my-second-cool-channel", "my-third-cool-channel"],
+    "my-cool-event",
+    {
+      some: "data",
+      hello: "world",
+    }
+  )
+  .then((triggeredEvent) => {
+    console.log(triggeredEvent);
+    // {
+    //   channels: ["my-cool-channel", "my-second-cool-channel", "my-third-cool-channel"],
+    //   event: "my-cool-event",
+    //   data: {
+    //     some: "data",
+    //     hello: "world"
+    //   },
+    // }
+  });
+```
+
+The SDK will remove duplicate channels passed as the first parameter so if you pass
+
+```json
+["channel-1", "channel-2", "channel-1"]
+```
+
+You end up with
+
+```json
+["channel-1", "channel-2"]
+```
+
+## Batching events
+
+You can batch events (up to 10) instead of calling `trigger()` multiple times which is better because you only send one optimized request to Fungi's REST API instead of multiple.
+
+```js
+import { Client } from "@fungi-realtime/node";
+
+let client = new Client({
+  key: "app-test-key",
+  secret: "app-test-secret",
+  httpEndpoint: "http://localhost:8080",
+});
+
+let events = [
+  {
+    channel: "channel-1",
+    event: "cool-event-1",
+    data: { hello1: "world1" },
+  },
+  {
+    channel: "channel-1",
+    event: "cool-event-2",
+    data: { hello2: "world2" },
+  },
+];
+
+client.triggerBatch(events).then((triggeredEvents) => {
+  console.log(triggeredEvents);
+  // [
+  //   {
+  //     channel: "channel-1",
+  //     event: "cool-event-1",
+  //     data: { hello1: "world1" },
+  //   },
+  //   {
+  //     channel: "channel-1",
+  //     event: "cool-event-2",
+  //     data: { hello2: "world2" },
+  //   },
+  // ];
+});
+```

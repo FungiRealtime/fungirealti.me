@@ -9,7 +9,7 @@ The Node SDK should be used by a secure environment like your app's server becau
 
 ## Features
 
-- **Event batching**. Batch event triggers with an easy to use API.
+- **Event batching**. Batch events with an easy to use API.
 - **Authentication**. Generate [auth tokens](/docs/02-core-concepts/01-authentication#the-auth-token) on your server to authenticate channel subscriptions.
 
 ## Installation
@@ -29,7 +29,9 @@ The first thing you need is a `Client`, you can have as many `Client` instances 
 import { Client } from "@fungi-realtime/node";
 
 let client = new Client({
+  // Your Fungi instance's APP_KEY
   key: "app-test-key",
+  // Your Fungi instance's APP_SECRET
   secret: "app-test-secret",
 });
 
@@ -43,7 +45,9 @@ The above configuration passed to the client is enough if all you plan on doing 
   import { Client } from "@fungi-realtime/node";
 
   let client = new Client({
+    // Your Fungi instance's APP_KEY
     key: "app-test-key",
+    // Your Fungi instance's APP_SECRET
     secret: "app-test-secret",
 +   // In this example, the REST API is running locally
 +   // on port 8080.
