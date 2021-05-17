@@ -1,12 +1,11 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { SearchIcon } from "@heroicons/react/solid";
 import { DocumentIcon, HashtagIcon } from "@heroicons/react/outline";
-import { Dialog, Menu, Transition } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import debounce from "lodash.debounce";
 import { usePublicEnv } from "../hooks/use-public-env";
 import { docsSearchParams, searchClient } from "../utils/algolia.client";
 import { DocsSearchResult } from "../types";
-import { classNames } from "../utils/classNames";
 
 let ACTION_KEY_DEFAULT = ["Ctrl ", "Control"];
 let ACTION_KEY_APPLE = ["⌘", "Command"];
@@ -152,61 +151,37 @@ export function DocsSearch() {
                   </div>
                 </div>
 
-                <Menu as="div" className="border-t border-gray-200">
-                  <Menu.Items static as="ul">
+                <div className="border-t border-gray-200 max-h-96 overflow-y-scroll">
+                  <ul>
                     {hits.map((hit) => (
-                      <Menu.Item key={hit.url} as="li">
-                        {({ active }) => (
-                          <a
-                            href={hit.url}
-                            className={classNames(
-                              "px-5 py-4 flex items-center",
-                              active ? "bg-gray-50" : ""
-                            )}
-                          >
-                            {hit.lvl1 ? (
-                              <>
-                                <HashtagIcon
-                                  className={classNames(
-                                    "h-4 w-4 mr-4",
-                                    active ? "text-brand" : "text-gray-500"
-                                  )}
-                                />
-                                <span
-                                  className={classNames(
-                                    "mr-4",
-                                    active ? "text-brand" : "text-gray-900"
-                                  )}
-                                >
-                                  {hit.lvl1}
-                                </span>
-                                <span className="ml-auto text-right text-gray-500">
-                                  {hit.lvl0}
-                                </span>
-                              </>
-                            ) : (
-                              <>
-                                <DocumentIcon
-                                  className={classNames(
-                                    "h-4 w-4 mr-4",
-                                    active ? "text-brand" : "text-gray-500"
-                                  )}
-                                />
-                                <span
-                                  className={classNames(
-                                    active ? "text-brand" : "text-gray-900"
-                                  )}
-                                >
-                                  {hit.lvl0}
-                                </span>
-                              </>
-                            )}
-                          </a>
-                        )}
-                      </Menu.Item>
+                      <li key={hit.url}>
+                        <a
+                          href={hit.url}
+                          className="px-5 py-4 flex items-center group focus:bg-gray-50 hover:bg-gray-50 focus:outline-none"
+                        >
+                          {hit.lvl1 ? (
+                            <>
+                              <HashtagIcon className="h-4 w-4 mr-4 text-gray-500 group-focus:text-brand group-hover:text-brand" />
+                              <span className="mr-4 text-gray-900 group-focus:text-brand group-hover:text-brand">
+                                {hit.lvl1}
+                              </span>
+                              <span className="ml-auto text-right text-gray-500">
+                                {hit.lvl0}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <DocumentIcon className="h-4 w-4 mr-4 text-gray-500 group-focus:text-brand group-hover:text-brand" />
+                              <span className="text-gray-900 group-focus:text-brand group-hover:text-brand">
+                                {hit.lvl0}
+                              </span>
+                            </>
+                          )}
+                        </a>
+                      </li>
                     ))}
-                  </Menu.Items>
-                </Menu>
+                  </ul>
+                </div>
               </div>
             </Transition.Child>
           </div>
