@@ -32,3 +32,16 @@ export interface Section {
   pathname: string;
   subsections: Pick<Section, "title" | "pathname">[];
 }
+
+export interface DocsSearchResult {
+  nbHits: number;
+  query: string;
+  hits: {
+    url: string;
+    type: string;
+    hierarchy: {
+      lvl0: string;
+      lvl1: string | null;
+    };
+  }[];
+}
