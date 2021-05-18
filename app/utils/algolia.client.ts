@@ -10,6 +10,7 @@ let searchClient = algoliasearch(
 
 let docsSearchParams = {
   attributesToRetrieve: ["hierarchy.lvl0", "hierarchy.lvl1", "url"],
+  length: 50,
 };
 
 export { searchClient, docsSearchParams };
