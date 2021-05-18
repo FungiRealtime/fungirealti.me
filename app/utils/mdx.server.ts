@@ -96,11 +96,12 @@ async function compileMdx<FrontmatterType extends Record<string, any>>(
 
   let { code, frontmatter } = await bundleMDX(indexFile.content, {
     files,
-    xdmOptions(_input, options) {
+    xdmOptions(options) {
       options.remarkPlugins = [
         ...(options.remarkPlugins ?? []),
         ...remarkPlugins,
       ];
+
       return options;
     },
   });

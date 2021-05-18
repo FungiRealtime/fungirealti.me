@@ -196,3 +196,7 @@ pre[class*="language-"] {
 .token.deleted {
   background: #fb4934;
 }
+
+.algolia-docsearch-suggestion--highlight {
+  @apply text-brand group-focus:underline group-hover:underline;
+}

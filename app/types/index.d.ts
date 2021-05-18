@@ -33,6 +33,13 @@ export interface Section {
   subsections: Pick<Section, "title" | "pathname">[];
 }
 
+interface HighlightResult {
+  fullyHighlighted: boolean;
+  matchLevel: string;
+  matchedWords: string[];
+  value: string;
+}
+
 export interface DocsSearchResult {
   nbHits: number;
   query: string;
@@ -42,6 +49,12 @@ export interface DocsSearchResult {
     hierarchy: {
       lvl0: string;
       lvl1: string | null;
+    };
+    _highlightResult: {
+      hierarchy: {
+        lvl0: HighlightResult;
+        lvl1?: HighlightResult;
+      };
     };
   }[];
 }

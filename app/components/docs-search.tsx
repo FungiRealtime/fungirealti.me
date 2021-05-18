@@ -6,13 +6,21 @@ import debounce from "lodash.debounce";
 import { usePublicEnv } from "../hooks/use-public-env";
 import { docsSearchParams, searchClient } from "../utils/algolia.client";
 import { DocsSearchResult } from "../types";
+import { classNames } from "../utils/classNames";
 
 let ACTION_KEY_DEFAULT = ["Ctrl ", "Control"];
 let ACTION_KEY_APPLE = ["⌘", "Command"];
+let SHORTCUT_KEY = "k";
 
 interface Hit {
-  lvl0: string;
-  lvl1: string | null;
+  lvl0: {
+    value: string;
+    highlighted: string;
+  };
+  lvl1: {
+    value: string;
+    highlighted: string;
+  } | null;
   url: string;
 }
 
@@ -33,10 +41,6 @@ export function DocsSearch() {
   }, [setIsOpen]);
 
   let search = async (query: string) => {
-    if (!query) {
-      return setHits(() => []);
-    }
-
     let { results } = await searchClient.search([
       {
         indexName: PUBLIC_ALGOLIA_INDEX!,
@@ -49,8 +53,17 @@ export function DocsSearch() {
 
     let pageHits: Hit[] = page.hits.map((hit) => {
       return {
-        lvl0: hit.hierarchy.lvl0,
-        lvl1: hit.hierarchy.lvl1,
+        lvl0: {
+          highlighted: hit._highlightResult.hierarchy.lvl0.value,
+          value: hit.hierarchy.lvl0,
+        },
+        lvl1:
+          hit.hierarchy.lvl1 && hit._highlightResult.hierarchy.lvl1
+            ? {
+                highlighted: hit._highlightResult.hierarchy.lvl1.value,
+                value: hit.hierarchy.lvl1,
+              }
+            : null,
         url: hit.url,
       };
     });
@@ -62,6 +75,14 @@ export function DocsSearch() {
     search(query);
   }, 400);
 
+  let onKeyDown = (event: KeyboardEvent) => {
+    let keyPressed = event.key.toLowerCase();
+    if (keyPressed === SHORTCUT_KEY && event.ctrlKey) {
+      event.preventDefault();
+      onOpen();
+    }
+  };
+
   useEffect(() => {
     if (typeof navigator !== "undefined") {
       if (/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
@@ -72,6 +93,22 @@ export function DocsSearch() {
       setBrowserDetected(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (actionKey) {
+      document.addEventListener("keydown", onKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [actionKey]);
+
+  useEffect(() => {
+    if (!isOpen && hits.length > 0) {
+      setHits([]);
+    }
+  }, [isOpen]);
 
   return (
     <>
@@ -151,7 +188,12 @@ export function DocsSearch() {
                   </div>
                 </div>
 
-                <div className="border-t border-gray-200 max-h-96 overflow-y-auto">
+                <div
+                  className={classNames(
+                    "max-h-96 overflow-y-auto",
+                    hits.length > 0 ? "border-t border-gray-200" : ""
+                  )}
+                >
                   <ul>
                     {hits.map((hit) => (
                       <li key={hit.url}>
@@ -162,25 +204,45 @@ export function DocsSearch() {
                           {hit.lvl1 ? (
                             <>
                               <HashtagIcon className="h-4 w-4 mr-4 text-gray-500 group-focus:text-brand group-hover:text-brand" />
-                              <span className="mr-4 text-gray-900 group-focus:text-brand group-hover:text-brand">
-                                {hit.lvl1}
-                              </span>
-                              <span className="ml-auto text-right text-gray-500">
-                                {hit.lvl0}
-                              </span>
+                              <span
+                                className="mr-4 text-gray-900 group-focus:text-brand group-hover:text-brand"
+                                dangerouslySetInnerHTML={{
+                                  __html: hit.lvl1.highlighted,
+                                }}
+                              />
+                              <span
+                                className="ml-auto text-right text-gray-500"
+                                dangerouslySetInnerHTML={{
+                                  __html: hit.lvl0.highlighted,
+                                }}
+                              />
                             </>
                           ) : (
                             <>
                               <DocumentIcon className="h-4 w-4 mr-4 text-gray-500 group-focus:text-brand group-hover:text-brand" />
-                              <span className="text-gray-900 group-focus:text-brand group-hover:text-brand">
-                                {hit.lvl0}
-                              </span>
+                              <span
+                                className="text-gray-900 group-focus:text-brand group-hover:text-brand"
+                                dangerouslySetInnerHTML={{
+                                  __html: hit.lvl0.highlighted,
+                                }}
+                              />
                             </>
                           )}
                         </a>
                       </li>
                     ))}
                   </ul>
+                </div>
+
+                <div className="border-t border-gray-200 p-5 flex items-center justify-end space-x-2">
+                  <span className="text-sm text-gray-600">Search by</span>{" "}
+                  <a href="https://www.algolia.com/">
+                    <img
+                      src="/images/algolia.svg"
+                      alt="Algolia"
+                      className="h-auto w-[4.5rem]"
+                    />
+                  </a>
                 </div>
               </div>
             </Transition.Child>

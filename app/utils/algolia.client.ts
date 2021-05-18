@@ -9,27 +9,7 @@ let searchClient = algoliasearch(
 );
 
 let docsSearchParams = {
-  attributesToRetrieve: [
-    "hierarchy.lvl0",
-    "hierarchy.lvl1",
-    "hierarchy.lvl2",
-    "hierarchy.lvl3",
-    "hierarchy.lvl4",
-    "hierarchy.lvl5",
-    "hierarchy.lvl6",
-    "content",
-    "type",
-    "url",
-  ],
-  attributesToSnippet: [
-    "hierarchy.lvl1",
-    "hierarchy.lvl2",
-    "hierarchy.lvl3",
-    "hierarchy.lvl4",
-    "hierarchy.lvl5",
-    "hierarchy.lvl6",
-    "content",
-  ],
+  attributesToRetrieve: ["hierarchy.lvl0", "hierarchy.lvl1", "url"],
 };
 
 export { searchClient, docsSearchParams };
