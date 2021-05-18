@@ -151,7 +151,7 @@ export function DocsSearch() {
                   </div>
                 </div>
 
-                <div className="border-t border-gray-200 max-h-96 overflow-y-scroll">
+                <div className="border-t border-gray-200 max-h-96 overflow-y-auto">
                   <ul>
                     {hits.map((hit) => (
                       <li key={hit.url}>
