@@ -11,6 +11,7 @@ import { classNames } from "../utils/classNames";
 let ACTION_KEY_DEFAULT = ["Ctrl ", "Control"];
 let ACTION_KEY_APPLE = ["⌘", "Command"];
 let SHORTCUT_KEY = "k";
+let GENERIC_ERROR_MESSAGE = "Oops! Something went wrong with your search :(";
 
 interface Hit {
   lvl0: {
@@ -24,13 +25,25 @@ interface Hit {
   url: string;
 }
 
+interface SearchState {
+  hits: Hit[];
+  status: "idle" | "loading" | "success" | "error";
+  errorMessage: string | null;
+}
+
+let initialSearchState: SearchState = {
+  hits: [],
+  status: "idle",
+  errorMessage: null,
+};
+
 export function DocsSearch() {
-  let [isOpen, setIsOpen] = useState(false);
   let searchButtonRef = useRef<HTMLButtonElement>(null);
+  let [isOpen, setIsOpen] = useState(false);
   let [browserDetected, setBrowserDetected] = useState(false);
   let [actionKey, setActionKey] = useState(ACTION_KEY_DEFAULT);
-  let [hits, setHits] = useState<Hit[]>([]);
   let { PUBLIC_ALGOLIA_INDEX } = usePublicEnv();
+  let [searchState, setSearchState] = useState<SearchState>(initialSearchState);
 
   let onOpen = useCallback(() => {
     setIsOpen(true);
@@ -41,34 +54,52 @@ export function DocsSearch() {
   }, [setIsOpen]);
 
   let search = async (query: string) => {
-    let { results } = await searchClient.search([
-      {
-        indexName: PUBLIC_ALGOLIA_INDEX!,
-        query,
-        params: docsSearchParams,
-      },
-    ]);
+    setSearchState((prevState) => ({
+      ...prevState,
+      status: "loading",
+      errorMessage: null,
+    }));
 
-    let page = results[0] as unknown as DocsSearchResult;
-
-    let pageHits: Hit[] = page.hits.map((hit) => {
-      return {
-        lvl0: {
-          highlighted: hit._highlightResult.hierarchy.lvl0.value,
-          value: hit.hierarchy.lvl0,
+    try {
+      let { results } = await searchClient.search([
+        {
+          indexName: PUBLIC_ALGOLIA_INDEX!,
+          query,
+          params: docsSearchParams,
         },
-        lvl1:
-          hit.hierarchy.lvl1 && hit._highlightResult.hierarchy.lvl1
-            ? {
-                highlighted: hit._highlightResult.hierarchy.lvl1.value,
-                value: hit.hierarchy.lvl1,
-              }
-            : null,
-        url: hit.url,
-      };
-    });
+      ]);
 
-    setHits(() => pageHits);
+      let page = results[0] as unknown as DocsSearchResult;
+
+      let pageHits: Hit[] = page.hits.map((hit) => {
+        return {
+          lvl0: {
+            highlighted: hit._highlightResult.hierarchy.lvl0.value,
+            value: hit.hierarchy.lvl0,
+          },
+          lvl1:
+            hit.hierarchy.lvl1 && hit._highlightResult.hierarchy.lvl1
+              ? {
+                  highlighted: hit._highlightResult.hierarchy.lvl1.value,
+                  value: hit.hierarchy.lvl1,
+                }
+              : null,
+          url: hit.url,
+        };
+      });
+
+      setSearchState(() => ({
+        hits: pageHits,
+        status: "success",
+        errorMessage: null,
+      }));
+    } catch (error) {
+      setSearchState(() => ({
+        hits: [],
+        status: "error",
+        errorMessage: error.message,
+      }));
+    }
   };
 
   let onInput = debounce<(query: string) => void>((query) => {
@@ -105,8 +136,8 @@ export function DocsSearch() {
   }, [actionKey]);
 
   useEffect(() => {
-    if (!isOpen && hits.length > 0) {
-      setHits([]);
+    if (!isOpen) {
+      setSearchState(initialSearchState);
     }
   }, [isOpen]);
 
@@ -115,6 +146,7 @@ export function DocsSearch() {
       <button
         type="button"
         ref={searchButtonRef}
+        disabled={!browserDetected}
         onClick={onOpen}
         className="group leading-6 font-medium flex items-center space-x-3 sm:space-x-4 hover:text-gray-600 transition-colors duration-200 w-full py-2"
       >
@@ -184,54 +216,91 @@ export function DocsSearch() {
                     className="absolute inset-y-0 right-5 flex items-center pointer-events-none"
                     aria-hidden="true"
                   >
-                    <SearchIcon className="h-6 w-6" aria-hidden="true" />
+                    {searchState.status === "loading" ? (
+                      <>
+                        <svg
+                          className="animate-spin h-6 w-6"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                        <span className="sr-only">Loading...</span>
+                      </>
+                    ) : (
+                      <SearchIcon className="h-6 w-6" aria-hidden="true" />
+                    )}
                   </div>
                 </div>
 
                 <div
                   className={classNames(
                     "max-h-96 overflow-y-auto",
-                    hits.length > 0 ? "border-t border-gray-200" : ""
+                    searchState.status === "success" ||
+                      searchState.status === "error"
+                      ? "border-t border-gray-200"
+                      : ""
                   )}
                 >
-                  <ul>
-                    {hits.map((hit) => (
-                      <li key={hit.url}>
-                        <a
-                          href={hit.url}
-                          className="px-5 py-4 flex items-center group focus:bg-gray-50 hover:bg-gray-50 focus:outline-none"
-                        >
-                          {hit.lvl1 ? (
-                            <>
-                              <HashtagIcon className="h-4 w-4 mr-4 text-gray-500 group-focus:text-brand group-hover:text-brand" />
-                              <span
-                                className="mr-4 text-gray-900 group-focus:text-brand group-hover:text-brand"
-                                dangerouslySetInnerHTML={{
-                                  __html: hit.lvl1.highlighted,
-                                }}
-                              />
-                              <span
-                                className="ml-auto text-right text-gray-500"
-                                dangerouslySetInnerHTML={{
-                                  __html: hit.lvl0.highlighted,
-                                }}
-                              />
-                            </>
-                          ) : (
-                            <>
-                              <DocumentIcon className="h-4 w-4 mr-4 text-gray-500 group-focus:text-brand group-hover:text-brand" />
-                              <span
-                                className="text-gray-900 group-focus:text-brand group-hover:text-brand"
-                                dangerouslySetInnerHTML={{
-                                  __html: hit.lvl0.highlighted,
-                                }}
-                              />
-                            </>
-                          )}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                  {searchState.status === "error" && (
+                    <strong className="block p-5">
+                      {searchState.errorMessage ?? GENERIC_ERROR_MESSAGE}
+                    </strong>
+                  )}
+
+                  {searchState.status === "success" && (
+                    <ul>
+                      {searchState.hits.map((hit) => (
+                        <li key={hit.url}>
+                          <a
+                            href={hit.url}
+                            className="px-5 py-4 flex items-center group focus:bg-gray-50 hover:bg-gray-50 focus:outline-none"
+                          >
+                            {hit.lvl1 ? (
+                              <>
+                                <HashtagIcon className="h-4 w-4 mr-4 text-gray-500 group-focus:text-brand group-hover:text-brand" />
+                                <span
+                                  className="mr-4 text-gray-900 group-focus:text-brand group-hover:text-brand"
+                                  dangerouslySetInnerHTML={{
+                                    __html: hit.lvl1.highlighted,
+                                  }}
+                                />
+                                <span
+                                  className="ml-auto text-right text-gray-500"
+                                  dangerouslySetInnerHTML={{
+                                    __html: hit.lvl0.highlighted,
+                                  }}
+                                />
+                              </>
+                            ) : (
+                              <>
+                                <DocumentIcon className="h-4 w-4 mr-4 text-gray-500 group-focus:text-brand group-hover:text-brand" />
+                                <span
+                                  className="text-gray-900 group-focus:text-brand group-hover:text-brand"
+                                  dangerouslySetInnerHTML={{
+                                    __html: hit.lvl0.highlighted,
+                                  }}
+                                />
+                              </>
+                            )}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
                 <div className="border-t border-gray-200 p-5 flex items-center justify-end space-x-2">
