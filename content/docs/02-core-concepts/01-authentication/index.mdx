@@ -59,7 +59,7 @@ app.post("/fungi/auth", (req, res) => {
   res.json(auth);
 });
 
-let port = process.env.PORT || 5000;
+let port = process.env.PORT || 3000;
 app.listen(port);
 ```
 
@@ -81,7 +81,7 @@ You must tell the client SDK where the authentication request should be sent to 
 
 ```js
 new Client({
-  endpoint: "ws://localhost:8081",
+  endpoint: "ws://localhost:8080",
 
   // In this example, there's a server running on port 3000
   // which authenticates subscriptions on the /fungi/auth endpoint.
@@ -97,7 +97,7 @@ If your server's authentication endpoint requires additional headers to perform 
 
 ```diff-js
   new Client({
-    endpoint: "ws://localhost:8081",
+    endpoint: "ws://localhost:8080",
 
     // In this example, there's a server running on port 3000
     // which authenticates subscriptions on the /fungi/auth endpoint.

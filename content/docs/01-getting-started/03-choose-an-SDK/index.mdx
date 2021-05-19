@@ -10,9 +10,9 @@ import { ServerSupportedLangs } from "./server-supported-langs";
 
 Fungi's SDKs are divided into 2 categories:
 
-- **Client**. Client SDKs consume Fungi's APIs using a [WebSocket interface](https://en.wikipedia.org/wiki/WebSocket).
+- **Client**. Client SDKs connect to [Fungi's WebSocket API](/docs/01-getting-started/02-installation#overview). These SDKs should be used by a web browser or any other client application.
 
-- **Server**. Server SDKs interact with Fungi's REST API, **publish messages** and **authenticate channel subscriptions**. They should be used in a secure environment because they require sensitive application credentials.
+- **Server**. Server SDKs interact with [Fungi's REST API](/docs/01-getting-started/02-installation#overview) and **authenticate channel subscriptions**. They should be used in a secure environment because they require your app's [secret and key](/docs/01-getting-started/02-installation#environment-variables).
 
 ### Client SDKs
 
@@ -28,4 +28,4 @@ The following server SDKs are updated and supported by us.
 
 ## Community SDKs
 
-You're more than welcome to create an SDK for a platform we don't yet support. If you need any help or technical details to create the SDK, feel free to [reach out to us](/support).
+You're more than welcome to create an SDK for a platform we don't yet support. If you need any help or technical details, feel free to [shoot us an email](mailto:support@fungirealti.me).

@@ -7,14 +7,14 @@ The JavaScript SDK is meant to be used by [clients](/docs/01-getting-started/01-
 
 ## Requirements
 
-- Fungi's API's installed and running, read the [installation](/docs/01-getting-started/02-installation) guide.
+- Fungi's APIs installed and running, read the [installation](/docs/01-getting-started/02-installation) guide.
 
 - A server-side API from where you can trigger events, if you're also using JavaScript for the server (Node), read the [node](/docs/04-node/01-overview) guide.
 
 ## Features
 
 - **Resilient & stable**. Automatic reconnection of websocket connection upon unexpected errors, health checks and more to keep the user always online.
-- **Environment agnostic**. Works on both the browser and Node, the native [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) API will be used on browsers and [ws](https://github.com/websockets/ws) on Node.
+- **Environment agnostic**. Works on both the browser and Node, the native [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) API will be used on browsers and we'll fallback to [ws](https://github.com/websockets/ws) in case the native API is not available.
 
 ## Installation
 
@@ -33,8 +33,8 @@ The first thing you need is a `Client`. Your client application should share a s
 import { Client } from "@fungi-realtime/core";
 
 let client = new Client({
-  // Fungi's WebSocket API is running on port 8081
-  endpoint: "ws://localhost:8081",
+  // Fungi's WebSocket API is running on port 8080
+  endpoint: "ws://localhost:8080",
 });
 
 export { client };

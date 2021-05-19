@@ -14,8 +14,8 @@ The client below will be used in the examples.
 import { Client } from "@fungi-realtime/core";
 
 let client = new Client({
-  // Fungi's WebSocket API is running on port 8081
-  endpoint: "ws://localhost:8081",
+  // Fungi's WebSocket API is running on port 8080
+  endpoint: "ws://localhost:8080",
 });
 
 export { client };
@@ -49,8 +49,8 @@ You subscribe to [private channels](/docs/01-getting-started/01-overview#private
   import { Client } from "@fungi-realtime/core";
 
   let client = new Client({
-    // Fungi's WebSocket API is running on port 8081
-    endpoint: "ws://localhost:8081",
+    // Fungi's WebSocket API is running on port 8080
+    endpoint: "ws://localhost:8080",
 +
 +   // In this example, there's a server running on port 3000
 +   // which authenticates subscriptions.
@@ -69,8 +69,8 @@ If you need to pass extra headers to your server so it can complete this authent
   import { Client } from "@fungi-realtime/core";
 
   let client = new Client({
-    // Fungi's WebSocket API is running on port 8081
-    endpoint: "ws://localhost:8081",
+    // Fungi's WebSocket API is running on port 8080
+    endpoint: "ws://localhost:8080",
 
     // In this example, there's a server running on port 3000
     // which authenticates subscriptions.

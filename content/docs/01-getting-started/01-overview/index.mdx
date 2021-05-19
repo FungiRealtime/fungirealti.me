@@ -5,13 +5,15 @@ description: "Learn what Fungi is and how can it help you build realtime apps."
 
 import { SystemEvents } from "./system-events";
 
-Fungi is a **set of APIs and SDKs** that help you build realtime features. These APIs are self-hosted and run in Docker containers. In this page you'll find all the concepts you need to know to start building realtime apps with Fungi.
+Fungi is a **set of APIs and SDKs** that help you build realtime apps. In this page you'll find all the basic concepts you need to know to get started.
 
 ## Clients
 
-You'll see the term **client** being used all over the place, when we say client we refer to an user of your application (authenticated or not) with a possibly active connection to Fungi's APIs.
+You'll see the term **client** being used all over the place, when we say client we refer to an user of your application with a connection to Fungi's APIs.
 
-An **active connection** is an established [WebSocket](https://wikipedia.org/wiki/WebSocket) connection between a web browser (or any other client application) and Fungi's APIs.
+A **connection** is an established [WebSocket](https://wikipedia.org/wiki/WebSocket) connection between a web browser (or any other client application) and Fungi's APIs.
+
+For example, if user Alice has your app open on their laptop, their desktop and their phone, that would be 3 clients.
 
 ## Channels
 
@@ -54,7 +56,7 @@ Events are **mainly used to communicate between subscribers of the same channel*
 
 This is the perfect type of event if you need validation or persistence because these events will always go through your server before being sent.
 
-A server SDK is required to send server events, they allow you send events on public and private channels though Fungi's REST API. These events can only be sent from a secure environment because server SDKs require sensitive application credentials.
+A server SDK is required to send server events, they allow you send events on public and private channels through Fungi's REST API. These events can only be sent from a secure environment because server SDKs require sensitive application credentials.
 
 Examples of server events names:
 
@@ -64,16 +66,16 @@ Examples of server events names:
 
 ### Client events
 
-Not all events need to go through a server since some actions may not require validation or persistence and that's what client events are for, the events will be sent through a WebSocket connection. An example of this can be a realtime collaboration app in which users can see eachother's cursor position.
+Not all events need to go through a server since some actions may not require validation or persistence and that's what client events are for, these events will be sent through the client's [connection](#clients). An example of this can be a realtime collaboration app in which users can see eachother's cursor position.
 
-_It is important that you be careful when using client events because they originate from other users and they could be malicious users._
+_It is important that you be careful when using client events because they originate from other users and these could have bad intentions._
 
 Client events have the following **restrictions**:
 
-- Client events can only be triggered on [private channels](#private-channels) because they require authentication.
-- Client events must be prefixed with `client-`. Events with any other prefix can't be sent as a client event.
-- Client events can only be sent on channels to which the user is subscribed to. For example if the user Alice is subscribed only to the channel `private-channel-1`, this user will only be able to send client events on the channel `private-channel-1`.
-- Each client can publish up to 10 client events per second. This can be [configured](/docs/01-getting-started/02-installation#websocket-api) in our APIs.
+- Can only be triggered on [private channels](#private-channels) because they require authentication.
+- Must be prefixed with `client-`. Events with any other prefix can't be sent as a client event.
+- Can only be sent on channels to which the user is subscribed to. For example if the user Alice is subscribed only to the channel `private-channel-1`, this user will only be able to send client events on the channel `private-channel-1`.
+- Each client can publish up to 10 client events per second. This can be [configured](/docs/01-getting-started/02-installation#websocket-api).
 
 Examples of client events names:
 
@@ -82,6 +84,6 @@ Examples of client events names:
 
 ### System events
 
-These events are sent by Fungi's APIs to notify the client SDK of some action.
+These events are sent by Fungi's APIs to notify the client SDKs of some action.
 
 <SystemEvents />
