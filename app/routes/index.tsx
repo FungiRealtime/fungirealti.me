@@ -1,6 +1,6 @@
 import { HeadersFunction, MetaFunction } from "remix";
-import { ChatIcon } from "@heroicons/react/outline";
-import { BellIcon, GlobeIcon } from "@heroicons/react/solid";
+import { ChatIcon, LocationMarkerIcon } from "@heroicons/react/outline";
+import { BellIcon, ChartBarIcon, GlobeIcon } from "@heroicons/react/solid";
 import { Header } from "../components/header";
 import { Footer } from "../components/footer";
 import { generateMeta } from "../utils/seo";
@@ -32,6 +32,33 @@ let features = [
     description:
       "Keep your users in the loop with instant notifications delivered every time.",
   },
+  {
+    name: "Multiplayer games",
+    icon: (props: any) => (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+        {...props}
+      >
+        <path d="M17.622 3c-1.913 0-2.558 1.382-5.623 1.382-3.009 0-3.746-1.382-5.623-1.382-5.209 0-6.376 10.375-6.376 14.348 0 2.145.817 3.652 2.469 3.652 3.458 0 2.926-5 6.915-5h5.23c3.989 0 3.457 5 6.915 5 1.652 0 2.471-1.506 2.471-3.651 0-3.973-1.169-14.349-6.378-14.349zm-10.622 10c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm10-6c.552 0 1 .447 1 1 0 .553-.448 1-1 1s-1-.447-1-1c0-.553.448-1 1-1zm-2 4c-.552 0-1-.447-1-1 0-.553.448-1 1-1s1 .447 1 1c0 .553-.448 1-1 1zm2 2c-.552 0-1-.447-1-1 0-.553.448-1 1-1s1 .447 1 1c0 .553-.448 1-1 1zm2-2c-.552 0-1-.447-1-1 0-.553.448-1 1-1s1 .447 1 1c0 .553-.448 1-1 1zm-10.25-1c0 .965-.785 1.75-1.75 1.75s-1.75-.785-1.75-1.75.785-1.75 1.75-1.75 1.75.785 1.75 1.75z" />
+      </svg>
+    ),
+    description:
+      "Deliver delightful experiences to gamers with responsive APIs.",
+  },
+  {
+    name: "Location tracking",
+    icon: LocationMarkerIcon,
+    description:
+      "Track deliveries, order status, GPS locations and more with realtime updates.",
+  },
+  {
+    name: "Realtime charts",
+    icon: ChartBarIcon,
+    description:
+      "From cryptocurrency charts to admin dashboards, always show fresh data.",
+  },
 ];
 
 export let headers: HeadersFunction = () => {
@@ -60,9 +87,9 @@ export default function Index() {
                       </span>
                     </h1>
                     <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                      Robust, scalable and easy to use realtime APIs and SDKs.
-                      We take care of all the complexity so you can focus on
-                      building your app.
+                      Stateless, scalable and easy to use realtime APIs and
+                      SDKs. We take care of all the complexity so you can focus
+                      on building your app.
                     </p>
                   </div>
                 </div>
@@ -119,6 +146,7 @@ export default function Index() {
               </div>
             </div>
           </div>
+
           <div className="bg-red-50">
             <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-24 lg:px-8 lg:flex lg:items-center lg:justify-between">
               <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 md:text-4xl">
