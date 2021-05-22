@@ -11,9 +11,9 @@ Fungi's APIs will only allow clients to subscribe to a [private channel](/docs/0
 
 ### Authentication steps
 
-1. Client attempts to connect: `let client = new Client({ endpoint })`
+1. Client attempts to connect: `let fungi = new FungiClient({ endpoint })`
 2. Connection established with Fungi (`fungi:connection_established`) which sends back a unique socket id for that client.
-3. Client attempts to subscribe to private channel: `client.subscribe('private-channel')`.
+3. Client attempts to subscribe to private channel: `fungi.subscribe('private-channel')`.
 4. Client SDK asks your server for an auth token, for example by hitting https://your-app.com/fungi/auth which could be an endpoint that your server responds to with the following **JSON**:
 
 ```json
@@ -80,9 +80,7 @@ You should have the following in mind to implement the auth endpoint on your ser
 You must tell the client SDK where the authentication request should be sent to (there's no default value).
 
 ```js
-new Client({
-  endpoint: "ws://localhost:8080",
-
+let fungi = new FungiClient("ws://localhost:8080", {
   // In this example, there's a server running on port 3000
   // which authenticates subscriptions on the /fungi/auth endpoint.
   auth: {
@@ -96,9 +94,7 @@ new Client({
 If your server's authentication endpoint requires additional headers to perform the authentication for example for CSRF protection, you can specify them when creating the client.
 
 ```diff-js
-  new Client({
-    endpoint: "ws://localhost:8080",
-
+  let fungi = new FungiClient("ws://localhost:8080", {
     // In this example, there's a server running on port 3000
     // which authenticates subscriptions on the /fungi/auth endpoint.
     auth: {

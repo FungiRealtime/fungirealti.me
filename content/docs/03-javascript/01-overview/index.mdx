@@ -3,7 +3,7 @@ title: "JavaScript SDK overview"
 description: "Learn how to get Fungi up and running in your JavaScript project."
 ---
 
-The JavaScript SDK is meant to be used by [clients](/docs/01-getting-started/01-overview#clients). The SDK works on both the browser and the server though it's mostly used on the client side of web applications (React, Vue, Angular, etc).
+The JavaScript SDK is meant to be used by [clients](/docs/01-getting-started/01-overview#clients). The SDK works on both the browser and the server.
 
 ## Requirements
 
@@ -26,18 +26,15 @@ npm install @fungi-realtime/core
 
 ## Creating a client
 
-The first thing you need is a `Client`. Your client application should share a single `Client` instance which represents a Fungi [client](/docs/01-getting-started/01-overview#clients), we'll create a new file `fungi.js` where we create a new `Client` and export it so the rest of the application can import it and use it.
+The first thing you need is a `FungiClient`. Your client application should share a single `FungiClient` instance which represents a Fungi [client](/docs/01-getting-started/01-overview#clients), we'll create a new file `fungi.js` where we create a new `FungiClient` and export it so the rest of the application can import it and use it.
 
 ```js
 // fungi.js
-import { Client } from "@fungi-realtime/core";
+import { FungiClient } from "@fungi-realtime/core";
 
-let client = new Client({
-  // Fungi's WebSocket API is running on port 8080
-  endpoint: "ws://localhost:8080",
-});
+let fungi = new FungiClient("ws://localhost:8080");
 
-export { client };
+export { fungi };
 ```
 
-That's it! 🎉
+That's it, once you instantiate the client, a WebSocket connection will be established between your app and Fungi's APIs! 🎉

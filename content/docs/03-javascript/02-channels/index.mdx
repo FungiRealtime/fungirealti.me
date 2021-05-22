@@ -11,14 +11,11 @@ The client below will be used in the examples.
 
 ```js
 // fungi.js
-import { Client } from "@fungi-realtime/core";
+import { FungiClient } from "@fungi-realtime/core";
 
-let client = new Client({
-  // Fungi's WebSocket API is running on port 8080
-  endpoint: "ws://localhost:8080",
-});
+let fungi = new FungiClient("ws://localhost:8080");
 
-export { client };
+export { fungi };
 ```
 
 ## Subscribing to a channel
@@ -31,12 +28,12 @@ We'll use the client we created at the beggining of this page.
 
 ```js
 // index.js
-import { client } from "./fungi";
+import { fungi } from "./fungi";
 
-let coolChannel = client.subscribe("cool-channel");
+let coolChannel = fungi.subscribe("cool-channel");
 ```
 
-That's it! 🎉
+That's it, you are now subscribed to the channel `cool-channel`! 🎉
 
 ### Subscribing to a private channel
 
@@ -46,32 +43,26 @@ You subscribe to [private channels](/docs/01-getting-started/01-overview#private
 
 ```diff-js
   // fungi.js
-  import { Client } from "@fungi-realtime/core";
+  import { FungiClient } from "@fungi-realtime/core";
 
-  let client = new Client({
-    // Fungi's WebSocket API is running on port 8080
-    endpoint: "ws://localhost:8080",
-+
+  let fungi = new FungiClient("ws://localhost:8080", {
 +   // In this example, there's a server running on port 3000
-+   // which authenticates subscriptions.
++   // which authenticates subscriptions at the specified endpoint.
 +   auth: {
 +     endpoint: 'http://localhost:3000/auth/fungi'
 +   }
   });
 
-  export { client };
+  export { fungi };
 ```
 
 If you need to pass extra headers to your server so it can complete this authentication process, you can do so in the `Client` config.
 
 ```diff-js
   // fungi.js
-  import { Client } from "@fungi-realtime/core";
+  import { FungiClient } from "@fungi-realtime/core";
 
-  let client = new Client({
-    // Fungi's WebSocket API is running on port 8080
-    endpoint: "ws://localhost:8080",
-
+  let fungi = new FungiClient("ws://localhost:8080", {
     // In this example, there's a server running on port 3000
     // which authenticates subscriptions.
     auth: {
@@ -82,20 +73,20 @@ If you need to pass extra headers to your server so it can complete this authent
     }
   });
 
-  export { client };
+  export { fungi };
 ```
 
 Now that the SDK knows how to authenticate channel subscriptions, you can go ahead and subscribe to a private channel.
 
 ```js
 // index.js
-import { client } from "./fungi";
+import { fungi } from "./fungi";
 
 // Remember to prefix the channel name with "private-"
-let coolChannel = client.subscribe("private-cool-channel");
+let coolChannel = fungi.subscribe("private-cool-channel");
 ```
 
-That's it! 🎉
+That's it, you are now subscribed to the channel `private-cool-channel`!! 🎉
 
 ## Triggering events on a channel
 
@@ -103,10 +94,10 @@ You can only trigger [client events](/docs/01-getting-started/01-overview#client
 
 ```js
 // index.js
-import { client } from "./fungi";
+import { fungi } from "./fungi";
 
 // Client events can only be triggered on private channels.
-let coolChannel = client.subscribe("private-cool-channel");
+let coolChannel = fungi.subscribe("private-cool-channel");
 
 // Wait until subscription succeeds to trigger the event
 // otherwise we will get an error.
