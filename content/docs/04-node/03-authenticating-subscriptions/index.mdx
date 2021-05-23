@@ -8,19 +8,18 @@ We recommend reading how [authentication](/docs/02-core-concepts/01-authenticati
 You use the `authenticate(socketId: string, channelName: string)` method to generate an [auth token](/docs/02-core-concepts/01-authentication#the-auth-token) for a specific client and channel
 
 ```js
-import { Client } from "@fungi-realtime/node";
+import { FungiClient } from "@fungi-realtime/node";
 
-// We don't pass the httpEndpoint to the client because it's not required
-// if all we're doing is authentication.
-let client = new Client({
+let fungi = new FungiClient({
   key: "app-test-key",
   secret: "app-test-secret",
+  url: "http://localhost:8080",
 });
 
 let socketId = "123";
 let channelName = "cool-channel";
 
-let auth = client.authenticate(socketId, channelName);
+let auth = fungi.authenticate(socketId, channelName);
 console.log(auth);
 // {
 //   auth: "xxxxxxx:xxxxxxxxxxxxxxxxxxx"
@@ -31,12 +30,12 @@ The example above isn't very practical because normally you receive the socket's
 
 ```js
 // server.js
-const express = require("express");
-const { Client } = require("@fungi-realtime/node");
+import express from "express";
+import { FungiClient } from "@fungi-realtime/node";
 
 let app = express();
 
-let client = new Client({
+let fungi = new FungiClient({
   key: "app-test-key",
   secret: "app-test-secret",
 });

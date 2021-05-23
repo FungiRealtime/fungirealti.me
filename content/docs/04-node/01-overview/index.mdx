@@ -26,9 +26,9 @@ The first thing you need is a `Client`, you can have as many `Client` instances 
 
 ```js
 // fungi.js
-import { Client } from "@fungi-realtime/node";
+import { FungiClient } from "@fungi-realtime/node";
 
-let client = new Client({
+let fungi = new FungiClient({
   // Your Fungi instance's APP_KEY
   key: "app-test-key",
   // Your Fungi instance's APP_SECRET
@@ -42,19 +42,19 @@ The above configuration passed to the client is enough if all you plan on doing 
 
 ```diff-js
   // fungi.js
-  import { Client } from "@fungi-realtime/node";
+  import { FungiClient } from "@fungi-realtime/node";
 
-  let client = new Client({
+  let fungi = new FungiClient({
     // Your Fungi instance's APP_KEY
     key: "app-test-key",
     // Your Fungi instance's APP_SECRET
     secret: "app-test-secret",
 +   // In this example, Fungi's REST API is running locally
 +   // on port 8080.
-+   httpEndpoint: "http://localhost:8080",
++   url: "http://localhost:8080",
   });
 
-  export { client };
+  export { fungi };
 ```
 
 <Warning />

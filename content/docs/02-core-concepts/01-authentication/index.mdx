@@ -33,24 +33,22 @@ You can start with an authentication endpoint that authorizes every request it r
 Install the dependencies:
 
 ```
-npm install @fungi-realtime/node express cors
+npm install @fungi-realtime/node express
 ```
 
 ```js
 // server.js
-const cors = require("cors");
-const express = require("express");
-const { Client } = require("@fungi-realtime/node");
+import express from "express";
+import { FungiClient } from "@fungi-realtime/node";
 
 let app = express();
 
-let client = new Client({
+let fungi = new FungiClient({
   key: "app-test-key",
   secret: "app-test-secret",
 });
 
 app.use(express.json());
-app.use(cors());
 
 app.post("/fungi/auth", (req, res) => {
   let socketId = req.body.socket_id;

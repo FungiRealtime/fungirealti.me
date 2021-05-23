@@ -8,15 +8,15 @@ We recommend reading what [events](/docs/01-getting-started/01-overview#events) 
 ## Triggering a single event
 
 ```js
-import { Client } from "@fungi-realtime/node";
+import { FungiClient } from "@fungi-realtime/node";
 
-let client = new Client({
+let fungi = new FungiClient({
   key: "app-test-key",
   secret: "app-test-secret",
-  httpEndpoint: "http://localhost:8080",
+  url: "http://localhost:8080",
 });
 
-client
+fungi
   .trigger("my-cool-channel", "my-cool-event", {
     some: "data",
     hello: "world",
@@ -36,15 +36,15 @@ client
 You can also trigger an event on multiple channels (up to 10). The first parameter of `trigger()` takes either a string (for a single channel) or an array of strings (multiple channels).
 
 ```js
-import { Client } from "@fungi-realtime/node";
+import { FungiClient } from "@fungi-realtime/node";
 
-let client = new Client({
+let fungi = new FungiClient({
   key: "app-test-key",
   secret: "app-test-secret",
-  httpEndpoint: "http://localhost:8080",
+  url: "http://localhost:8080",
 });
 
-client
+fungi
   .trigger(
     ["my-cool-channel", "my-second-cool-channel", "my-third-cool-channel"],
     "my-cool-event",
@@ -83,12 +83,12 @@ You end up with
 You can batch events (up to 10) instead of calling `trigger()` multiple times which is better because you only send one optimized request to Fungi's REST API instead of multiple.
 
 ```js
-import { Client } from "@fungi-realtime/node";
+import { FungiClient } from "@fungi-realtime/node";
 
-let client = new Client({
+let fungi = new FungiClient({
   key: "app-test-key",
   secret: "app-test-secret",
-  httpEndpoint: "http://localhost:8080",
+  url: "http://localhost:8080",
 });
 
 let events = [
@@ -104,7 +104,7 @@ let events = [
   },
 ];
 
-client.triggerBatch(events).then((triggeredEvents) => {
+fungi.triggerBatch(events).then((triggeredEvents) => {
   console.log(triggeredEvents);
   // [
   //   {
